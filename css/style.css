@@ -334,28 +334,34 @@ button{ font-family: inherit; cursor:pointer; }
 }
 
 /* ============ Manifesto ============ */
+/* max-width lives on the text children, not on .manifesto itself, so the
+   .section-dark background fills the full section width edge-to-edge. */
 .manifesto{
-  max-width: 860px;
-  margin: 0 auto;
   padding: clamp(3rem,8vw,5rem) 1.5rem clamp(5rem,10vw,7rem);
   text-align:center;
 }
 .manifesto > .eyebrow{ text-align:center; }
 .manifesto-quote{
+  max-width: 860px;
+  margin-left: auto; margin-right: auto;
   font-family: var(--font-serif);
   font-style: italic;
   font-size: clamp(1.7rem, 4vw, 2.6rem);
   line-height: 1.35;
-  margin: 0 0 1.6rem;
+  margin-bottom: 1.6rem;
   color: var(--bone);
 }
 .manifesto-copy{
+  max-width: 860px;
+  margin-left: auto; margin-right: auto;
   font-size: clamp(1rem, 1.6vw, 1.15rem);
   color: var(--bone-soft);
   line-height: 1.8;
   margin-bottom: 2.6rem;
 }
 .manifesto-words{
+  max-width: 860px;
+  margin-left: auto; margin-right: auto;
   display:flex; flex-wrap:wrap; align-items:center; justify-content:center;
   gap: .5rem 1.4rem;
 }
