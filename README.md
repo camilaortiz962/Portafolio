@@ -15,9 +15,6 @@
 
 <br>
 
-![Visitas](https://komarev.com/ghpvc/?username=camilaortiz962&style=for-the-badge&color=8B5CF6&label=VISITAS)
-
-<img src="https://capsule-render.vercel.app/api?type=rect&color=0:8B5CF6,100:6D28D9&height=3&width=100%" width="100%"/>
 
 </div>
 
