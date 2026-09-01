@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Animación & 3D — MACA</title>
+<meta name="description" content="Modelado 3D en Blender de María Camila Ortiz (MACA).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=22">
+</head>
+<body>
+
+<div class="preloader" id="preloader"><span>MACA</span></div>
+<div class="cursor-dot" id="cursorDot"><span class="cursor-label" id="cursorLabel"></span></div>
+
+<header class="navbar" id="navbar">
+  <a href="../index.html#top" class="nav-logo">MACA</a>
+  <nav class="nav-links" id="navLinks">
+    <a href="../index.html#categorias" class="nav-link">Portafolio</a>
+    <a href="../index.html#sobre-mi" class="nav-link">Sobre mí</a>
+    <a href="../index.html#servicios" class="nav-link">Servicios</a>
+    <a href="../index.html#contacto" class="nav-link nav-cta">Contacto</a>
+  </nav>
+  <button class="nav-toggle" id="navToggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+</header>
+
+<main id="top">
+
+  <div class="category-hero reveal">
+    <a href="../index.html#categorias" class="category-back">← Portafolio</a>
+    <h1>Animación & 3D</h1>
+    <p>Modelado, render y materiales en Blender: un sistema de íconos 3D diseñado para la plataforma web Global Seguros Colombia.</p>
+  </div>
+
+  <section class="gallery">
+    <div class="gallery-grid">
+
+      <article class="gallery-item reveal" data-title="Bombilla — Ícono 3D" data-cat="Modelado 3D" data-desc="Problema — Representar la idea de buenas ideas y planeación a futuro dentro del sistema visual de Global Seguros.
+Concepto — Estilo wireframe/plexus (puntos y líneas conectadas) para transmitir tecnología y confianza.
+Proceso — Modelado low-poly → material wireframe → render en Blender.
+Resultado — Ícono 3D listo para integrarse a la web del proyecto." data-media="../assets/proyectos/icon3d-bombilla.jpg">
+        <div class="gallery-media"><img src="../assets/proyectos/icon3d-bombilla.jpg" alt="Ícono 3D de bombilla estilo plexus" loading="lazy"><span class="gallery-num">01</span></div>
+        <div class="gallery-caption"><h3>Bombilla</h3><p>Ícono 3D</p></div>
+      </article>
+
+      <article class="gallery-item reveal" data-title="Birrete — Ícono 3D" data-cat="Modelado 3D" data-desc="Problema — Representar la educación universitaria dentro del sistema visual de Global Seguros.
+Concepto — Estilo wireframe/plexus, coherente con el resto del sistema de íconos.
+Proceso — Modelado low-poly → material wireframe → render en Blender.
+Resultado — Ícono 3D listo para integrarse a la web del proyecto." data-media="../assets/proyectos/icon3d-birrete.jpg">
+        <div class="gallery-media"><img src="../assets/proyectos/icon3d-birrete.jpg" alt="Ícono 3D de birrete estilo plexus" loading="lazy"><span class="gallery-num">02</span></div>
+        <div class="gallery-caption"><h3>Birrete</h3><p>Ícono 3D</p></div>
+      </article>
+
+      <article class="gallery-item reveal" data-title="Globo terráqueo — Ícono 3D" data-cat="Modelado 3D" data-desc="Problema — Representar el alcance nacional de la plataforma dentro del sistema visual de Global Seguros.
+Concepto — Estilo wireframe/plexus, coherente con el resto del sistema de íconos.
+Proceso — Modelado low-poly → material wireframe → render en Blender.
+Resultado — Ícono 3D listo para integrarse a la web del proyecto." data-media="../assets/proyectos/icon3d-globo.jpg">
+        <div class="gallery-media"><img src="../assets/proyectos/icon3d-globo.jpg" alt="Ícono 3D de globo terráqueo estilo plexus" loading="lazy"><span class="gallery-num">03</span></div>
+        <div class="gallery-caption"><h3>Globo terráqueo</h3><p>Ícono 3D</p></div>
+      </article>
+
+      <article class="gallery-item reveal" data-title="Libros — Ícono 3D" data-cat="Modelado 3D" data-desc="Problema — Representar el conocimiento y la formación académica dentro del sistema visual de Global Seguros.
+Concepto — Estilo wireframe/plexus, coherente con el resto del sistema de íconos.
+Proceso — Modelado low-poly → material wireframe → render en Blender.
+Resultado — Ícono 3D listo para integrarse a la web del proyecto." data-media="../assets/proyectos/icon3d-libros.jpg">
+        <div class="gallery-media"><img src="../assets/proyectos/icon3d-libros.jpg" alt="Ícono 3D de libros estilo plexus" loading="lazy"><span class="gallery-num">04</span></div>
+        <div class="gallery-caption"><h3>Libros</h3><p>Ícono 3D</p></div>
+      </article>
+
+      <article class="gallery-item reveal" data-title="Lupa — Ícono 3D" data-cat="Modelado 3D" data-desc="Problema — Representar la búsqueda de información y la investigación dentro del sistema visual de Global Seguros.
+Concepto — Estilo wireframe/plexus, coherente con el resto del sistema de íconos.
+Proceso — Modelado low-poly → material wireframe → render en Blender.
+Resultado — Ícono 3D listo para integrarse a la web del proyecto." data-media="../assets/proyectos/icon3d-lupa.jpg">
+        <div class="gallery-media"><img src="../assets/proyectos/icon3d-lupa.jpg" alt="Ícono 3D de lupa estilo plexus" loading="lazy"><span class="gallery-num">05</span></div>
+        <div class="gallery-caption"><h3>Lupa</h3><p>Ícono 3D</p></div>
+      </article>
+
+    </div>
+  </section>
+
+  <nav class="category-nav-pills">
+    <a class="category-pill" href="editorial-branding.html">Editorial & Branding</a>
+    <a class="category-pill" href="ilustracion.html">Ilustración</a>
+    <a class="category-pill" href="empaques-merch.html">Empaques & Merch</a>
+    <a class="category-pill active" href="animacion-3d.html">Animación & 3D</a>
+    <a class="category-pill" href="desarrollo-web.html">Desarrollo Web</a>
+    <a class="category-pill" href="inteligencia-artificial.html">Inteligencia Artificial</a>
+  </nav>
+
+</main>
+
+<footer class="site-footer">
+  <p>© 2026 María Camila Ortiz (MACA). Todos los derechos reservados.</p>
+  <div class="social-links">
+    <a href="https://instagram.com/maca_962" target="_blank" rel="noopener" aria-label="Instagram de portafolio">@maca_962</a>
+    <a href="https://instagram.com/mariaca962" target="_blank" rel="noopener" aria-label="Instagram personal">@mariaca962</a>
+  </div>
+  <a href="#top" class="back-to-top" aria-label="Volver arriba">↑</a>
+</footer>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Cerrar">&times;</button>
+  <div class="lightbox-content">
+    <div class="lightbox-media" id="lightboxMedia"></div>
+    <div class="lightbox-info">
+      <span class="lightbox-cat" id="lightboxCat"></span>
+      <h3 id="lightboxTitle"></h3>
+      <p id="lightboxDesc"></p>
+    </div>
+    <div class="project-standard" id="lightboxProject">
+      <div class="project-standard__header">
+        <span class="project-standard__cat" id="lbpCat"></span>
+        <h3 id="lbpTitle"></h3>
+      </div>
+      <div class="project-standard__hero" id="lbpHero"></div>
+      <div class="project-standard__info" id="lbpInfo"></div>
+      <div class="project-standard__gallery" id="lbpGallery"></div>
+    </div>
+  </div>
+</div>
+
+<script src="../js/script.js?v=22"></script>
+</body>
+</html>

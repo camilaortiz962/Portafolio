@@ -1,0 +1,510 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #020908;
+    color: #ffffff;
+    overflow-x: hidden;
+}
+
+body.modal-abierto {
+    overflow: hidden;
+}
+
+.header {
+    width: 100%;
+    min-height: 86px;
+    padding: 0;
+    background: #002f4a;
+    border-top: 6px solid #77a9c9;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.header-contenedor {
+    width: min(1280px, 92%);
+    min-height: 80px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo-img {
+    width: 275px;
+    max-height: 58px;
+    object-fit: contain;
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+}
+
+.menu a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1.08rem;
+    line-height: 1;
+    transition: 0.3s ease;
+}
+
+.btn-header {
+    padding: 17px 38px !important;
+    background: #c80024;
+    color: #ffffff !important;
+    font-weight: 700;
+}
+
+.btn-header:hover {
+    background: #a9001e;
+}
+
+.fondo-seccion {
+    position: relative;
+    width: 100%;
+    min-height: calc(100vh - 86px);
+    padding: 90px 7%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.bg-pagos {
+    background-image: url("../Imagenes/fondo pagos.png");
+    background-position: center right;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.82),
+        rgba(0, 0, 0, 0.45),
+        rgba(0, 0, 0, 0.78)
+    );
+}
+
+.seccion-formulario {
+    position: relative;
+    z-index: 2;
+    width: min(440px, 100%);
+    background: rgba(242, 242, 242, 0.97);
+    border-radius: 35px;
+    padding: 35px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+    border-bottom: 7px solid #c8102e;
+}
+
+.paso-contenido {
+    display: none;
+}
+
+.paso-contenido.mostrar {
+    display: block;
+}
+
+.pasos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.paso {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #d0d0d0;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+.paso.activo {
+    background: #780000;
+}
+
+.linea {
+    width: 80px;
+    height: 3px;
+    background: #d0d0d0;
+}
+
+.seccion-formulario h2 {
+    text-align: center;
+    color: #780000;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    font-weight: 900;
+}
+
+.grupo {
+    margin-bottom: 15px;
+}
+
+.grupo label {
+    display: block;
+    color: #780000;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.grupo input,
+.panel-pago input,
+.panel-pago select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid transparent;
+    background: #d8c3c3;
+    color: #333333;
+    outline: none;
+    font-size: 0.95rem;
+}
+
+.grupo input:focus,
+.panel-pago input:focus,
+.panel-pago select:focus {
+    border: 2px solid #780000;
+    background: #ffffff;
+}
+
+small {
+    display: block;
+    min-height: 18px;
+    color: #d90429;
+    font-size: 12px;
+    margin-top: 4px;
+    font-weight: bold;
+}
+
+.error {
+    border: 2px solid #d90429 !important;
+    background: #fff0f0 !important;
+}
+
+button {
+    width: 100%;
+    min-height: 50px;
+    border: none;
+    background: #780000;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+button:hover {
+    background: #d90429;
+    transform: translateY(-2px);
+}
+
+#volver {
+    background: #666666;
+}
+
+#volver:hover {
+    background: #444444;
+}
+
+.resumen-seguro {
+    background: #ffffff;
+    padding: 16px;
+    border-radius: 12px;
+    color: #333333;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+}
+
+.resumen-seguro p {
+    line-height: 1.5;
+    margin-bottom: 8px;
+}
+
+.alerta {
+    background: #fff3cd;
+    color: #856404;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.precio {
+    text-align: center;
+    font-size: 30px;
+    color: #780000;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.metodos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.subtitulo {
+    color: #780000;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.metodos h3 {
+    grid-column: span 4;
+    text-align: center;
+    color: #780000;
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.metodo {
+    background: #ffffff;
+    border: 2px solid #d0d0d0;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 10px;
+    font-size: 22px;
+    transition: 0.3s ease;
+}
+
+.metodo:hover {
+    border-color: #780000;
+}
+
+.metodo.activo {
+    background: #780000;
+    color: #ffffff;
+    border-color: #780000;
+}
+
+.panel-pago {
+    display: none;
+    margin-top: 15px;
+}
+
+.panel-pago.mostrar {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.confirmacion {
+    margin-top: 20px;
+    color: #333333;
+}
+
+.confirmacion label {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    line-height: 1.4;
+}
+
+.confirmacion input {
+    width: auto;
+}
+
+.acciones {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-compra,
+.modal-compra[hidden] {
+
+    display: none !important;
+}
+
+.modal-compra {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    background: rgba(0, 15, 30, 0.86);
+    padding: 40px 20px;
+    overflow-y: auto;
+}
+
+.modal-compra.activo {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-compra-contenido {
+    width: min(520px, 100%);
+    background: rgba(255, 255, 255, 0.97);
+    color: #111111;
+    border-radius: 24px;
+    padding: 46px 42px;
+    box-shadow: 0 30px 85px rgba(0, 0, 0, 0.55);
+    border-bottom: 7px solid #d90429;
+    text-align: center;
+}
+
+.barra-roja {
+    width: 120px;
+    height: 14px;
+    background: #c80024;
+    margin: 0 auto 26px;
+}
+
+.modal-compra-contenido h2 {
+    color: #780000;
+    font-size: 2.2rem;
+    margin-bottom: 18px;
+    font-weight: 900;
+}
+
+.modal-compra-contenido p {
+    color: #333333;
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 16px;
+}
+
+.mensaje-final {
+    font-weight: 700;
+}
+
+.btn-modal {
+    display: inline-block;
+    margin-top: 16px;
+    background: #c80024;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 15px 36px;
+    font-weight: 900;
+    transition: 0.3s ease;
+}
+
+.btn-modal:hover {
+    background: #a9001e;
+    transform: translateY(-3px);
+}
+
+@media (max-width: 992px) {
+    .header-contenedor {
+        flex-direction: column;
+        gap: 18px;
+        padding: 18px 0;
+    }
+
+    .logo-img {
+        width: 230px;
+    }
+
+    .fondo-seccion {
+        justify-content: center;
+        padding: 80px 5%;
+        background-position: center;
+    }
+
+    .seccion-formulario {
+        width: min(460px, 92%);
+    }
+}
+
+@media (max-width: 600px) {
+    .header {
+        position: relative;
+    }
+
+    .header-contenedor {
+        min-height: auto;
+        padding: 16px 0;
+    }
+
+    .logo-img {
+        width: 210px;
+    }
+
+    .btn-header {
+        padding: 13px 32px !important;
+        font-size: 0.95rem;
+    }
+
+    .fondo-seccion {
+        min-height: auto;
+        padding: 60px 18px;
+        justify-content: center;
+        background-position: center;
+    }
+
+    .overlay {
+        background: rgba(0, 0, 0, 0.74);
+    }
+
+    .seccion-formulario {
+        width: 100%;
+        padding: 30px 22px;
+        border-radius: 24px;
+    }
+
+    .seccion-formulario h2 {
+        font-size: 1.5rem;
+    }
+
+    .metodos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .metodos h3 {
+        grid-column: span 2;
+        font-size: 1.2rem;
+    }
+
+    .acciones {
+        flex-direction: column;
+    }
+
+    .precio {
+        font-size: 24px;
+    }
+
+    .modal-compra {
+        padding: 24px 16px;
+    }
+
+    .modal-compra-contenido {
+        width: 100%;
+        padding: 36px 24px;
+        border-radius: 20px;
+    }
+
+    .modal-compra-contenido h2 {
+        font-size: 1.7rem;
+    }
+
+    .btn-modal {
+        width: 100%;
+    }
+}

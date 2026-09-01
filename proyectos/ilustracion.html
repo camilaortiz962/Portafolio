@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ilustración — MACA</title>
+<meta name="description" content="Ilustración a mano y vectorizada de María Camila Ortiz (MACA).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=22">
+</head>
+<body>
+
+<div class="preloader" id="preloader"><span>MACA</span></div>
+<div class="cursor-dot" id="cursorDot"><span class="cursor-label" id="cursorLabel"></span></div>
+
+<header class="navbar" id="navbar">
+  <a href="../index.html#top" class="nav-logo">MACA</a>
+  <nav class="nav-links" id="navLinks">
+    <a href="../index.html#categorias" class="nav-link">Portafolio</a>
+    <a href="../index.html#sobre-mi" class="nav-link">Sobre mí</a>
+    <a href="../index.html#servicios" class="nav-link">Servicios</a>
+    <a href="../index.html#contacto" class="nav-link nav-cta">Contacto</a>
+  </nav>
+  <button class="nav-toggle" id="navToggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+</header>
+
+<main id="top">
+
+  <div class="category-hero reveal">
+    <a href="../index.html#categorias" class="category-back">← Portafolio</a>
+    <h1>Ilustración</h1>
+    <p>Trazo, color plano y composición: ilustración digitalizada y vectorizada desde el boceto original. Una categoría que sigo alimentando pieza a pieza.</p>
+  </div>
+
+  <section class="gallery">
+    <div class="gallery-grid">
+
+      <article class="gallery-item reveal" data-title="The New Yorker — Portada ilustrada" data-cat="Ilustración" data-desc="Problema — Reinterpretar una portada editorial reconocida sin perder su esencia gráfica.
+Concepto — Contraste entre trazo lineal (un piano) y color plano (una explosión de pintura), unidos por el logotipo de la revista.
+Proceso — Boceto a mano → vectorización → color plano en Illustrator.
+Resultado — Ilustración vectorial completa, lista para portada editorial." data-media="../assets/proyectos/new-yorker-ilustracion.jpg">
+        <div class="gallery-media"><img src="../assets/proyectos/new-yorker-ilustracion.jpg" alt="Ilustración vectorizada estilo The New Yorker" loading="lazy"><span class="gallery-num">01</span></div>
+        <div class="gallery-caption"><h3>The New Yorker</h3><p>Ilustración</p></div>
+      </article>
+
+      <article class="gallery-item reveal" data-title="Fanta — Ilustración vectorial" data-cat="Ilustración" data-desc="Problema — Ilustrar un personaje de marca con la energía y el color propios de Fanta.
+Concepto — Figura dinámica en movimiento, con la paleta azul y naranja característica de la marca.
+Proceso — Boceto de pose → trazo vectorial → color plano en Illustrator.
+Resultado — Ilustración vectorial de personaje, aplicable a distintas piezas de marca." data-media="../assets/proyectos/fanta-ilustracion.svg">
+        <div class="gallery-media"><img src="../assets/proyectos/fanta-ilustracion.svg" alt="Ilustración vectorial de personaje con Fanta" loading="lazy"><span class="gallery-num">02</span></div>
+        <div class="gallery-caption"><h3>Fanta</h3><p>Ilustración</p></div>
+      </article>
+
+    </div>
+  </section>
+
+  <nav class="category-nav-pills">
+    <a class="category-pill" href="editorial-branding.html">Editorial & Branding</a>
+    <a class="category-pill active" href="ilustracion.html">Ilustración</a>
+    <a class="category-pill" href="empaques-merch.html">Empaques & Merch</a>
+    <a class="category-pill" href="animacion-3d.html">Animación & 3D</a>
+    <a class="category-pill" href="desarrollo-web.html">Desarrollo Web</a>
+    <a class="category-pill" href="inteligencia-artificial.html">Inteligencia Artificial</a>
+  </nav>
+
+</main>
+
+<footer class="site-footer">
+  <p>© 2026 María Camila Ortiz (MACA). Todos los derechos reservados.</p>
+  <div class="social-links">
+    <a href="https://instagram.com/maca_962" target="_blank" rel="noopener" aria-label="Instagram de portafolio">@maca_962</a>
+    <a href="https://instagram.com/mariaca962" target="_blank" rel="noopener" aria-label="Instagram personal">@mariaca962</a>
+  </div>
+  <a href="#top" class="back-to-top" aria-label="Volver arriba">↑</a>
+</footer>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Cerrar">&times;</button>
+  <div class="lightbox-content">
+    <div class="lightbox-media" id="lightboxMedia"></div>
+    <div class="lightbox-info">
+      <span class="lightbox-cat" id="lightboxCat"></span>
+      <h3 id="lightboxTitle"></h3>
+      <p id="lightboxDesc"></p>
+    </div>
+    <div class="project-standard" id="lightboxProject">
+      <div class="project-standard__header">
+        <span class="project-standard__cat" id="lbpCat"></span>
+        <h3 id="lbpTitle"></h3>
+      </div>
+      <div class="project-standard__hero" id="lbpHero"></div>
+      <div class="project-standard__info" id="lbpInfo"></div>
+      <div class="project-standard__gallery" id="lbpGallery"></div>
+    </div>
+  </div>
+</div>
+
+<script src="../js/script.js?v=22"></script>
+</body>
+</html>

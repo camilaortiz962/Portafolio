@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago | Global Seguros</title>
+    <link rel="stylesheet" href="styles/pagos.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="header-contenedor">
+
+            <a href="index.html#inicio" class="logo-link">
+                <img src="Imagenes/global logo.png" alt="Global Seguros" class="logo-img">
+            </a>
+
+            <nav class="menu">
+                <a href="index.html#inicio" class="btn-header">Inicio</a>
+            </nav>
+
+        </div>
+    </header>
+
+    <section class="hero fondo-seccion bg-pagos" id="pago">
+        <div class="overlay"></div>
+
+        <section class="seccion-formulario">
+
+            <div class="pasos">
+                <div class="paso activo" id="circulo1">1</div>
+                <div class="linea"></div>
+                <div class="paso" id="circulo2">2</div>
+            </div>
+
+            <div id="paso1" class="paso-contenido mostrar">
+
+                <h2>Datos del Estudiante</h2>
+
+                <div class="grupo">
+                    <label for="nombre">Nombre completo</label>
+                    <input 
+                        type="text" 
+                        id="nombre" 
+                        maxlength="50"
+                        placeholder="Ingrese el nombre completo"
+                    >
+                    <small id="errorNombre"></small>
+                </div>
+
+                <div class="grupo">
+                    <label for="documento">Documento de identidad</label>
+                    <input 
+                        type="text" 
+                        id="documento" 
+                        maxlength="15"
+                        placeholder="Ingrese el documento"
+                    >
+                    <small id="errorDocumento"></small>
+                </div>
+
+                <div class="grupo">
+                    <label for="correo">Correo electrónico</label>
+                    <input 
+                        type="email" 
+                        id="correo"
+                        maxlength="50"
+                        placeholder="Ingrese el correo electrónico"
+                    >
+                    <small id="errorCorreo"></small>
+                </div>
+
+                <div class="grupo">
+                    <label for="telefono">Teléfono</label>
+                    <input 
+                        type="text" 
+                        id="telefono" 
+                        maxlength="10"
+                        placeholder="Ingrese el teléfono"
+                    >
+                    <small id="errorTelefono"></small>
+                </div>
+
+                <button type="button" id="continuar">
+                    CONTINUAR
+                </button>
+
+            </div>
+
+            <div id="paso2" class="paso-contenido">
+
+                <h2>Pago Seguro Educativo</h2>
+
+                <p class="subtitulo">
+                    Paso 2 de 2
+                </p>
+
+                <div class="resumen-seguro">
+                    <p><strong>Producto:</strong> <span id="productoPago">Seguro Educativo Anual</span></p>
+                    <p><strong>Vigencia:</strong> 12 meses</p>
+
+                    <div class="alerta">
+                        ⚠ Renovación anual requerida.
+                    </div>
+
+                    <div class="precio">
+                        $300.000 COP
+                    </div>
+                </div>
+
+                <div class="metodos">
+
+                    <h3>Método de pago</h3>
+
+                    <div class="metodo activo" data-metodo="tarjeta">💳</div>
+                    <div class="metodo" data-metodo="pse">🏦</div>
+                    <div class="metodo" data-metodo="nequi">📱</div>
+                    <div class="metodo" data-metodo="daviplata">📲</div>
+
+                </div>
+
+                <div id="tarjeta" class="panel-pago mostrar">
+
+                    <input 
+                        type="text" 
+                        id="numeroTarjeta" 
+                        placeholder="Número de tarjeta" 
+                        maxlength="16"
+                    >
+
+                    <input 
+                        type="text" 
+                        id="titular" 
+                        placeholder="Nombre del titular"
+                        maxlength="50"
+                    >
+
+                    <input 
+                        type="text" 
+                        id="fecha" 
+                        placeholder="MM/AA" 
+                        maxlength="5"
+                    >
+
+                    <input 
+                        type="text" 
+                        id="cvv" 
+                        placeholder="CVV" 
+                        maxlength="4"
+                    >
+
+                </div>
+
+                <div id="pse" class="panel-pago">
+
+                    <select id="banco">
+                        <option value="">Seleccione banco</option>
+                        <option value="bancolombia">Bancolombia</option>
+                        <option value="davivienda">Davivienda</option>
+                        <option value="bbva">BBVA</option>
+                    </select>
+
+                </div>
+
+                <div id="nequi" class="panel-pago">
+                    <input 
+                        type="text"
+                        id="numeroNequi"
+                        placeholder="Número Nequi"
+                        maxlength="10"
+                    >
+                </div>
+
+                <div id="daviplata" class="panel-pago">
+                    <input 
+                        type="text"
+                        id="numeroDaviplata"
+                        placeholder="Número Daviplata"
+                        maxlength="10"
+                    >
+                </div>
+
+                <div class="confirmacion">
+                    <label>
+                        <input type="checkbox" id="acepto">
+                        Acepto las condiciones del seguro.
+                    </label>
+                </div>
+
+                <div class="acciones">
+                    <button type="button" id="volver">
+                        VOLVER
+                    </button>
+
+                    <button type="button" id="btnPagar">
+                        PAGAR $300.000 COP
+                    </button>
+                </div>
+
+            </div>
+
+        </section>
+    </section>
+
+    <section class="modal-compra" id="modalCompra" hidden>
+        <div class="modal-compra-contenido">
+
+
+            <div class="barra-roja"></div>
+
+             <h2>Compra confirmada</h2>
+
+            <p>
+                Su compra del producto <strong id="productoCompra">Seguro Educativo</strong> fue registrada correctamente.
+            </p>
+
+            <p class="mensaje-final">
+                Gracias por confiar en Global Seguros para proteger el futuro educativo.
+            </p>
+
+            <a href="index.html#inicio" class="btn-modal">
+                Volver al inicio
+            </a>
+
+        </div>
+    </section>
+
+ <script src="scripts/pagos.js"></script>
+
+</body>
+</html>

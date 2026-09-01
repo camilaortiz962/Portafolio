@@ -1,0 +1,250 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #020908;
+    color: #ffffff;
+    overflow-x: hidden;
+}
+
+.header {
+    width: 100%;
+    min-height: 86px;
+    padding: 0;
+    background: #002f4a;
+    border-top: 6px solid #77a9c9;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.header-contenedor {
+    width: min(1280px, 92%);
+    min-height: 80px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo-img {
+    width: 275px;
+    max-height: 58px;
+    object-fit: contain;
+}
+
+.menu {
+    display: flex;
+    align-items: center;
+}
+
+.menu a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1.08rem;
+    line-height: 1;
+    transition: 0.3s ease;
+}
+
+.btn-header {
+    padding: 17px 38px !important;
+    background: #c80024;
+    color: #ffffff !important;
+    font-weight: 700;
+}
+
+.btn-header:hover {
+    background: #a9001e;
+}
+
+.pagina-error {
+    position: relative;
+    min-height: calc(100vh - 86px);
+    padding: 90px 7%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.fondo-error {
+    background-image: url("../Imagenes/mundo.png");
+    background-position: center right;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.84),
+        rgba(0, 0, 0, 0.48),
+        rgba(0, 0, 0, 0.78)
+    );
+}
+
+.error-contenido {
+    position: relative;
+    z-index: 2;
+    width: min(540px, 100%);
+    background: rgba(255, 255, 255, 0.96);
+    color: #111111;
+    padding: 52px 48px;
+    border-radius: 26px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+    border-bottom: 7px solid #d90429;
+}
+
+.barra-roja {
+    width: 135px;
+    height: 16px;
+    background: #b00013;
+    margin-bottom: 26px;
+}
+
+.error-contenido h1 {
+    font-size: clamp(5rem, 12vw, 9rem);
+    line-height: 0.9;
+    color: #c80024;
+    font-weight: 900;
+    margin-bottom: 20px;
+    letter-spacing: -4px;
+}
+
+.error-contenido h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.1;
+    color: #111111;
+    font-weight: 900;
+    margin-bottom: 20px;
+}
+
+.error-contenido p {
+    font-size: 1.08rem;
+    line-height: 1.75;
+    color: #333333;
+    margin-bottom: 14px;
+}
+
+.texto-secundario {
+    font-weight: 700;
+}
+
+.btn-volver {
+    display: inline-block;
+    margin-top: 22px;
+    padding: 15px 36px;
+    background: #c80024;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 900;
+    border-radius: 5px;
+    transition: 0.3s ease;
+}
+
+.btn-volver:hover {
+    background: #a9001e;
+    transform: translateY(-3px);
+}
+
+@media (max-width: 992px) {
+    .header-contenedor {
+        flex-direction: column;
+        gap: 18px;
+        padding: 18px 0;
+    }
+
+    .logo-img {
+        width: 230px;
+    }
+
+    .pagina-error {
+        justify-content: center;
+        padding: 80px 5%;
+        background-position: center;
+    }
+
+    .error-contenido {
+        width: min(540px, 92%);
+    }
+}
+
+@media (max-width: 600px) {
+    .header {
+        position: relative;
+    }
+
+    .header-contenedor {
+        min-height: auto;
+        padding: 16px 0;
+    }
+
+    .logo-img {
+        width: 210px;
+    }
+
+    .btn-header {
+        padding: 13px 32px !important;
+        font-size: 0.95rem;
+    }
+
+    .pagina-error {
+        min-height: auto;
+        padding: 65px 18px;
+        justify-content: center;
+        background-position: center;
+    }
+
+    .overlay {
+        background: rgba(0, 0, 0, 0.74);
+    }
+
+    .error-contenido {
+        width: 100%;
+        padding: 38px 26px;
+        border-radius: 22px;
+        text-align: center;
+    }
+
+    .barra-roja {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .error-contenido h1 {
+        font-size: 5rem;
+        letter-spacing: -2px;
+    }
+
+    .error-contenido h2 {
+        font-size: 1.9rem;
+    }
+
+    .error-contenido p {
+        font-size: 0.98rem;
+    }
+
+    .btn-volver {
+        width: 100%;
+        text-align: center;
+    }
+}
