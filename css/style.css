@@ -512,21 +512,27 @@ button{ font-family: inherit; cursor:pointer; }
 .gallery-play{ padding-left: 4px; }
 .gallery-item:hover .gallery-play{ transform: scale(1.1); background: rgba(255,255,255,0.12); }
 
-/* ============ Category grid (home) ============ */
+/* ============ Category grid (home) — graphic covers, not project previews ============ */
+/* Every cover is generated purely with CSS/type — no project photography lives here.
+   Real project imagery stays in Proyectos Destacados, project pages, and catalogs. */
 .category-grid{
   display:grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.6rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.8rem;
 }
+/* 1st of every 3 cards spans full width: big / pair / big / pair —
+   the rhythm re-forms automatically for any category count. */
+.category-card:nth-child(3n+1){ grid-column: 1 / -1; }
+
 .category-card{
   position:relative;
   display:block;
   cursor:pointer;
 }
+.category-caption{ padding-top: .9rem; }
 .category-caption p{
   font-size: .88rem;
   color: var(--charcoal-soft);
-  margin-top: .35rem;
   line-height:1.55;
 }
 .category-count{
@@ -537,30 +543,91 @@ button{ font-family: inherit; cursor:pointer; }
   color: var(--terracotta);
   margin-top: .5rem;
 }
-.category-explore{
-  position:absolute; right: 1.1rem; bottom: 1.1rem; z-index:1;
-  font-size: .72rem; letter-spacing: .08em; text-transform: uppercase;
-  color: var(--white); text-shadow: 0 1px 6px rgba(0,0,0,0.45);
-  opacity:0; transform: translateX(-6px);
-  transition: opacity .35s var(--ease), transform .35s var(--ease);
+
+.category-cover{
+  position:relative;
+  aspect-ratio: 4/5;
+  overflow:hidden;
+  display:flex; flex-direction:column; justify-content:flex-end;
+  padding: 1.8rem;
+  transition: transform .6s var(--ease);
 }
-.category-card:hover .category-explore{ opacity:1; transform: translateX(0); }
-.category-media--graphic{ display:flex; align-items:flex-end; }
-.category-media--graphic::before{
+.category-card:nth-child(3n+1) .category-cover{ aspect-ratio: 2.1/1; }
+.category-card:hover .category-cover{ transform: scale(1.015); }
+.category-cover::before{
   content:'';
-  position:absolute; inset: 1.4rem;
-  border: 1px solid rgba(255,255,255,0.16);
+  position:absolute; inset: 1.3rem;
+  border: 1px solid rgba(255,255,255,0.14);
   pointer-events:none;
+  transition: inset .5s var(--ease);
 }
-.category-mark{
-  position:absolute; top:50%; left:50%;
-  transform: translate(-50%,-50%);
+.category-card:hover .category-cover::before{ inset: 1rem; }
+
+.category-cover-num{
+  position:absolute; top:1.6rem; left:1.8rem; z-index:2;
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: clamp(4rem, 9vw, 6.5rem);
-  color: rgba(255,255,255,0.16);
-  letter-spacing: .02em;
+  font-size: 1rem;
+  color: rgba(255,255,255,0.5);
+}
+.category-cover-name{
+  position:relative; z-index:2;
+  font-size: clamp(1.7rem, 3.4vw, 2.5rem);
+  color: var(--bone);
+  line-height: 1.08;
+  margin:0;
+}
+.category-card:nth-child(3n+1) .category-cover-name{ font-size: clamp(2rem, 4.4vw, 3.4rem); }
+
+.category-explore{
+  position:absolute; top: 1.6rem; right: 1.8rem; z-index:2;
+  font-size: .72rem; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--white); text-shadow: 0 1px 6px rgba(0,0,0,0.45);
+  opacity:0; transform: translateY(-4px);
+  transition: opacity .35s var(--ease), transform .35s var(--ease);
+}
+.category-card:hover .category-explore{ opacity:1; transform: translateY(0); }
+
+/* Big faint mark (glyph) — the shared decorative device used by most covers */
+.category-cover-mark{
+  position:absolute; top:38%; left:50%;
+  transform: translate(-50%,-50%);
+  z-index:1; pointer-events:none;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(6rem, 13vw, 9.5rem);
+  color: rgba(255,255,255,0.10);
   white-space: nowrap;
+}
+.category-cover-mark--mono{
+  font-family: 'Courier New', monospace;
+  font-style: normal;
+  letter-spacing: -0.04em;
+  font-size: clamp(4.5rem, 10vw, 7rem);
+}
+
+/* Per-category backgrounds (reuse the site's original category palette) */
+.category-cover--editorial{ background: linear-gradient(155deg, #1a1210, #2c1a15); }
+.category-cover--ilustracion{ background: linear-gradient(155deg, #0f1a16, #16261f); }
+.category-cover--empaques{ background: linear-gradient(155deg, #0d1420, #16233a); }
+.category-cover--3d{ background: linear-gradient(155deg, #0a0a0c, #1c2b45); }
+.category-cover--web{ background: linear-gradient(155deg, #0a0a0c, #142a4a); }
+.category-cover--ia{ background: linear-gradient(155deg, #3a3550, #6b5b95); }
+
+/* Empaques & Merch: nested geometric outlines (packaging abstraction, not a real box) */
+.category-cover-shapes{ position:absolute; inset:0; z-index:1; pointer-events:none; }
+.category-cover-shapes span{ position:absolute; border: 1px solid rgba(61,123,255,0.35); }
+.category-cover-shapes span:nth-child(1){ width:52%; height:52%; top:14%; left:10%; transform: rotate(-6deg); }
+.category-cover-shapes span:nth-child(2){ width:38%; height:38%; bottom:16%; right:12%; transform: rotate(9deg); border-color: rgba(255,255,255,0.18); }
+.category-cover-shapes span:nth-child(3){ width:24%; height:24%; top:36%; right:20%; transform: rotate(-14deg); border-color: rgba(255,107,94,0.32); }
+
+/* Animación & 3D: abstract wireframe dot-grid (not a literal render) */
+.category-cover-dots{
+  position:absolute; inset:0; z-index:1; pointer-events:none;
+  background-image: radial-gradient(circle, rgba(61,123,255,0.4) 1.5px, transparent 1.5px);
+  background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(circle at 68% 32%, black 0%, black 28%, transparent 62%);
+  mask-image: radial-gradient(circle at 68% 32%, black 0%, black 28%, transparent 62%);
 }
 
 /* ============ Category page header ============ */
@@ -710,11 +777,10 @@ button{ font-family: inherit; cursor:pointer; }
 .category-pill:hover{ border-color: var(--terracotta); background: rgba(176,106,79,0.08); }
 .category-pill.active{ background: var(--charcoal); color: var(--cream); border-color: var(--charcoal); }
 
-@media (max-width: 860px){
-  .category-grid{ grid-template-columns: repeat(2, 1fr); }
-}
 @media (max-width: 560px){
-  .category-grid{ grid-template-columns: 1fr; }
+  .category-grid{ grid-template-columns: 1fr; gap: 2.2rem; }
+  .category-card:nth-child(3n+1) .category-cover{ aspect-ratio: 4/5; }
+  .category-card:nth-child(3n+1) .category-cover-name{ font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
 }
 
 /* ============ External project links (Desarrollo Web) ============ */
