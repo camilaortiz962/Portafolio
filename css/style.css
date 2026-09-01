@@ -494,16 +494,13 @@ button{ font-family: inherit; cursor:pointer; }
   text-shadow: 0 2px 12px rgba(0,0,0,0.35);
   transition: color .4s ease;
 }
-.gallery-media--video,
-.gallery-media--code{
+.gallery-media--video{
   align-items:center; justify-content:center;
 }
-.gallery-media--video .gallery-num,
-.gallery-media--code .gallery-num{
+.gallery-media--video .gallery-num{
   position:absolute; left:0; bottom:0; padding:1.2rem;
 }
-.gallery-play,
-.gallery-code-icon{
+.gallery-play{
   width: 64px; height:64px;
   border-radius:50%;
   border: 1px solid rgba(255,255,255,0.7);
@@ -513,9 +510,7 @@ button{ font-family: inherit; cursor:pointer; }
   transition: transform .4s var(--ease), background .4s ease;
 }
 .gallery-play{ padding-left: 4px; }
-.gallery-code-icon{ font-family: monospace; font-size: 1.3rem; letter-spacing:-0.05em; }
-.gallery-item:hover .gallery-play,
-.gallery-item:hover .gallery-code-icon{ transform: scale(1.1); background: rgba(255,255,255,0.12); }
+.gallery-item:hover .gallery-play{ transform: scale(1.1); background: rgba(255,255,255,0.12); }
 
 /* ============ Category grid (home) ============ */
 .category-grid{
@@ -949,8 +944,7 @@ button{ font-family: inherit; cursor:pointer; }
 .form-field input:focus + label,
 .form-field input:not(:placeholder-shown) + label,
 .form-field textarea:focus + label,
-.form-field textarea:not(:placeholder-shown) + label,
-.form-field.filled label{
+.form-field textarea:not(:placeholder-shown) + label{
   transform: translateY(-1.3rem);
   font-size: .72rem;
   letter-spacing: .05em;
