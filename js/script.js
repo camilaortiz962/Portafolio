@@ -46,6 +46,23 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
   revealEls.forEach(el => revealObserver.observe(el));
 
+  /* ---------- Hero: very subtle cursor parallax on the decorative shapes ---------- */
+  const heroGraphic = document.getElementById('heroGraphic');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouchForParallax = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+  if (heroGraphic && !isTouchForParallax && !prefersReducedMotion) {
+    let parallaxRaf = null;
+    window.addEventListener('mousemove', (e) => {
+      if (parallaxRaf) return;
+      parallaxRaf = requestAnimationFrame(() => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 10;
+        const y = (e.clientY / window.innerHeight - 0.5) * 10;
+        heroGraphic.style.transform = `translate(${x}px, ${y}px)`;
+        parallaxRaf = null;
+      });
+    }, { passive: true });
+  }
+
   /* ---------- Custom cursor (contextual: Ver / Abrir → / arrow) ---------- */
   const cursorDot = document.getElementById('cursorDot');
   const cursorLabel = document.getElementById('cursorLabel');

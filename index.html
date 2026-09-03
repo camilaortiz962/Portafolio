@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=35">
+<link rel="stylesheet" href="css/style.css?v=36">
 </head>
 <body>
 
@@ -35,23 +35,26 @@
 
   <section class="hero section-dark">
     <div class="hero-bg"></div>
-    <div class="hero-graphic" aria-hidden="true">
+    <div class="hero-graphic" id="heroGraphic" aria-hidden="true">
       <span class="hero-line"></span>
       <span class="hero-line"></span>
       <span></span><span></span><span></span><span></span>
+      <span class="hero-square"></span>
     </div>
     <div class="hero-content reveal">
       <p class="eyebrow">Creadora Digital</p>
       <h1 class="hero-title hero-title--name">MARÍA CAMILA<br>ORTIZ</h1>
       <p class="hero-sub">DISEÑO · DESARROLLO · 3D · IA</p>
-      <p class="hero-tagline">Creo experiencias digitales que combinan estética, estrategia y emoción.</p>
+      <p class="hero-tagline">Diseño experiencias visuales y digitales combinando creatividad, tecnología y narrativa.</p>
+      <p class="hero-services">Diseño de marca · Desarrollo web · 3D · Contenido digital · IA</p>
       <div class="hero-actions">
-        <a href="#categorias" class="btn btn-outline">Explorar proyectos</a>
+        <a href="#categorias" class="btn btn-hero-primary">Explorar proyectos</a>
         <a href="#sobre-mi" class="btn btn-text">Conocerme →</a>
       </div>
     </div>
     <a href="#manifiesto" class="scroll-indicator" aria-label="Desplazarse hacia abajo">
-      <span></span>
+      <span class="scroll-indicator-label">Scroll</span>
+      <span class="scroll-indicator-line"><span></span></span>
     </a>
   </section>
 
@@ -152,32 +155,32 @@
       <div class="specialty-card reveal">
         <span class="specialty-index">01</span>
         <h3>Diseño</h3>
-        <p class="specialty-tools">Illustrator · Photoshop</p>
         <p class="specialty-desc">Identidad, editorial, carteles y packaging, del boceto a la pieza final.</p>
+        <p class="specialty-tools"><span class="specialty-tools-label">Herramientas</span> Illustrator · Photoshop</p>
       </div>
       <div class="specialty-card reveal">
         <span class="specialty-index">02</span>
         <h3>3D</h3>
-        <p class="specialty-tools">Blender</p>
         <p class="specialty-desc">Modelado y render de sistemas de íconos y piezas 3D.</p>
+        <p class="specialty-tools"><span class="specialty-tools-label">Herramientas</span> Blender</p>
       </div>
       <div class="specialty-card reveal">
         <span class="specialty-index">03</span>
         <h3>Desarrollo</h3>
-        <p class="specialty-tools">HTML · CSS · JavaScript</p>
         <p class="specialty-desc">Sitios funcionales, en equipo o individuales.</p>
+        <p class="specialty-tools"><span class="specialty-tools-label">Tecnologías</span> HTML · CSS · JavaScript</p>
       </div>
       <div class="specialty-card reveal">
         <span class="specialty-index">04</span>
         <h3>IA</h3>
-        <p class="specialty-tools">Claude · ChatGPT · Generación de imágenes</p>
         <p class="specialty-desc">Exploración, investigación y apoyo dentro de mi proceso creativo.</p>
+        <p class="specialty-tools"><span class="specialty-tools-label">Herramientas</span> Claude · ChatGPT · Generación de imágenes</p>
       </div>
       <div class="specialty-card reveal">
         <span class="specialty-index">05</span>
         <h3>Multimedia</h3>
-        <p class="specialty-tools">Dirección · Guion</p>
         <p class="specialty-desc">Dirección de escena y producción visual frente a cámara.</p>
+        <p class="specialty-tools"><span class="specialty-tools-label">Herramientas</span> Dirección · Guion</p>
       </div>
     </div>
   </section>
@@ -237,8 +240,8 @@
 
   <section class="contact" id="contacto">
     <div class="contact-inner">
-      <span class="eyebrow reveal">Hablemos</span>
-      <h2 class="reveal">¿Trabajamos juntos?</h2>
+      <span class="eyebrow reveal">07 · Contacto</span>
+      <h2 class="reveal">¿Tienes una idea?<br>Hagámosla realidad.</h2>
       <p class="reveal">Cuéntame qué tienes en mente.</p>
 
       <!-- Envío gestionado por fetch() en script.js; action/method quedan como respaldo
@@ -315,6 +318,6 @@
   </div>
 </div>
 
-<script src="js/script.js?v=35"></script>
+<script src="js/script.js?v=36"></script>
 </body>
 </html>
