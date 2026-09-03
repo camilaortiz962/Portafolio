@@ -442,34 +442,37 @@ button{ font-family: inherit; cursor:pointer; }
 
 /* ============ Category grid (home) — graphic covers, not project previews ============ */
 /* Every cover is generated purely with CSS/type — no project photography lives here.
-   Real project imagery stays in Proyectos Destacados, project pages, and catalogs. */
+   Real project imagery stays in Proyectos Destacados, project pages, and catalogs.
+   This base layout is a horizontal carousel — the same pattern mobile and desktop
+   use below/above, just sized for tablet, so all three breakpoints feel consistent. */
 .category-grid{
-  display:grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.8rem;
+  display:flex;
+  gap: 1.2rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: .5rem;
 }
-/* Only the first card spans full width: big hero + even pairs below —
-   works cleanly whenever the remaining count is even (no orphan card). */
-.category-card:first-child{ grid-column: 1 / -1; }
 
 .category-card{
+  flex: 0 0 260px;
+  scroll-snap-align: center;
   position:relative;
   display:block;
   cursor:pointer;
 }
-.category-caption{ padding-top: .9rem; }
+.category-caption{ padding-top: .8rem; }
 .category-caption p{
-  font-size: .88rem;
+  font-size: .78rem;
   color: var(--charcoal-soft);
-  line-height:1.55;
+  line-height:1.5;
 }
 .category-count{
   display:inline-block;
-  font-size: .72rem;
+  font-size: .64rem;
   letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--terracotta);
-  margin-top: .5rem;
+  margin-top: .4rem;
 }
 
 .category-cover{
@@ -477,39 +480,37 @@ button{ font-family: inherit; cursor:pointer; }
   aspect-ratio: 4/5;
   overflow:hidden;
   display:flex; flex-direction:column; justify-content:flex-end;
-  padding: 1.8rem;
+  padding: 1.3rem;
   transition: transform .6s var(--ease);
 }
-.category-card:first-child .category-cover{ aspect-ratio: 2.1/1; }
 .category-card:hover .category-cover{ transform: scale(1.015); }
 .category-cover::before{
   content:'';
-  position:absolute; inset: 1.3rem;
+  position:absolute; inset: .9rem;
   border: 1px solid rgba(255,255,255,0.14);
   pointer-events:none;
   transition: inset .5s var(--ease);
 }
-.category-card:hover .category-cover::before{ inset: 1rem; }
+.category-card:hover .category-cover::before{ inset: .7rem; }
 
 .category-cover-num{
-  position:absolute; top:1.6rem; left:1.8rem; z-index:2;
+  position:absolute; top:1.1rem; left:1.3rem; z-index:2;
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: 1rem;
+  font-size: .85rem;
   color: rgba(255,255,255,0.5);
 }
 .category-cover-name{
   position:relative; z-index:2;
-  font-size: clamp(1.7rem, 3.4vw, 2.5rem);
+  font-size: 1.4rem;
   color: var(--bone);
-  line-height: 1.08;
+  line-height: 1.1;
   margin:0;
 }
-.category-card:first-child .category-cover-name{ font-size: clamp(2rem, 4.4vw, 3.4rem); }
 
 .category-explore{
-  position:absolute; top: 1.6rem; right: 1.8rem; z-index:2;
-  font-size: .72rem; letter-spacing: .08em; text-transform: uppercase;
+  position:absolute; top: 1.1rem; right: 1.3rem; z-index:2;
+  font-size: .6rem; letter-spacing: .08em; text-transform: uppercase;
   color: var(--white); text-shadow: 0 1px 6px rgba(0,0,0,0.45);
   opacity:0; transform: translateY(-4px);
   transition: opacity .35s var(--ease), transform .35s var(--ease);
@@ -523,7 +524,7 @@ button{ font-family: inherit; cursor:pointer; }
   z-index:1; pointer-events:none;
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: clamp(6rem, 13vw, 9.5rem);
+  font-size: 3.8rem;
   color: rgba(255,255,255,0.10);
   white-space: nowrap;
 }
@@ -531,7 +532,7 @@ button{ font-family: inherit; cursor:pointer; }
   font-family: 'Courier New', monospace;
   font-style: normal;
   letter-spacing: -0.04em;
-  font-size: clamp(4.5rem, 10vw, 7rem);
+  font-size: 2.8rem;
 }
 
 /* Per-category backgrounds (reuse the site's original category palette) */
@@ -556,20 +557,14 @@ button{ font-family: inherit; cursor:pointer; }
   #categorias{ padding-top: 1.4rem; padding-bottom: 3rem; }
   #categorias .section-heading{ margin-bottom: 1.8rem; }
   .category-grid{
-    display:flex;
-    grid-template-columns: unset;
     gap: 1.4rem;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    padding-bottom: .5rem;
     scrollbar-width: thin;
   }
   .category-card{
     flex: 0 0 320px;
     scroll-snap-align: center;
   }
-  .category-card .category-cover,
-  .category-card:first-child .category-cover{
+  .category-cover{
     aspect-ratio: 4/5;
     padding: 1.6rem;
   }
@@ -577,8 +572,7 @@ button{ font-family: inherit; cursor:pointer; }
   .category-card:hover .category-cover::before{ inset: .9rem; }
   .category-cover-num{ top: 1.4rem; left: 1.6rem; font-size: .95rem; }
   .category-explore{ top: 1.4rem; right: 1.6rem; font-size: .68rem; }
-  .category-cover-name,
-  .category-card:first-child .category-cover-name{
+  .category-cover-name{
     font-size: 1.7rem;
   }
   .category-cover-mark{ font-size: 5rem; }
@@ -736,7 +730,8 @@ button{ font-family: inherit; cursor:pointer; }
 .category-pill.active{ background: var(--charcoal); color: var(--cream); border-color: var(--charcoal); }
 
 @media (max-width: 560px){
-  /* Swipeable horizontal carousel on mobile — desktop/tablet keep the grid. */
+  /* Same horizontal-carousel pattern as tablet/desktop, just wider cards
+     relative to the viewport so one card reads as "full width" on a phone. */
   .category-grid{
     display:flex;
     gap: 1rem;
@@ -751,8 +746,7 @@ button{ font-family: inherit; cursor:pointer; }
     flex: 0 0 84%;
     scroll-snap-align: center;
   }
-  .category-card:first-child .category-cover{ aspect-ratio: 4/5; }
-  .category-card:first-child .category-cover-name{ font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
+  .category-cover-name{ font-size: clamp(1.6rem, 6vw, 2rem); }
 }
 
 /* ============ External project links (Desarrollo Web) ============ */
