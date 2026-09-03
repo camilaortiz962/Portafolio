@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const verNodes = document.querySelectorAll('.gallery-item:not(.category-card):not(.gallery-item--external)');
-    const abrirNodes = document.querySelectorAll('.featured-item, .category-card, .gallery-item--external');
+    const abrirNodes = document.querySelectorAll('.category-card, .gallery-item--external');
     const labeledNodes = new Set([...verNodes, ...abrirNodes]);
 
     verNodes.forEach(el => {
