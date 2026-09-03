@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 800" role="img" aria-hidden="true">
+  <defs>
+    <linearGradient id="wb-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0e1a2c"/>
+      <stop offset="55%" stop-color="#0a121e"/>
+      <stop offset="100%" stop-color="#0a0a0c"/>
+    </linearGradient>
+    <radialGradient id="wb-glow" cx="24%" cy="22%" r="60%">
+      <stop offset="0%" stop-color="#3d7bff" stop-opacity="0.34"/>
+      <stop offset="45%" stop-color="#3d7bff" stop-opacity="0.07"/>
+      <stop offset="100%" stop-color="#3d7bff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="wb-vignette" cx="50%" cy="50%" r="75%">
+      <stop offset="55%" stop-color="#000000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.58"/>
+    </radialGradient>
+    <filter id="wb-grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.05 0"/>
+    </filter>
+  </defs>
+
+  <rect width="640" height="800" fill="url(#wb-bg)"/>
+  <rect width="640" height="800" fill="url(#wb-glow)"/>
+
+  <!-- baseline structural grid -->
+  <g stroke="#f3efe6" stroke-opacity="0.06" stroke-width="1">
+    <line x1="0" y1="120" x2="640" y2="120"/>
+    <line x1="0" y1="320" x2="640" y2="320"/>
+    <line x1="0" y1="520" x2="640" y2="520"/>
+    <line x1="0" y1="680" x2="640" y2="680"/>
+    <line x1="160" y1="0" x2="160" y2="800"/>
+    <line x1="480" y1="0" x2="480" y2="800"/>
+  </g>
+
+  <!-- stacked abstract "window" panels, offset like floating UI surfaces -->
+  <g>
+    <rect x="90" y="150" width="320" height="220" rx="6" fill="#0c141f" stroke="#f3efe6" stroke-opacity="0.14"/>
+    <rect x="90" y="150" width="320" height="30" rx="6" fill="#101c2e"/>
+    <circle cx="110" cy="165" r="3.5" fill="#ff6b5e" opacity="0.7"/>
+    <circle cx="124" cy="165" r="3.5" fill="#f3efe6" opacity="0.3"/>
+    <circle cx="138" cy="165" r="3.5" fill="#16a878" opacity="0.6"/>
+    <g stroke="#3d7bff" stroke-opacity="0.4" stroke-width="1.5">
+      <line x1="112" y1="210" x2="360" y2="210"/>
+      <line x1="112" y1="234" x2="300" y2="234"/>
+      <line x1="112" y1="258" x2="340" y2="258"/>
+    </g>
+  </g>
+
+  <g transform="translate(210 340)">
+    <rect x="0" y="0" width="340" height="240" rx="6" fill="#0d1826" stroke="#f3efe6" stroke-opacity="0.18"/>
+    <rect x="0" y="0" width="340" height="30" rx="6" fill="#132139"/>
+    <circle cx="20" cy="15" r="3.5" fill="#ff6b5e" opacity="0.8"/>
+    <circle cx="34" cy="15" r="3.5" fill="#f3efe6" opacity="0.35"/>
+    <circle cx="48" cy="15" r="3.5" fill="#16a878" opacity="0.7"/>
+    <rect x="22" y="52" width="120" height="70" fill="#3d7bff" opacity="0.16"/>
+    <rect x="154" y="52" width="164" height="18" fill="#f3efe6" opacity="0.22"/>
+    <rect x="154" y="80" width="120" height="12" fill="#f3efe6" opacity="0.12"/>
+    <rect x="154" y="100" width="140" height="12" fill="#f3efe6" opacity="0.12"/>
+    <rect x="22" y="140" width="296" height="1" fill="#f3efe6" opacity="0.14"/>
+    <rect x="22" y="164" width="80" height="24" rx="3" fill="#ff6b5e" opacity="0.75"/>
+  </g>
+
+  <!-- geometric bracket motif, angle-bracket built from strokes (not literal code text) -->
+  <g stroke="#f6f1e9" stroke-opacity="0.5" stroke-width="4" stroke-linecap="round" fill="none">
+    <path d="M470 560 L430 610 L470 660"/>
+    <path d="M540 560 L580 610 L540 660"/>
+  </g>
+
+  <rect width="640" height="800" fill="url(#wb-vignette)"/>
+  <rect width="640" height="800" filter="url(#wb-grain)"/>
+</svg>
