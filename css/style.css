@@ -448,9 +448,9 @@ button{ font-family: inherit; cursor:pointer; }
   grid-template-columns: repeat(2, 1fr);
   gap: 1.8rem;
 }
-/* 1st of every 3 cards spans full width: big / pair / big / pair —
-   the rhythm re-forms automatically for any category count. */
-.category-card:nth-child(3n+1){ grid-column: 1 / -1; }
+/* Only the first card spans full width: big hero + even pairs below —
+   works cleanly whenever the remaining count is even (no orphan card). */
+.category-card:first-child{ grid-column: 1 / -1; }
 
 .category-card{
   position:relative;
@@ -480,7 +480,7 @@ button{ font-family: inherit; cursor:pointer; }
   padding: 1.8rem;
   transition: transform .6s var(--ease);
 }
-.category-card:nth-child(3n+1) .category-cover{ aspect-ratio: 2.1/1; }
+.category-card:first-child .category-cover{ aspect-ratio: 2.1/1; }
 .category-card:hover .category-cover{ transform: scale(1.015); }
 .category-cover::before{
   content:'';
@@ -505,7 +505,7 @@ button{ font-family: inherit; cursor:pointer; }
   line-height: 1.08;
   margin:0;
 }
-.category-card:nth-child(3n+1) .category-cover-name{ font-size: clamp(2rem, 4.4vw, 3.4rem); }
+.category-card:first-child .category-cover-name{ font-size: clamp(2rem, 4.4vw, 3.4rem); }
 
 .category-explore{
   position:absolute; top: 1.6rem; right: 1.8rem; z-index:2;
@@ -699,8 +699,8 @@ button{ font-family: inherit; cursor:pointer; }
 
 @media (max-width: 560px){
   .category-grid{ grid-template-columns: 1fr; gap: 2.2rem; }
-  .category-card:nth-child(3n+1) .category-cover{ aspect-ratio: 4/5; }
-  .category-card:nth-child(3n+1) .category-cover-name{ font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
+  .category-card:first-child .category-cover{ aspect-ratio: 4/5; }
+  .category-card:first-child .category-cover-name{ font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
 }
 
 /* ============ External project links (Desarrollo Web) ============ */
