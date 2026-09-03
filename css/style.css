@@ -550,6 +550,44 @@ button{ font-family: inherit; cursor:pointer; }
   mask-image: radial-gradient(circle at 68% 32%, black 0%, black 28%, transparent 62%);
 }
 
+/* Desktop: compact single-row carousel so all categories fit without
+   scrolling — smaller cards, horizontal scroll only kicks in if the
+   row genuinely doesn't fit at a given screen width. */
+@media (min-width: 981px){
+  #categorias{ padding-top: 1.4rem; padding-bottom: 3rem; }
+  #categorias .section-heading{ margin-bottom: 1.8rem; }
+  .category-grid{
+    display:flex;
+    grid-template-columns: unset;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    padding-bottom: .5rem;
+  }
+  .category-card{
+    flex: 0 0 200px;
+    scroll-snap-align: start;
+  }
+  .category-card .category-cover,
+  .category-card:first-child .category-cover{
+    aspect-ratio: 4/5;
+    padding: 1rem;
+  }
+  .category-cover::before{ inset: .7rem; }
+  .category-card:hover .category-cover::before{ inset: .55rem; }
+  .category-cover-num{ top: .9rem; left: 1rem; font-size: .8rem; }
+  .category-explore{ top: .9rem; right: 1rem; font-size: .6rem; }
+  .category-cover-name,
+  .category-card:first-child .category-cover-name{
+    font-size: 1.1rem;
+  }
+  .category-cover-mark{ font-size: 3rem; }
+  .category-cover-mark--mono{ font-size: 2.2rem; }
+  .category-caption{ padding-top: .6rem; }
+  .category-caption p{ font-size: .74rem; line-height: 1.4; }
+  .category-count{ font-size: .6rem; margin-top: .3rem; }
+}
+
 /* ============ Category page header ============ */
 .category-hero{
   padding: clamp(8rem,14vw,10rem) clamp(1.25rem, 5vw, 4rem) 2rem;
