@@ -58,6 +58,27 @@ button{ font-family: inherit; cursor:pointer; }
   margin-bottom: 0.9rem;
 }
 
+/* ============ 3D universe (js/universe.js) ============ */
+/* Fixed, full-viewport, always z-index:0 — every section's content sits in
+   normal flow above it. The canvas itself never moves; only the camera
+   inside it does, driven by scroll progress. On WebGL/reduced-motion
+   fallback, universe.js never even creates a renderer, so this stays an
+   empty, invisible element and every section's own background (below)
+   remains fully opaque via the :not(.universe-active) rule. */
+#universeCanvas{
+  position: fixed; inset: 0;
+  width: 100vw; height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+/* Every section that can host a universe zone behind it needs its own
+   content lifted into a stacking context above the fixed canvas. Sections
+   themselves are already position:relative (see each section's own rule). */
+.hero > *, .manifesto > *, .gallery > *, .specialties > *, .process > *, .contact > *{
+  position: relative;
+  z-index: 1;
+}
+
 /* ============ Preloader ============ */
 .preloader{
   position: fixed; inset:0;
@@ -210,6 +231,23 @@ button{ font-family: inherit; cursor:pointer; }
 
 /* ============ Dark section utility (hero, manifiesto, especialidades, contacto, footer) ============ */
 .section-dark{ background: var(--ink); color: var(--bone); }
+/* Dark sections that double as universe "zones" (hero, manifesto,
+   especialidades, contacto) turn translucent once the 3D universe is
+   actually rendering, so its architecture/lighting shows through around the
+   text — never the footer, which stays a solid, grounded page ending. */
+body.universe-active .hero,
+body.universe-active .manifesto,
+body.universe-active .specialties,
+body.universe-active .contact{
+  background: rgba(10,10,12,0.62);
+}
+/* Universo creativo and Proceso are light sections in the 2D design, but map
+   to two of the busiest 3D zones (portals, workflow stations) — a lighter
+   translucent version lets those show through the section's own padding. */
+body.universe-active .gallery,
+body.universe-active .process{
+  background: rgba(246,241,233,0.9);
+}
 .section-dark .eyebrow{ color: var(--emerald); }
 .section-dark h1, .section-dark h2, .section-dark h3{ color: var(--bone); }
 .section-dark .btn-outline{ border-color: var(--border-dark); color: var(--bone); }
@@ -232,6 +270,16 @@ button{ font-family: inherit; cursor:pointer; }
     radial-gradient(circle at 84% 76%, rgba(22,168,120,0.14), transparent 45%),
     linear-gradient(160deg, var(--ink) 0%, var(--ink-2) 100%);
   animation: bgDrift 18s ease-in-out infinite alternate;
+}
+/* Once the 3D universe is actually rendering behind the page, thin out the
+   opaque parts of this gradient so the Studio zone reads through it instead
+   of being hidden behind a solid wall of color. Fallback (no universe-active
+   class) keeps the original fully opaque gradient untouched. */
+body.universe-active .hero-bg{
+  background:
+    radial-gradient(circle at 16% 20%, rgba(61,123,255,0.18), transparent 42%),
+    radial-gradient(circle at 84% 76%, rgba(22,168,120,0.16), transparent 45%),
+    linear-gradient(160deg, rgba(10,10,12,0.5) 0%, rgba(21,21,25,0.6) 100%);
 }
 @keyframes bgDrift{
   0%{ background-position: 0% 0%, 100% 100%, 0 0; }
@@ -368,19 +416,6 @@ button{ font-family: inherit; cursor:pointer; }
   100%{ top: 90%; opacity:0; }
 }
 
-/* Ambient Three.js layer (js/scene3d.js): procedural wireframe shapes only —
-   no external model file required, so it renders today. Skipped entirely on
-   mobile, reduced-motion, or when WebGL/the CDN script is unavailable; the
-   existing CSS hero-graphic dots above stay the guaranteed fallback either way. */
-.hero-scene3d{
-  position:absolute; inset:0; z-index:1;
-  pointer-events:none;
-  opacity:0;
-  transition: opacity 1.4s var(--ease);
-}
-.hero-scene3d.is-ready{ opacity:1; }
-.hero-scene3d canvas{ display:block; width:100%!important; height:100%!important; }
-
 /* ============ Avatar guide (js/avatar.js) ============ */
 /* Every mount renders María's profile photo today. The "primary" mount (hero)
    is the only one that ever attempts a live 3D render, and only once
@@ -505,7 +540,7 @@ button{ font-family: inherit; cursor:pointer; }
 .section-dark .section-heading-sub{ color: var(--bone-soft); }
 
 /* ============ Gallery ============ */
-.gallery{ padding: 2rem clamp(1.25rem, 5vw, 4rem) 6rem; }
+.gallery{ position:relative; padding: 2rem clamp(1.25rem, 5vw, 4rem) 6rem; }
 .gallery-grid{
   display:grid;
   grid-template-columns: repeat(3, 1fr);
@@ -931,7 +966,7 @@ button{ font-family: inherit; cursor:pointer; }
 .service-card p{ font-size: .92rem; color: var(--charcoal-soft); }
 
 /* ============ Specialties (home, dark) ============ */
-.specialties{ padding: clamp(5rem,10vw,7rem) clamp(1.25rem, 5vw, 4rem); }
+.specialties{ position:relative; padding: clamp(5rem,10vw,7rem) clamp(1.25rem, 5vw, 4rem); }
 .specialties-grid{
   display:grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -1005,7 +1040,7 @@ button{ font-family: inherit; cursor:pointer; }
 }
 
 /* ============ Process ============ */
-.process{ padding: clamp(5rem,10vw,7rem) clamp(1.25rem, 5vw, 4rem); }
+.process{ position:relative; padding: clamp(5rem,10vw,7rem) clamp(1.25rem, 5vw, 4rem); }
 /* Each stage sits at an alternating height (--offset) along a shared baseline
    rather than a flat, generic timeline row — a small compositional cue that
    the process moves rather than just lists. */
@@ -1054,12 +1089,17 @@ button{ font-family: inherit; cursor:pointer; }
 
 /* ============ About ============ */
 .about{
+  position:relative;
+  background: var(--cream);
   display:grid;
   grid-template-columns: minmax(0, 420px) 1fr;
   align-items:center;
   gap: 3.5rem;
   padding: clamp(5rem,10vw,7rem) clamp(1.25rem, 5vw, 4rem);
 }
+/* Sobre mí stays fully opaque and fully protected from the universe canvas
+   on purpose (bio-heavy, real content — legibility over spectacle here). */
+.about > *{ position:relative; z-index:1; }
 .about-photo{
   aspect-ratio: 4/5;
   max-width: 420px;
@@ -1127,6 +1167,7 @@ button{ font-family: inherit; cursor:pointer; }
 
 /* ============ Contact ============ */
 .contact{
+  position:relative;
   background: var(--ink);
   color: var(--bone);
   padding: clamp(5rem,10vw,8rem) 1.5rem;
@@ -1196,10 +1237,12 @@ button{ font-family: inherit; cursor:pointer; }
 
 /* ============ Footer ============ */
 .site-footer{
+  position:relative;
   padding: 3rem clamp(1.25rem, 5vw, 4rem) 2rem;
   border-top: 1px solid var(--border-dark);
   display:flex; flex-direction:column; align-items:center; gap: 2rem;
 }
+.site-footer > *{ position:relative; z-index:1; }
 .footer-inner{
   display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:space-between;
   gap: 2rem;
@@ -1438,7 +1481,6 @@ button{ font-family: inherit; cursor:pointer; }
   .services-grid{ grid-template-columns: 1fr; }
   .intro{ padding: 4rem 1.5rem; }
   .hero-graphic{ display:none; }
-  .hero-scene3d{ display:none; }
   .process-flow{ flex-direction:column; align-items:center; gap: 2.2rem; }
   .process-flow::before{ display:none; }
   .process-stage{ transform:none; max-width: 300px; }
