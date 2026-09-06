@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=38">
+<link rel="stylesheet" href="css/style.css?v=41">
 </head>
 <body>
 
@@ -35,6 +35,7 @@
 
   <section class="hero section-dark">
     <div class="hero-bg"></div>
+    <div class="hero-scene3d" id="heroScene3d" aria-hidden="true"></div>
     <div class="hero-graphic" id="heroGraphic" aria-hidden="true">
       <span class="hero-line"></span>
       <span class="hero-line"></span>
@@ -42,13 +43,16 @@
       <span class="hero-square"></span>
     </div>
     <div class="hero-content reveal">
+      <div class="avatar-cameo avatar-cameo--hero">
+        <div class="avatar-frame avatar-frame--hero" data-avatar-role="primary" data-avatar-alt="María Camila Ortiz, creadora digital"></div>
+      </div>
       <p class="eyebrow">Creadora Digital</p>
       <h1 class="hero-title hero-title--name">MARÍA CAMILA<br>ORTIZ</h1>
       <p class="hero-sub">DISEÑO · DESARROLLO · 3D · IA</p>
       <p class="hero-tagline">Diseño experiencias visuales y digitales combinando creatividad, tecnología y narrativa.</p>
       <p class="hero-services">Diseño de marca · Desarrollo web · 3D · Contenido digital · IA</p>
       <div class="hero-actions">
-        <a href="#categorias" class="btn btn-hero-primary">Explorar proyectos</a>
+        <a href="#categorias" class="btn btn-hero-primary">Explorar universo</a>
         <a href="#sobre-mi" class="btn btn-text">Conocerme →</a>
       </div>
     </div>
@@ -59,6 +63,9 @@
   </section>
 
   <section class="manifesto section-dark" id="manifiesto">
+    <div class="avatar-cameo avatar-cameo--manifesto reveal">
+      <div class="avatar-frame avatar-frame--cameo" data-avatar-role="cameo"></div>
+    </div>
     <span class="eyebrow reveal">Manifiesto</span>
     <blockquote class="manifesto-quote reveal">No diseño para llenar espacios.<br>Diseño para comunicar.</blockquote>
     <p class="manifesto-copy reveal">Combino imagen, tecnología y narrativa para convertir ideas en experiencias.<br>Exploro. Diseño. Modelo. Programo. Experimento.</p>
@@ -72,8 +79,14 @@
 
   <section class="gallery" id="categorias">
     <div class="section-heading reveal">
-      <span class="eyebrow">Explora por categoría</span>
+      <span class="eyebrow">Universo creativo</span>
       <h2>Portafolio</h2>
+      <p class="section-heading-sub">Cinco disciplinas, un mismo lenguaje visual.</p>
+    </div>
+
+    <div class="avatar-cameo avatar-cameo--universe reveal">
+      <div class="avatar-frame avatar-frame--cameo" data-avatar-role="cameo"></div>
+      <span class="avatar-cameo-note">Te acompaño a explorar →</span>
     </div>
 
     <div class="category-grid">
@@ -153,30 +166,72 @@
     </div>
     <div class="specialties-grid">
       <div class="specialty-card reveal">
+        <div class="specialty-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="5" width="13" height="16" rx="1.2"/>
+            <rect x="8" y="2" width="13" height="16" rx="1.2" opacity=".55"/>
+          </svg>
+        </div>
         <span class="specialty-index">01</span>
         <h3>Diseño</h3>
         <p class="specialty-desc">Identidad, editorial, carteles y packaging, del boceto a la pieza final.</p>
         <p class="specialty-tools"><span class="specialty-tools-label">Herramientas</span> Illustrator · Photoshop</p>
       </div>
       <div class="specialty-card reveal">
+        <div class="specialty-icon specialty-icon--cube" aria-hidden="true">
+          <div class="cube">
+            <span class="cube-face cube-face--front"></span>
+            <span class="cube-face cube-face--back"></span>
+            <span class="cube-face cube-face--right"></span>
+            <span class="cube-face cube-face--left"></span>
+            <span class="cube-face cube-face--top"></span>
+            <span class="cube-face cube-face--bottom"></span>
+          </div>
+        </div>
         <span class="specialty-index">02</span>
         <h3>3D</h3>
         <p class="specialty-desc">Modelado y render de sistemas de íconos y piezas 3D.</p>
         <p class="specialty-tools"><span class="specialty-tools-label">Herramientas</span> Blender</p>
       </div>
       <div class="specialty-card reveal">
+        <div class="specialty-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2.5" y="4" width="19" height="13" rx="1.2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </div>
         <span class="specialty-index">03</span>
         <h3>Desarrollo</h3>
         <p class="specialty-desc">Sitios funcionales, en equipo o individuales.</p>
         <p class="specialty-tools"><span class="specialty-tools-label">Tecnologías</span> HTML · CSS · JavaScript</p>
       </div>
       <div class="specialty-card reveal">
+        <div class="specialty-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="5" cy="7" r="1.6" fill="currentColor" stroke="none"/>
+            <circle cx="12" cy="4" r="1.6" fill="currentColor" stroke="none"/>
+            <circle cx="19" cy="8" r="1.6" fill="currentColor" stroke="none"/>
+            <circle cx="9" cy="15" r="1.9" fill="currentColor" stroke="none"/>
+            <circle cx="17" cy="18" r="1.4" fill="currentColor" stroke="none"/>
+            <line x1="5" y1="7" x2="9" y2="15"/>
+            <line x1="12" y1="4" x2="9" y2="15"/>
+            <line x1="19" y1="8" x2="9" y2="15"/>
+            <line x1="9" y1="15" x2="17" y2="18"/>
+          </svg>
+        </div>
         <span class="specialty-index">04</span>
         <h3>IA</h3>
         <p class="specialty-desc">Exploración, investigación y apoyo dentro de mi proceso creativo.</p>
         <p class="specialty-tools"><span class="specialty-tools-label">Herramientas</span> Claude · ChatGPT · Generación de imágenes</p>
       </div>
       <div class="specialty-card reveal">
+        <div class="specialty-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/>
+            <circle cx="12" cy="13.5" r="3.4"/>
+          </svg>
+        </div>
         <span class="specialty-index">05</span>
         <h3>Multimedia</h3>
         <p class="specialty-desc">Dirección de escena y producción visual frente a cámara.</p>
@@ -188,15 +243,49 @@
   <section class="process" id="proceso">
     <div class="section-heading reveal">
       <span class="eyebrow">Cómo trabajo</span>
-      <h2>Mi proceso</h2>
+      <h2>Mi proceso creativo</h2>
     </div>
-    <div class="process-steps">
-      <div class="process-step reveal"><span class="process-num">01</span><h3>Exploro</h3></div>
-      <div class="process-step reveal"><span class="process-num">02</span><h3>Concepto</h3></div>
-      <div class="process-step reveal"><span class="process-num">03</span><h3>Diseño</h3></div>
-      <div class="process-step reveal"><span class="process-num">04</span><h3>Desarrollo</h3></div>
-      <div class="process-step reveal"><span class="process-num">05</span><h3>Experimento</h3></div>
-      <div class="process-step reveal"><span class="process-num">06</span><h3>Entrego</h3></div>
+    <div class="process-flow">
+      <div class="process-stage reveal" style="--offset:0">
+        <div class="process-stage-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.3" y1="15.3" x2="21" y2="21"/></svg>
+        </div>
+        <span class="process-stage-num">01</span>
+        <h3>Investigar</h3>
+        <p>Referencias, contexto y necesidades reales antes de dibujar nada.</p>
+      </div>
+      <div class="process-stage reveal" style="--offset:1">
+        <div class="process-stage-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.5.4.6.9.6 1.4V16h6v-.8c0-.5.1-1 .6-1.4A6 6 0 0 0 12 3z"/></svg>
+        </div>
+        <span class="process-stage-num">02</span>
+        <h3>Conceptualizar</h3>
+        <p>De la idea dispersa a un concepto claro que sostiene todo lo demás.</p>
+      </div>
+      <div class="process-stage reveal" style="--offset:0">
+        <div class="process-stage-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1-4.5L15.5 5 19 8.5 8.5 19 4 20z"/><line x1="13" y1="7" x2="17" y2="11"/></svg>
+        </div>
+        <span class="process-stage-num">03</span>
+        <h3>Diseñar</h3>
+        <p>Composición, tipografía y color trabajando juntos por una misma idea.</p>
+      </div>
+      <div class="process-stage reveal" style="--offset:1">
+        <div class="process-stage-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 6 2.5 12 8 18"/><polyline points="16 6 21.5 12 16 18"/></svg>
+        </div>
+        <span class="process-stage-num">04</span>
+        <h3>Desarrollar</h3>
+        <p>Construyo la pieza para que funcione tan bien como se ve.</p>
+      </div>
+      <div class="process-stage reveal" style="--offset:0">
+        <div class="process-stage-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l1.8 4.9 5.2.4-4 3.4 1.3 5.1L12 13.7 7.7 16.3 9 11.2l-4-3.4 5.2-.4L12 2.5z"/></svg>
+        </div>
+        <span class="process-stage-num">05</span>
+        <h3>Refinar</h3>
+        <p>Reviso, ajusto y pulo hasta que cada detalle esté intencionado.</p>
+      </div>
     </div>
   </section>
 
@@ -204,6 +293,7 @@
     <div class="about-media reveal">
       <div class="about-photo">
         <img src="assets/perfil/maria-camila-ortiz.jpg" alt="Retrato de María Camila Ortiz" loading="lazy">
+        <span class="about-photo-mark">MACA</span>
       </div>
     </div>
     <div class="about-copy reveal">
@@ -240,6 +330,9 @@
 
   <section class="contact" id="contacto">
     <div class="contact-inner">
+      <div class="avatar-cameo avatar-cameo--contact reveal">
+        <div class="avatar-frame avatar-frame--cameo" data-avatar-role="cameo"></div>
+      </div>
       <span class="eyebrow reveal">07 · Contacto</span>
       <h2 class="reveal">¿Tienes una idea?<br>Hagámosla realidad.</h2>
       <p class="reveal">Cuéntame qué tienes en mente.</p>
@@ -318,6 +411,8 @@
   </div>
 </div>
 
+<script src="js/avatar.js?v=3" defer></script>
+<script src="js/scene3d.js?v=3" defer></script>
 <script src="js/script.js?v=38"></script>
 </body>
 </html>
