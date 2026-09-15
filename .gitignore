@@ -1,0 +1,12 @@
+# Original Canva export used only as an early design reference — not
+# used anywhere by the live site, and at ~100MB not worth versioning.
+MACA .pdf
+
+# Full-resolution catalog PDFs: the JPG page-by-page previews in
+# proyectos/catalogos/ are what the site actually displays (as a
+# carousel). CATÁLOGO NUMIN.pdf alone is ~113MB, over GitHub's 100MB
+# per-file limit, so it and the unused CATALOGO NUM 4.pdf are excluded
+# here. CATÁLOGO VMS.pdf stays tracked since editorial.html links to it
+# directly and it's under the limit.
+proyectos/editorial/CATÁLOGO NUMIN.pdf
+proyectos/editorial/CATALOGO NUM 4.pdf

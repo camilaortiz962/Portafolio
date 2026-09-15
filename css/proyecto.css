@@ -1,0 +1,245 @@
+/* ============================================================
+   PÁGINAS DE PROYECTO — una por categoría (ilustración, 3D,
+   editorial, desarrollo web, IA). Reutiliza el nav, la paleta,
+   tipografías y componentes (.eyebrow, .btn-dark, .circle-arrow)
+   ya definidos en styles.css — este archivo solo añade lo propio
+   de estas páginas de galería.
+   ============================================================ */
+
+.proyecto-page{ padding-top: 0; }
+
+.proyecto{
+  padding: 16vh var(--content-x) 8vh;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.proyecto-back{
+  display:inline-flex; align-items:center; gap:.6rem;
+  font-family:var(--sans-alt); font-size:.72rem; font-weight:600;
+  letter-spacing:.2em; text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:4vh;
+  opacity:0; transform:translateY(10px);
+  animation:proyectoFadeUp .7s var(--ease) .05s both;
+  transition:color .3s ease;
+}
+.proyecto-back:hover{ color:var(--cream); }
+.proyecto-back__arrow{ display:inline-block; transition:transform .3s ease; }
+.proyecto-back:hover .proyecto-back__arrow{ transform:translateX(-4px); }
+
+.proyecto-hero{ margin-bottom:9vh; max-width:760px; }
+.proyecto-hero .eyebrow--line{ margin-bottom:2rem; }
+
+.proyecto-hero__row{
+  display:flex; align-items:baseline; gap:1.4rem;
+  margin:0 0 1.2rem; flex-wrap:wrap;
+}
+.proyecto-hero__index{
+  font-family:var(--serif); font-style:italic; font-weight:600;
+  font-size:clamp(1.1rem, 2vw, 1.6rem); color:var(--muted);
+}
+.proyecto-hero h1{
+  font-family:var(--serif-alt); font-weight:400;
+  font-size:clamp(2.6rem, 6.4vw, 5.6rem);
+  line-height:.98; color:var(--cream);
+}
+.proyecto-hero__subtitle{
+  font-family:var(--sans); font-size:.85rem; font-weight:700;
+  letter-spacing:.18em; text-transform:uppercase;
+  color:var(--cream-soft); margin-bottom:1.3rem;
+}
+.proyecto-hero__text{
+  font-size:1rem; line-height:1.75; color:var(--muted); max-width:560px;
+}
+
+/* one gallery "block" per sub-project inside a category (e.g. each
+   catalog, each poster set) — a small heading followed by its own
+   image grid, so a category with several distinct projects doesn't
+   read as one undifferentiated wall of images */
+.proyecto-block{ margin-bottom:9vh; }
+.proyecto-block:last-child{ margin-bottom:0; }
+.proyecto-block__head{
+  display:flex; align-items:center; gap:1.4rem;
+  margin-bottom:2.6rem;
+}
+.proyecto-block__head h2{
+  font-family:var(--serif); font-weight:700;
+  font-size:clamp(1.3rem, 2.3vw, 1.9rem);
+  color:var(--cream); white-space:nowrap;
+}
+.proyecto-block__head .line{ flex:1; height:1px; background:var(--line); }
+.proyecto-block__meta{
+  font-family:var(--sans-alt); font-size:.68rem; font-weight:600;
+  letter-spacing:.2em; text-transform:uppercase; color:var(--muted);
+  white-space:nowrap;
+}
+.proyecto-block__text{
+  font-size:.92rem; line-height:1.7; color:var(--muted);
+  max-width:560px; margin:-1.6rem 0 2.4rem;
+}
+
+.proyecto-gallery{
+  /* auto-fit (not auto-fill): with fewer items than fit on a row, fill
+     collapses the leftover tracks to 0 width but still reserves them,
+     so a single item stays pinned at its minmax minimum instead of
+     stretching into the free space — fit removes the empty tracks
+     entirely and lets 1fr actually grow to use that space. */
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.6rem;
+}
+.proyecto-gallery--lg{ grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); }
+.proyecto-gallery--sm{ grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+
+.proyecto-item{
+  position:relative;
+  overflow:hidden;
+  background:#0d0b09;
+  border:1px solid rgba(255,255,255,.07);
+}
+.proyecto-item img,
+.proyecto-item video{
+  width:100%; height:auto; display:block;
+  transition:transform .7s var(--ease);
+}
+.proyecto-item:hover img,
+.proyecto-item:hover video{ transform:scale(1.035); }
+
+.proyecto-item--pad{ padding:8%; display:flex; align-items:center; justify-content:center; }
+
+.proyecto-item figcaption{
+  padding:1rem 1.3rem;
+  font-family:var(--sans-alt); font-size:.7rem; font-weight:600;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--muted);
+  border-top:1px solid rgba(255,255,255,.07);
+}
+
+/* Catalog carousel — one image at a time instead of a wall of thumbnails,
+   for projects (like a 41-page catalog) that read as a single sequence
+   rather than a set of individual pieces. Wired up generically in
+   main.js via initCarruseles() — any .carrusel[data-carrusel] gets it. */
+.carrusel{ position:relative; }
+.carrusel__viewport{
+  overflow:hidden;
+  background:#0d0b09;
+  border:1px solid rgba(255,255,255,.07);
+}
+.carrusel__track{
+  display:flex;
+  transition:transform .5s var(--ease);
+}
+.carrusel__slide{
+  /* <figure> carries a default user-agent margin (Chrome: 1em 40px) —
+     left unreset, that 40px-per-side margin was adding to each slide's
+     flex-basis width, so consecutive slides drifted out of alignment
+     more with every step (visible as a sliver of the previous page
+     peeking in on the left, worse the further into the carousel) */
+  margin:0;
+  flex:0 0 100%;
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.carrusel__slide img{
+  width:auto; height:auto;
+  max-width:100%; max-height:74vh;
+  object-fit:contain;
+  display:block;
+}
+.carrusel__controls{
+  display:flex; align-items:center; justify-content:center;
+  gap:1.6rem;
+  margin-top:1.8rem;
+}
+.carrusel__btn{
+  width:44px; height:44px; flex:0 0 auto;
+  border:1px solid var(--cream-soft);
+  border-radius:50%;
+  background:none; color:var(--cream-soft);
+  display:inline-flex; align-items:center; justify-content:center;
+  font-size:1.1rem; font-family:inherit; cursor:pointer;
+  transition:background .3s ease, color .3s ease;
+}
+.carrusel__btn:hover{ background:var(--cream); color:#000; }
+.carrusel__btn:disabled{ opacity:.3; cursor:default; }
+.carrusel__btn:disabled:hover{ background:none; color:var(--cream-soft); }
+.carrusel__count{
+  font-family:var(--sans-alt); font-size:.72rem; letter-spacing:.18em;
+  color:var(--muted); min-width:5em; text-align:center;
+}
+.proyecto-item--pad img{ width:auto; max-width:100%; max-height:340px; }
+
+/* used on the IA page: it's not an image gallery like the others, it
+   walks through what she actually does with AI tools instead */
+.proyecto-skills{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+  gap:3rem 2.4rem;
+}
+.proyecto-skill{ border-top:1px solid var(--line); padding-top:1.8rem; }
+.proyecto-skill__num{
+  font-family:var(--serif); font-style:italic; font-weight:600;
+  font-size:1.7rem; color:var(--accent); display:block; margin-bottom:.9rem;
+}
+.proyecto-skill h3{
+  font-family:var(--sans-alt); font-weight:600; font-size:.85rem;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--cream);
+  margin-bottom:.7rem;
+}
+.proyecto-skill p{ font-size:.92rem; line-height:1.7; color:var(--muted); }
+
+.proyecto-tools{
+  display:flex; flex-wrap:wrap; gap:.8rem;
+  margin-top:1rem;
+}
+.proyecto-tools span{
+  font-family:var(--sans-alt); font-size:.68rem; font-weight:600;
+  letter-spacing:.15em; text-transform:uppercase;
+  color:var(--cream-soft);
+  border:1px solid var(--line);
+  padding:.6rem 1.1rem;
+  border-radius:2px;
+}
+
+.proyecto-placeholder{
+  border:1px dashed var(--line);
+  padding:10vh 5%;
+  text-align:center;
+}
+.proyecto-placeholder p{
+  font-size:.98rem; line-height:1.75; color:var(--muted);
+  max-width:420px; margin:0 auto;
+}
+.proyecto-placeholder .eyebrow{ display:block; margin-bottom:1rem; justify-content:center; }
+
+.proyecto-footer{
+  padding: 9vh var(--content-x) 12vh;
+  text-align:center;
+  border-top:1px solid var(--line);
+  margin-top:4vh;
+}
+.proyecto-footer p{
+  font-size:.95rem; color:var(--muted); margin-bottom:2rem;
+}
+
+@keyframes proyectoFadeUp{
+  from{ opacity:0; transform:translateY(10px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+
+@media (max-width: 640px){
+  .proyecto{ padding:14vh 6% 6vh; }
+  .proyecto-gallery,
+  .proyecto-gallery--lg,
+  .proyecto-gallery--sm{ grid-template-columns: 1fr; }
+  /* a long h2 + a long meta label (e.g. "BLENDER · ESCULTURA DIGITAL")
+     both nowrap on one flex row overflows a narrow phone screen —
+     wrap them onto their own lines and drop the connecting rule,
+     which has nothing left to usefully connect at that point */
+  .proyecto-block__head{ flex-wrap:wrap; row-gap:.5rem; }
+  .proyecto-block__head h2{ font-size:1.3rem; }
+  .proyecto-block__head .line{ display:none; }
+  .proyecto-block__meta{ white-space:normal; flex-basis:100%; }
+}
