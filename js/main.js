@@ -28,8 +28,17 @@ navLinks.querySelectorAll('a').forEach(link => {
 // ============================================================
 // REVEAL ON SCROLL (fade/slide entrances, one-time per element)
 // ============================================================
+// .categorias is deliberately excluded here: at 500vh tall, a 0.15 ratio
+// threshold needs ~675px of it inside the viewport before firing, which
+// only happens once its top edge is already within ~150-300px of the
+// viewport top — so for most of the scroll distance leading up to it,
+// it sat at opacity:0 (rendering as a long stretch of plain black
+// background) before ever crossing that threshold. It doesn't need this
+// generic fade-in anyway: its own .categoria/.categoria.is-active
+// dimming already provides the entrance polish once it's in view.
 const revealTargets = document.querySelectorAll(
-  '.manifiesto, .proceso, .sobre-mi, .contacto__content, .categorias'
+  '.manifiesto, .proceso, .sobre-mi, .contacto__content, ' +
+  '.spark, .obsesiones, .personalidades, .archivo, .experiment-lab'
 );
 revealTargets.forEach(el => el.classList.add('reveal'));
 
@@ -86,6 +95,10 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
   const wordmark = document.querySelector('.hero__wordmark');
   const figure = document.querySelector('.hero__figure');
   const scrollHint = document.querySelector('.hero__scroll');
+  // hero's own resting-state copy (system tag, headline/tagline/identity,
+  // scroll hint) — all fade out together, fast, right as scrolling starts,
+  // so none of it lingers into the wordmark-shrink/manifiesto-reveal frame
+  const heroFadeEls = document.querySelectorAll('.hero__fade');
   const manifiesto = document.querySelector('.manifiesto');
   if (!wrap || !pin || !wordmark || !figure || !manifiesto) return;
 
@@ -109,6 +122,10 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
     wordmark.style.animation = 'none';
     figure.style.animation = 'none';
     if (scrollHint) scrollHint.style.animation = 'none';
+    // each has its own entrance keyframe with fill-mode:both — left running,
+    // its "to" state (opacity:1) would keep overriding the inline opacity
+    // the scroll-driven fade below tries to set, exactly like wordmark/figure
+    heroFadeEls.forEach((el) => { el.style.animation = 'none'; });
   }
   setTimeout(clearEntranceAnimations, 1700);
 
@@ -185,7 +202,8 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
     // at 1, so pin it here for the whole scroll-driven phase
     figure.style.opacity = '1';
 
-    if (scrollHint) scrollHint.style.opacity = Math.max(0, 1 - p * 4).toFixed(3);
+    const fadeOpacity = Math.max(0, 1 - p * 4).toFixed(3);
+    heroFadeEls.forEach((el) => { el.style.opacity = fadeOpacity; });
   }
 
   function renderReveal(p) {
@@ -203,7 +221,9 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
     figure.style.height = '';
     figure.style.opacity = '';
     figure.style.animation = '';
-    if (scrollHint) { scrollHint.style.opacity = ''; scrollHint.style.animation = ''; }
+    figure.style.transform = '';
+    if (scrollHint) scrollHint.style.animation = '';
+    heroFadeEls.forEach((el) => { el.style.opacity = ''; el.style.animation = ''; });
     // let clearEntranceAnimations() run again if resized back to desktop
     entranceCleared = false;
   }
@@ -489,3 +509,64 @@ document.querySelectorAll('.carrusel[data-carrusel]').forEach((carrusel) => {
 
   render();
 });
+
+// ============================================================
+// HERO AVATAR — parallax sutil al cursor (desktop, puntero fino,
+// respeta prefers-reduced-motion). .hero__figure nunca recibe un
+// transform inline desde initHeroManifiesto (solo top/height/opacity),
+// así que esto no compite con el scroll-jack — sólo compone sobre el
+// translateX(-50%) fijo que ya trae por CSS.
+// ============================================================
+(function initHeroParallax() {
+  const figure = document.querySelector('.hero__figure');
+  if (!figure) return;
+  const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (!canHover || prefersReducedMotion) return;
+
+  const MAX = 12;
+  let raf = null;
+
+  window.addEventListener('mousemove', (e) => {
+    if (raf) return;
+    raf = requestAnimationFrame(() => {
+      raf = null;
+      if (window.innerWidth <= 1100) { figure.style.transform = ''; return; }
+      const dx = (e.clientX / window.innerWidth - 0.5) * MAX * 2;
+      const dy = (e.clientY / window.innerHeight - 0.5) * MAX * 2;
+      figure.style.transform = `translateX(-50%) translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px)`;
+    });
+  }, { passive: true });
+})();
+
+// ============================================================
+// EASTER EGGS — discretos, sólo en la página principal
+// ============================================================
+(function initEasterEggs() {
+  const statusToggle = document.getElementById('systemStatusToggle');
+  const statusPanel = document.getElementById('systemStatusPanel');
+  if (statusToggle && statusPanel) {
+    statusToggle.addEventListener('click', () => {
+      const open = statusPanel.hasAttribute('hidden');
+      if (open) statusPanel.removeAttribute('hidden');
+      else statusPanel.setAttribute('hidden', '');
+      statusToggle.setAttribute('aria-expanded', String(open));
+    });
+  }
+
+  const logo = document.querySelector('.nav__logo');
+  const toast = document.getElementById('easterToast');
+  if (logo && toast) {
+    let clicks = 0;
+    let resetTimer = null;
+    logo.addEventListener('click', () => {
+      clicks += 1;
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(() => { clicks = 0; }, 1500);
+      if (clicks >= 5) {
+        clicks = 0;
+        toast.classList.add('is-visible');
+        setTimeout(() => toast.classList.remove('is-visible'), 2600);
+      }
+    });
+  }
+})();

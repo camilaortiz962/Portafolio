@@ -3,23 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>María Camila Ortiz — Portafolio</title>
-<meta name="description" content="Portafolio de María Camila Ortiz — Diseño, Ilustración, 3D, Editorial, Desarrollo Web e Inteligencia Artificial.">
+<title>MARÍA CAMILA ORTIZ — MACA | Creadora Digital</title>
+<meta name="description" content="Portafolio de María Camila Ortiz — MACA. Diseño digital, branding, 3D, desarrollo web, ilustración, multimedia e inteligencia artificial.">
+<meta property="og:title" content="MARÍA CAMILA ORTIZ — MACA | Creadora Digital">
+<meta property="og:description" content="Portafolio de María Camila Ortiz — MACA. Diseño digital, branding, 3D, desarrollo web, ilustración, multimedia e inteligencia artificial.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_CO">
+<meta property="og:image" content="assets/foto-perfil.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=DM+Serif+Display:ital@0;1&family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600&family=Quicksand:wght@500;600&family=Alex+Brush&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=21">
-<link rel="icon" href="data:,">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=DM+Serif+Display:ital@0;1&family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600&family=Quicksand:wght@500;600&family=Alex+Brush&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css?v=30">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23000'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-weight='700' font-size='34' fill='%23f5e7d8' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
 </head>
 <body>
 
 <!-- ===================== NAV ===================== -->
 <header class="nav" id="nav">
   <div class="nav__inner">
-    <a href="#inicio" class="nav__logo">MACA</a>
+    <div class="nav__brand">
+      <a href="#inicio" class="nav__logo">MACA</a>
+      <span class="nav__status sys-tag" aria-hidden="true"><span class="sys-tag__dot"></span>MACA.OS — SYSTEM ONLINE</span>
+    </div>
     <nav class="nav__links" id="navLinks">
-      <a href="#inicio">Inicio</a>
-      <a href="#proyectos">Proyectos</a>
+      <a href="#inicio">Entrar</a>
+      <a href="#archivo">Archivo</a>
+      <a href="#experiment-lab">Experimentos</a>
       <a href="#sobre-mi">Sobre mí</a>
       <a href="#contacto">Contacto</a>
     </nav>
@@ -35,10 +45,24 @@
   <div class="hero-scroll">
    <div class="hero-pin">
     <section class="hero" id="inicio">
+      <p class="hero__tag sys-tag hero__fade"><span class="sys-tag__dot"></span>01 / 09 — ENTRAR</p>
       <div class="hero__wordmark" aria-hidden="true">MACA</div>
       <img class="hero__figure" src="assets/personaje-hero.png" alt="María Camila Ortiz — ilustración de personaje">
-      <a href="#manifiesto" class="hero__scroll" aria-label="Desplázate hacia abajo">
-        <span></span>
+      <div class="hero__scrim" aria-hidden="true"></div>
+      <div class="hero__info hero__fade">
+        <div class="hero__headline-wrap">
+          <p class="hero__headline">Estás dentro de mi cabeza.</p>
+          <p class="hero__tagline">Aquí las ideas no se quedan quietas.</p>
+        </div>
+        <div class="hero__identity">
+          <p class="hero__identity-name">MARÍA CAMILA ORTIZ</p>
+          <p class="hero__identity-alias">MACA — Creadora Digital</p>
+          <p class="hero__identity-disciplines">Diseño · 3D · Web · IA · Narrativa</p>
+        </div>
+      </div>
+      <a href="#manifiesto" class="hero__scroll hero__fade" aria-label="Explorar">
+        <span class="hero__scroll-label">Explorar</span>
+        <span class="hero__scroll-pill"><span></span></span>
       </a>
     </section>
    </div>
@@ -46,7 +70,8 @@
 
   <!-- ===================== 02 MANIFIESTO ===================== -->
   <section class="manifiesto" id="manifiesto">
-    <p class="eyebrow eyebrow--line">MANIFIESTO</p>
+    <p class="sys-tag section-tag">02 / 09 — ASÍ FUNCIONA MI CABEZA</p>
+    <p class="eyebrow eyebrow--line">ASÍ FUNCIONA MI CABEZA</p>
 
     <div class="manifiesto__grid">
       <div class="manifiesto__col manifiesto__col--left">
@@ -63,6 +88,8 @@
             <h1 class="manifiesto__ver"><span class="mask"><span class="mask__inner">VER.</span></span></h1>
           </div>
         </div>
+
+        <p class="manifiesto__intro">No siempre sé dónde va a terminar una idea. A veces empieza en una imagen, a veces en una pregunta — y a veces, simplemente, en un ¿y si...?</p>
 
         <div class="point point--01">
           <span class="point__num">01</span>
@@ -107,6 +134,99 @@
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ===================== ¿Y SI...? — transición entre el manifiesto y las obsesiones ===================== -->
+  <section class="spark" aria-label="Así piensa una idea">
+    <p class="spark__line">¿Y SI...?</p>
+    <p class="spark__line">¿Y SI LO HACEMOS EN 3D?</p>
+    <p class="spark__line">¿Y SI LO ANIMAMOS?</p>
+    <p class="spark__line">¿Y SI LO PROGRAMO?</p>
+    <p class="spark__line">¿Y SI LO HACEMOS CON IA?</p>
+    <p class="spark__line spark__line--last">¿Y SI FUNCIONA?</p>
+  </section>
+
+  <!-- ===================== 03 COSAS QUE ME OBSESIONAN ===================== -->
+  <section class="obsesiones" id="obsesiones">
+    <p class="sys-tag section-tag">03 / 09 — OBSESIONES</p>
+    <p class="eyebrow eyebrow--line">OBSESIONES</p>
+    <h2>COSAS QUE ME<br>OBSESIONAN</h2>
+    <ul class="obsesiones__list">
+      <li class="obsesion obsesion--01">
+        <span class="obsesion__num">01</span>
+        <div class="obsesion__body">
+          <h3>Hacer que algo se vea bien</h3>
+          <p>Diseño visual, composición, tipografía, color, branding.</p>
+        </div>
+      </li>
+      <li class="obsesion obsesion--02">
+        <span class="obsesion__num">02</span>
+        <div class="obsesion__body">
+          <h3>Hacer que algo se sienta vivo</h3>
+          <p>3D, animación, interacción.</p>
+        </div>
+      </li>
+      <li class="obsesion obsesion--03">
+        <span class="obsesion__num">03</span>
+        <div class="obsesion__body">
+          <h3>Hacer que algo funcione</h3>
+          <p>UX, UI, HTML, CSS, JavaScript.</p>
+        </div>
+      </li>
+      <li class="obsesion obsesion--04">
+        <span class="obsesion__num">04</span>
+        <div class="obsesion__body">
+          <h3>Probar cosas que no domino</h3>
+          <p>IA, herramientas nuevas, experimentación.</p>
+        </div>
+      </li>
+      <li class="obsesion obsesion--05">
+        <span class="obsesion__num">05</span>
+        <div class="obsesion__body">
+          <h3>Contar historias</h3>
+          <p>Narrativa, personajes, conceptos, dirección creativa.</p>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ===================== 04 MIS MUCHAS PERSONALIDADES ===================== -->
+  <section class="personalidades" id="personalidades">
+    <p class="sys-tag section-tag">04 / 09 — PERSONALIDADES</p>
+    <p class="eyebrow eyebrow--line">MIS MUCHAS PERSONALIDADES</p>
+    <h2>¿QUIÉN SOY HOY?</h2>
+    <div class="personalidades__grid">
+      <article class="personalidad personalidad--01">
+        <p class="personalidad__mode sys-tag">MODE: DESIGNER</p>
+        <h3 class="personalidad__title">The Designer</h3>
+        <p class="personalidad__skills">Branding · Editorial · Tipografía · Composición</p>
+        <p class="personalidad__quote">La que puede pasar demasiado tiempo intentando decidir si algo está 2px fuera de lugar.</p>
+      </article>
+      <article class="personalidad personalidad--02">
+        <p class="personalidad__mode sys-tag">MODE: 3D ARTIST</p>
+        <h3 class="personalidad__title">The 3D Artist</h3>
+        <p class="personalidad__skills">Blender · Modelado · Texturas · Iluminación · Render</p>
+        <p class="personalidad__quote">Entro a modelar una cosa y termino construyendo medio universo.</p>
+      </article>
+      <article class="personalidad personalidad--03">
+        <p class="personalidad__mode sys-tag">MODE: DEVELOPER</p>
+        <h3 class="personalidad__title">The Developer</h3>
+        <p class="personalidad__skills">HTML · CSS · JavaScript · UX/UI</p>
+        <p class="personalidad__quote">Si funciona, no lo toques.</p>
+      </article>
+      <article class="personalidad personalidad--04">
+        <p class="personalidad__mode sys-tag">MODE: EXPERIMENTER</p>
+        <h3 class="personalidad__title">The Experimenter</h3>
+        <p class="personalidad__skills">IA · Generación · Prototipos · Nuevas herramientas</p>
+        <p class="personalidad__quote">¿Qué pasa si...?</p>
+      </article>
+      <article class="personalidad personalidad--05">
+        <p class="personalidad__mode sys-tag">MODE: ILLUSTRATOR</p>
+        <h3 class="personalidad__title">The Illustrator</h3>
+        <p class="personalidad__skills">Personajes · Concept art · Narrativa visual</p>
+        <p class="personalidad__quote">Algunas ideas simplemente necesitan ser dibujadas.</p>
+      </article>
     </div>
   </section>
 
@@ -226,12 +346,104 @@
     </div>
   </section>
 
-  <!-- ===================== 08 PROCESO ===================== -->
+  <!-- ===================== 05 ARCHIVO MACA ===================== -->
+  <section class="archivo" id="archivo">
+    <p class="sys-tag section-tag">05 / 09 — ARCHIVO</p>
+    <p class="eyebrow eyebrow--line">ARCHIVO</p>
+    <h2>ARCHIVO MACA</h2>
+    <p class="archivo__subtitle">Cosas que he creado, construido, diseñado, roto y vuelto a construir.</p>
+    <div class="archivo__grid">
+      <a class="archivo-item archivo-item--01" href="desarrollo-web.html" aria-label="Ver proyecto: Global Seguros">
+        <img src="proyectos/desarrollo-web/global-seguros-cover.jpg" alt="Global Seguros — experiencia digital para seguros educativos">
+        <div class="archivo-item__overlay">
+          <p class="archivo-item__tag sys-tag">ARCHIVE_001</p>
+          <p class="archivo-item__name">Global Seguros</p>
+          <p class="archivo-item__discipline">Web · UX · Development</p>
+          <p class="archivo-item__text">Transformar información compleja en una experiencia digital clara.</p>
+          <span class="archivo-item__cta">VER PROYECTO <span>→</span></span>
+        </div>
+      </a>
+      <a class="archivo-item archivo-item--02" href="editorial.html" aria-label="Ver proyecto: Editorial">
+        <img src="proyectos/editorial/maca-manual-marca.jpg" alt="Piezas editoriales y manual de marca">
+        <div class="archivo-item__overlay">
+          <p class="archivo-item__tag sys-tag">ARCHIVE_002</p>
+          <p class="archivo-item__name">Editorial</p>
+          <p class="archivo-item__discipline">Diseño editorial · Branding</p>
+          <p class="archivo-item__text">Catálogos y manual de marca: retícula, tipografía y jerarquía puestos a trabajar.</p>
+          <span class="archivo-item__cta">VER PROYECTO <span>→</span></span>
+        </div>
+      </a>
+      <a class="archivo-item archivo-item--03" href="3d.html" aria-label="Ver proyecto: 3D">
+        <img src="proyectos/3d/torso.png" alt="Escultura digital 3D — estudio anatómico">
+        <div class="archivo-item__overlay">
+          <p class="archivo-item__tag sys-tag">ARCHIVE_003</p>
+          <p class="archivo-item__name">3D</p>
+          <p class="archivo-item__discipline">Blender · Escultura digital</p>
+          <span class="archivo-item__cta">VER <span>→</span></span>
+        </div>
+      </a>
+      <a class="archivo-item archivo-item--04" href="ilustracion.html" aria-label="Ver proyecto: Ilustración">
+        <img src="proyectos/ilustracion/new-yorker-ilustracion.jpg" alt="Ilustración estilo New Yorker">
+        <div class="archivo-item__overlay">
+          <p class="archivo-item__tag sys-tag">ARCHIVE_004</p>
+          <p class="archivo-item__name">Ilustración</p>
+          <p class="archivo-item__discipline">Personajes · Narrativa</p>
+          <span class="archivo-item__cta">VER <span>→</span></span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===================== 06 EXPERIMENT LAB ===================== -->
+  <section class="experiment-lab" id="experiment-lab">
+    <p class="sys-tag section-tag">06 / 09 — LABORATORIO</p>
+    <p class="eyebrow eyebrow--line">LABORATORIO</p>
+    <h2>EXPERIMENT LAB</h2>
+    <p class="experiment-lab__subtitle">No todo tiene que tener una finalidad. Algunas cosas las hice porque quería saber qué pasaba.</p>
+    <div class="lab-grid">
+      <article class="lab-item">
+        <p class="lab-item__tag sys-tag">EXPERIMENT_001 · PLAYGROUND</p>
+        <div class="lab-item__frame"><img src="proyectos/3d/icon3d-birrete.jpg" alt="Ícono 3D — birrete de graduación"></div>
+        <p class="lab-item__caption">Birrete · Graduación</p>
+      </article>
+      <article class="lab-item">
+        <p class="lab-item__tag sys-tag">EXPERIMENT_002 · PLAYGROUND</p>
+        <div class="lab-item__frame"><img src="proyectos/3d/icon3d-bombilla.jpg" alt="Ícono 3D — bombilla de idea"></div>
+        <p class="lab-item__caption">Bombilla · Idea</p>
+      </article>
+      <article class="lab-item">
+        <p class="lab-item__tag sys-tag">EXPERIMENT_003 · PLAYGROUND</p>
+        <div class="lab-item__frame"><img src="proyectos/3d/icon3d-globo.jpg" alt="Ícono 3D — globo terráqueo"></div>
+        <p class="lab-item__caption">Globo · Alcance global</p>
+      </article>
+      <article class="lab-item">
+        <p class="lab-item__tag sys-tag">EXPERIMENT_004 · PLAYGROUND</p>
+        <div class="lab-item__frame"><img src="proyectos/3d/icon3d-libros.jpg" alt="Ícono 3D — pila de libros"></div>
+        <p class="lab-item__caption">Libros · Conocimiento</p>
+      </article>
+      <article class="lab-item">
+        <p class="lab-item__tag sys-tag">EXPERIMENT_005 · PLAYGROUND</p>
+        <div class="lab-item__frame"><img src="proyectos/3d/icon3d-lupa.jpg" alt="Ícono 3D — lupa"></div>
+        <p class="lab-item__caption">Lupa · Investigación</p>
+      </article>
+      <article class="lab-item lab-item--wide">
+        <div class="lab-item--wide__body">
+          <p class="lab-item__tag sys-tag">EXPERIMENT_006 · EXPERIMENTAL</p>
+          <h3>Inteligencia artificial</h3>
+          <p>Concepto, experimentación, generación y resultados — cómo uso IA dentro de un flujo real de diseño y desarrollo.</p>
+        </div>
+        <a href="inteligencia-artificial.html">VER MÁS →</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===================== 07 PROCESO ===================== -->
   <section class="proceso" id="proceso">
     <div class="proceso__left">
-      <h2>MI PROCESO<br>CREATIVO</h2>
+      <p class="sys-tag section-tag">07 / 09 — CÓMO TRABAJO</p>
+      <h2>CÓMO PASO<br>DEL CAOS A ALGO<br>QUE FUNCIONA</h2>
       <p class="eyebrow">CÓMO TRABAJO</p>
-      <p class="proceso__text">Cada proyecto es un recorrido de exploración, análisis y creación. Este es el proceso que me permite transformar ideas en piezas visuales con propósito.</p>
+      <p class="proceso__text">Cada proyecto es un recorrido de exploración, análisis y creación. Este es el proceso que me permite transformar ideas en piezas con propósito.</p>
     </div>
 
     <div class="proceso__figure">
@@ -248,7 +460,7 @@
         </span>
         <span class="step__num">01</span>
         <div class="step__body">
-          <h3>Investigar</h3>
+          <h3>Observar</h3>
           <p>Referencias, contexto y necesidades reales antes de dibujar nada.</p>
         </div>
       </div>
@@ -258,28 +470,28 @@
         </span>
         <span class="step__num">02</span>
         <div class="step__body">
-          <h3>Conceptualizar</h3>
+          <h3>Imaginar</h3>
           <p>De la idea dispersa a un concepto claro que sostiene todo lo demás.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M9 3v4M15 3v4M6 8h12l-1 12a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 8Z" fill="none" stroke="currentColor"/></svg>
+        </span>
+        <span class="step__num">03</span>
+        <div class="step__body">
+          <h3>Experimentar</h3>
+          <p>Pruebo materiales, referencias y direcciones antes de decidir un camino.</p>
         </div>
       </div>
       <div class="step">
         <span class="step__icon" aria-hidden="true">
           <svg viewBox="0 0 24 24"><path d="M4 20l1-4L16 5l3 3L8 19l-4 1Z" fill="none" stroke="currentColor"/></svg>
         </span>
-        <span class="step__num">03</span>
-        <div class="step__body">
-          <h3>Diseñar</h3>
-          <p>Composición, tipografía y color trabajando juntos por una misma idea.</p>
-        </div>
-      </div>
-      <div class="step">
-        <span class="step__icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M8 8l-5 4 5 4M16 8l5 4-5 4" fill="none" stroke="currentColor"/></svg>
-        </span>
         <span class="step__num">04</span>
         <div class="step__body">
-          <h3>Desarrollar</h3>
-          <p>Construye la pieza para que funcione tan bien como se ve.</p>
+          <h3>Construir</h3>
+          <p>Composición, tipografía, modelado o código — lo que la pieza necesite para funcionar.</p>
         </div>
       </div>
       <div class="step">
@@ -292,6 +504,16 @@
           <p>Reviso, ajusto y pulo hasta que cada detalle esté intencionado.</p>
         </div>
       </div>
+      <div class="step">
+        <span class="step__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M3 11l18-8-8 18-2.5-7L3 11Z" fill="none" stroke="currentColor"/></svg>
+        </span>
+        <span class="step__num">06</span>
+        <div class="step__body">
+          <h3>Entregar</h3>
+          <p>Preparo la pieza para el mundo real: exportar, publicar, convertirla en algo usable.</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -301,12 +523,12 @@
       <img src="assets/foto-perfil.png" alt="Foto de María Camila Ortiz">
     </div>
     <div class="sobre-mi__content">
-      <h2>MARÍA CAMILA<br>ORTIZ</h2>
+      <p class="sys-tag section-tag">08 / 09 — OK. AHORA SÍ. YO.</p>
+      <h2>OK.<br>AHORA SÍ.<br>YO.</h2>
       <p class="eyebrow">ESTUDIANTE DE CREACIÓN DIGITAL</p>
-      <p>Soy estudiante de Creación Digital interesada en explorar la relación entre diseño, tecnología y narrativa.</p>
-      <p>Me gusta transformar ideas en experiencias visuales y digitales, experimentando con diferentes herramientas y lenguajes creativos.</p>
-      <p>Mi formación me ha permitido desarrollar habilidades en diseño digital, desarrollo web, modelado 3D, contenido multimedia y experimentación con nuevas tecnologías.</p>
-      <p>Actualmente continuo construyendo mi perfil creativo y técnico a través de proyectos académicos y personales, buscando aprender, experimentar y convertir conceptos en experiencias digitales.</p>
+      <p>Soy María Camila, aunque dentro de este pequeño universo probablemente me encuentres como MACA.</p>
+      <p>Estudio Creación Digital y me gusta moverme entre disciplinas que, a primera vista, parecen no tener mucho que ver: diseño una identidad, modelo algo en 3D, programo una web, experimento con IA, dibujo — y después intento descubrir cómo hacer que todo eso tenga sentido.</p>
+      <p>Todavía estoy descubriendo exactamente qué quiero hacer. Pero sí sé algo: no quiero crear siempre de la misma manera.</p>
       <a href="#contacto" class="btn-dark">HABLEMOS</a>
     </div>
   </section>
@@ -314,10 +536,10 @@
   <!-- ===================== 10 CONTACTO ===================== -->
   <section class="contacto" id="contacto">
     <div class="contacto__content">
-      <p class="eyebrow">HABLEMOS</p>
-      <h2>TRABAJEMOS<br>JUNTOS</h2>
-      <p class="contacto__subtitle">IDEAS QUE COBRAN VIDA</p>
-      <p class="contacto__text">Si tienes un proyecto, una idea o simplemente quieres saludar, este es el lugar. Cuéntame un poco sobre lo que tienes en mente y te responderé lo antes posible.</p>
+      <p class="sys-tag section-tag">09 / 09 — ¿QUÉ HACEMOS AHORA?</p>
+      <p class="eyebrow">BUENO...</p>
+      <h2>¿QUÉ HACEMOS<br>AHORA?</h2>
+      <p class="contacto__text">Ya viste un poco de lo que pasa dentro de MACA. Ahora quiero saber qué pasa dentro de tu proyecto.</p>
 
       <div class="contacto__form-wrap" id="formWrap">
       <form id="contactForm" class="contacto__form" action="https://formspree.io/f/mrpgppbr" method="POST" novalidate>
@@ -370,6 +592,11 @@
         <p>Gracias por escribir. Te responderé lo antes posible a tu correo.</p>
       </div>
       </div>
+
+      <div class="contacto__closing">
+        <a href="#archivo" class="contacto__secondary-cta"><span class="circle-arrow">→</span> VER PROYECTOS</a>
+        <p class="sys-tag">MACA.OS — END OF EXPERIENCE. OR MAYBE NOT.</p>
+      </div>
     </div>
 
     <img class="contacto__figure" src="assets/personaje-contacto.png" alt="María Camila Ortiz sonriendo">
@@ -380,6 +607,31 @@
 
 </main>
 
-<script src="js/main.js?v=17"></script>
+<footer class="site-footer">
+  <div class="site-footer__brand">
+    <p class="site-footer__logo">MACA</p>
+    <p class="site-footer__meta">MARÍA CAMILA ORTIZ — CREACIÓN DIGITAL</p>
+    <p class="site-footer__meta">Bogotá, Colombia</p>
+  </div>
+  <div class="site-footer__links">
+    <a href="https://github.com/camilaortiz962" target="_blank" rel="noopener">GitHub</a>
+    <a href="mailto:mariacamilaortizherrera@gmail.com">Correo</a>
+  </div>
+  <button type="button" class="site-footer__tag sys-tag" id="systemStatusToggle" aria-expanded="false" aria-controls="systemStatusPanel">
+    <span class="sys-tag__dot"></span>MACA.OS — SYSTEM STANDBY
+  </button>
+  <div class="system-status" id="systemStatusPanel" hidden>
+    <p>CREATIVITY ........ ONLINE</p>
+    <p>IDEAS ............. TOO MANY</p>
+    <p>SLEEP ............. OFFLINE</p>
+    <p>COFFEE ............ REQUIRED</p>
+    <p>JAVASCRIPT ........ SOMETIMES</p>
+    <p>BLENDER ........... DANGEROUS</p>
+  </div>
+</footer>
+
+<p class="easter-toast" id="easterToast" role="status" aria-live="polite">404: PERSONALITY FOUND</p>
+
+<script src="js/main.js?v=22"></script>
 </body>
 </html>

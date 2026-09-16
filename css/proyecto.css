@@ -52,6 +52,11 @@
 .proyecto-hero__text{
   font-size:1rem; line-height:1.75; color:var(--muted); max-width:560px;
 }
+.proyecto-hero__direction{
+  margin-top:1rem;
+  font-family:var(--sans-alt); font-size:.72rem; font-weight:600;
+  letter-spacing:.1em; color:var(--cream-soft);
+}
 
 /* one gallery "block" per sub-project inside a category (e.g. each
    catalog, each poster set) — a small heading followed by its own
