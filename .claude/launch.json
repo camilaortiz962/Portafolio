@@ -4,8 +4,12 @@
     {
       "name": "portafolio",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "5500"],
-      "port": 5500
+      "runtimeArgs": [
+        "-c",
+        "import http.server, os, socketserver; PORT=int(os.environ.get('PORT', 5500)); Handler=http.server.SimpleHTTPRequestHandler; socketserver.TCPServer.allow_reuse_address=True; httpd=socketserver.TCPServer(('', PORT), Handler); httpd.serve_forever()"
+      ],
+      "port": 5500,
+      "autoPort": true
     }
   ]
 }

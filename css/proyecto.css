@@ -98,6 +98,24 @@
   background:#0d0b09;
   border:1px solid rgba(255,255,255,.07);
 }
+/* an <a> instead of a <figure> when the piece links out (e.g. a live
+   site) — needs display:block since <a> is inline by default, plus a
+   visible affordance that it's clickable, not just a static image */
+.proyecto-item--link{ display:block; }
+.proyecto-item--link::after{
+  content:"Ver sitio en vivo →";
+  position:absolute; inset:auto 0 0 0;
+  padding:.9rem 1.2rem;
+  font-family:var(--sans-alt); font-size:.68rem; font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase;
+  color:var(--cream);
+  background:linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,0));
+  opacity:0; transform:translateY(8px);
+  transition:opacity .3s var(--ease), transform .3s var(--ease);
+  pointer-events:none;
+}
+.proyecto-item--link:hover::after,
+.proyecto-item--link:focus-visible::after{ opacity:1; transform:none; }
 .proyecto-item img,
 .proyecto-item video{
   width:100%; height:auto; display:block;
