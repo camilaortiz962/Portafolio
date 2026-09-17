@@ -278,6 +278,11 @@ section{ position:relative; width:100%; }
   gap:2rem;
   opacity:0;
   animation:fadeUp .9s var(--ease) 2.05s both;
+  /* between ~561-900px the stacked (column) layout below widens the text
+     enough that its last word can graze the centered photo's edge — a
+     shadow keeps it legible against the photo without having to fight the
+     centered figure for horizontal space */
+  text-shadow:0 2px 10px rgba(0,0,0,.6);
 }
 .hero__headline{
   font-family:var(--serif);
@@ -735,6 +740,20 @@ section{ position:relative; width:100%; }
 }
 .obsesion--05:hover .obsesion__body h3{ background-size:100% 2px; }
 
+/* Desktop only: each row's text tops out at 480px (.obsesion__body p) inside
+   a row that runs the full section width (1100px+), leaving roughly the
+   right half of every line empty — pairing rows into a 2-column grid uses
+   that space instead of just widening the text. Tablet/mobile keep the
+   single stacked column since the text alone already fills the narrower
+   width there. */
+@media (min-width: 1101px){
+  .obsesiones__list{
+    display:grid; grid-template-columns:1fr 1fr; column-gap:4rem;
+    border-top:none;
+  }
+  .obsesion{ border-top:1px solid var(--line); border-bottom:none; }
+}
+
 /* ============================================================ 04 PERSONALIDADES */
 .personalidades{ padding: 12vh var(--content-x) 4vh; }
 .personalidades h2{
@@ -803,6 +822,10 @@ section{ position:relative; width:100%; }
   display:flex; flex-direction:column; justify-content:flex-end;
   padding:1.5rem;
 }
+.archivo-item__name,
+.archivo-item__discipline,
+.archivo-item__text,
+.archivo-item__cta{ text-shadow:0 1px 8px rgba(0,0,0,.5); }
 .archivo-item__name{
   font-family:var(--serif-alt);
   font-size:1.25rem;
@@ -1418,6 +1441,18 @@ section{ position:relative; width:100%; }
   .archivo-item--02,
   .archivo-item--03,
   .archivo-item--04{ grid-column:1/2; grid-row:auto; }
+  /* stacked single-column cards are short (60vw tall) relative to how much
+     overlay text items 01/02 carry (tag+title+discipline+description+cta) —
+     the original gradient only stayed fully dark up to ~55% of the card,
+     so the description sat over the faded zone and the project image's own
+     text/detail showed through underneath it, reading as garbled double
+     text. Dropping the description here (still on the project's own page)
+     and darkening the gradient further up keeps the remaining lines legible
+     against any image. */
+  .archivo-item__overlay{
+    background:linear-gradient(to top, rgba(0,0,0,.92) 45%, rgba(0,0,0,.55) 80%, rgba(0,0,0,.15) 100%);
+  }
+  .archivo-item__text{ display:none; }
 
   .lab-grid{ grid-template-columns:repeat(2, 1fr); }
   .lab-item--wide{ flex-direction:column; align-items:flex-start; }
