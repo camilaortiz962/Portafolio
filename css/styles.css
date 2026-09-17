@@ -511,11 +511,21 @@ section{ position:relative; width:100%; }
   max-width:230px;
 }
 
-/* the intro paragraph (reinstated, shorter than the original) ends around
-   38% of the column height — 41%/65% clears it with a small gap while
-   keeping the original 24-percentage-point rhythm between the two points */
-.point--01{ top:41%; }
-.point--02{ top:65%; }
+/* points 01/02 used to sit at a fixed top:% of the column, tuned so the
+   intro paragraph (which ends around 38% of the column on one reference
+   viewport) would clear point--01 at 41% with a small gap — but that gap
+   is only ever correct at that one viewport height. On any wider-but-
+   shorter desktop screen the intro's actual pixel height barely changes
+   (its width is capped at 320px) while the column's 100%-tall reference
+   shrinks, so the fixed 41% mark ends up above the intro's real bottom and
+   the two overlap (reported on a real desktop screen). Flowing 01/02
+   normally right after the intro removes the viewport-height dependency
+   entirely — they can never land on top of text that comes before them.
+   03-05 (.manifiesto__col--right) have no preceding sibling content, so
+   their original floating top:% positions are unaffected and unchanged. */
+.manifiesto__col--left .point{ position:relative; top:auto; left:auto; }
+.point--01{ margin-top:3.5rem; }
+.point--02{ margin-top:3rem; }
 
 .point--03{ top:12%; }
 .point--04{ top:40%; }
