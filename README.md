@@ -220,32 +220,6 @@ Colección de proyectos enfocados en explorar diferentes formas de comunicación
 
 </div>
 
-```text
-              ┌───────────────┐
-              │     IDEA      │
-              └───────┬───────┘
-                      ↓
-              ┌───────────────┐
-              │ INVESTIGACIÓN │
-              └───────┬───────┘
-                      ↓
-              ┌───────────────┐
-              │    DISEÑO     │
-              └───────┬───────┘
-                      ↓
-              ┌───────────────┐
-              │  DESARROLLO   │
-              └───────┬───────┘
-                      ↓
-              ┌───────────────┐
-              │    PRUEBAS    │
-              └───────┬───────┘
-                      ↓
-              ┌───────────────┐
-              │  EXPERIENCIA  │
-              └───────────────┘
-```
-
 <br>
 
 ## ◈ MISIÓN ACTUAL
