@@ -425,7 +425,7 @@ section{ position:relative; width:100%; }
 .manifiesto__col--left{ left:5%; top:0; height:100%; }
 .manifiesto__col--right{ right:5%; top:0; height:100%; }
 
-.manifiesto__headline{ margin-bottom: 2.6rem; }
+.manifiesto__headline{ margin-bottom: 1.8rem; }
 .manifiesto__pre{
   font-family:var(--sans-alt);
   font-size:.72rem;
@@ -521,11 +521,16 @@ section{ position:relative; width:100%; }
    the two overlap (reported on a real desktop screen). Flowing 01/02
    normally right after the intro removes the viewport-height dependency
    entirely — they can never land on top of text that comes before them.
-   03-05 (.manifiesto__col--right) have no preceding sibling content, so
-   their original floating top:% positions are unaffected and unchanged. */
+   The column itself still has a fixed height (100% of the pinned 100vh
+   hero, clipped by .hero-pin's overflow:hidden), so the margins here are
+   kept tight — generous spacing between the two points pushed point--02's
+   last line past that fixed height and off the bottom edge on a real
+   desktop screen (reported with a screenshot). 03-05
+   (.manifiesto__col--right) have no preceding sibling content, so their
+   original floating top:% positions are unaffected and unchanged. */
 .manifiesto__col--left .point{ position:relative; top:auto; left:auto; }
-.point--01{ margin-top:3.5rem; }
-.point--02{ margin-top:3rem; }
+.point--01{ margin-top:1.6rem; }
+.point--02{ margin-top:1.4rem; }
 
 .point--03{ top:12%; }
 .point--04{ top:40%; }
