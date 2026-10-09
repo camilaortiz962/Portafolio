@@ -212,6 +212,79 @@ section{ position:relative; width:100%; }
   .sys-tag__dot{ animation:none; opacity:1; }
 }
 
+/* ============================================================ LOADER / PAGE TRANSITIONS
+   One full-screen curtain (#loader, in every page) does three jobs, all
+   driven by js/main.js · initLoader:
+   - first load: MACA + a real 000→100 counter, then it lifts upward;
+   - leaving to another page: it slides down over the page with the
+     destination's name, then the browser navigates;
+   - arriving through it: it starts closed with that name and lifts.
+   html.is-loading (set by an inline script in <head>, before first paint)
+   keeps it closed, locks the scroll and holds the hero's entrance
+   animations so they play only once the curtain is gone. */
+.loader{
+  position:fixed; inset:0; z-index:2000;
+  background:#050505; color:var(--cream);
+  display:flex; align-items:center; justify-content:center;
+  transform:translateY(-100%); visibility:hidden;
+  transition:transform .95s cubic-bezier(.76,0,.24,1), visibility 0s linear .95s;
+  will-change:transform;
+}
+html.is-loading .loader,
+.loader.is-covering{
+  transform:none; visibility:visible;
+  transition:transform .8s cubic-bezier(.76,0,.24,1), visibility 0s;
+}
+/* a leaving curtain enters from below, so it doesn't run its exit path backwards */
+.loader.is-from-below{ transform:translateY(100%); visibility:visible; transition:none; }
+html.is-loading, html.is-loading body{ overflow:hidden; }
+
+.loader__inner{ width:min(520px, 80vw); display:flex; flex-direction:column; align-items:center; }
+.loader__brand{
+  font-family:var(--serif); font-weight:800;
+  font-size:clamp(3.6rem, 11vw, 8.5rem); line-height:1; letter-spacing:.02em;
+  margin:0;
+  animation:loaderBrand 1.1s var(--ease) both;
+}
+@keyframes loaderBrand{
+  from{ opacity:0; transform:translateY(24px); letter-spacing:.12em; }
+  to{ opacity:1; transform:none; letter-spacing:.02em; }
+}
+.loader__dest{
+  display:none; margin:0;
+  font-family:var(--serif); font-weight:800; text-transform:uppercase;
+  font-size:clamp(2.6rem, 8vw, 6.5rem); line-height:1; text-align:center;
+}
+.loader__meta{
+  width:100%; margin-top:2.2rem;
+  display:flex; justify-content:space-between; align-items:center;
+  font-family:var(--mono); font-size:.68rem; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted-dim); font-variant-numeric:tabular-nums;
+}
+.loader__label{ display:inline-flex; align-items:center; gap:.6rem; }
+.loader__pct{ color:var(--cream); }
+.loader__bar{ width:100%; height:1px; margin-top:.9rem; background:rgba(239,230,218,.15); overflow:hidden; }
+.loader__bar span{ display:block; height:100%; width:100%; background:var(--cream); transform-origin:0 50%; transform:scaleX(0); }
+
+/* transition mode (leaving or arriving): destination name, no counter */
+.loader.is-transition .loader__brand,
+.loader.is-transition .loader__pct,
+.loader.is-transition .loader__bar{ display:none; }
+.loader.is-transition .loader__dest{ display:block; }
+.loader.is-transition .loader__meta{ justify-content:center; margin-top:1.6rem; }
+
+/* hold the home hero's entrance until the curtain lifts */
+html.is-loading .nav,
+html.is-loading .hero,
+html.is-loading .hero *{ animation-play-state:paused !important; }
+
+@media (prefers-reduced-motion: reduce){
+  .loader, html.is-loading .loader, .loader.is-covering{ transform:none; transition:opacity .3s ease, visibility 0s linear .3s; }
+  .loader{ opacity:0; }
+  html.is-loading .loader, .loader.is-covering{ opacity:1; transition:opacity .3s ease, visibility 0s; }
+  .loader.is-from-below{ transform:none; opacity:0; }
+}
+
 /* ============================================================ 01 HERO */
 /* Scroll-driven handoff into the Manifiesto below: .hero-scroll holds
    extra scroll distance, .hero-pin keeps the hero pinned via
@@ -244,7 +317,7 @@ section{ position:relative; width:100%; }
    pinned Manifiesto paints above her; its system tag gets the same 5%
    side margin as the eyebrow instead of hugging the window edge */
 .personaje-travel .hero-pin .manifiesto{ z-index:3; }
-.hero-pin .manifiesto > .section-tag{ margin:0 5% .6rem; }
+.manifiesto > .section-tag{ margin:0 5% .6rem; }
 .hero-pin .manifiesto__figure{ display:none; }
 
 .hero{
@@ -430,6 +503,9 @@ section{ position:relative; width:100%; }
   .hero__scrim{ display:none; }
 }
 .nav{ opacity:0; animation:fadeDown .8s var(--ease) 1.5s both; }
+/* project pages have no hero entrance to wait for: the menu follows the
+   loader curtain right away */
+.proyecto-page .nav{ animation-delay:.25s; }
 @keyframes fadeDown{
   from{ opacity:0; transform:translateY(-10px); }
   to{ opacity:1; transform:translateY(0); }
@@ -495,7 +571,18 @@ section{ position:relative; width:100%; }
   color:var(--muted);
   margin-bottom:.6rem;
 }
-.manifiesto__row{ display:flex; align-items:flex-end; gap: 1.2vw; }
+/* CREAR on its own line, then "también es / una forma de" + VER. side by
+   side underneath — reads as one sentence and never spills past its
+   column toward the character (VER. used to float on its own beside it).
+   display:contents lets CREAR and the caps join the grid directly. */
+.manifiesto__row{
+  display:grid; grid-template-columns:auto auto;
+  justify-content:start; align-items:end;
+  column-gap:1rem; row-gap:.35rem;
+}
+.manifiesto__crear{ display:contents; }
+.manifiesto__crear h1{ grid-column:1 / -1; }
+.manifiesto__caps{ margin-top:0; padding-bottom:.55em; text-align:right; }
 .manifiesto__crear h1{
   font-family:var(--serif);
   font-weight:800;
@@ -573,30 +660,26 @@ section{ position:relative; width:100%; }
   max-width:230px;
 }
 
-/* points 01/02 used to sit at a fixed top:% of the column, tuned so the
-   intro paragraph (which ends around 38% of the column on one reference
-   viewport) would clear point--01 at 41% with a small gap — but that gap
-   is only ever correct at that one viewport height. On any wider-but-
-   shorter desktop screen the intro's actual pixel height barely changes
-   (its width is capped at 320px) while the column's 100%-tall reference
-   shrinks, so the fixed 41% mark ends up above the intro's real bottom and
-   the two overlap (reported on a real desktop screen). Flowing 01/02
-   normally right after the intro removes the viewport-height dependency
-   entirely — they can never land on top of text that comes before them.
-   The column itself still has a fixed height (100% of the pinned 100vh
-   hero, clipped by .hero-pin's overflow:hidden), so the margins here are
-   kept tight — generous spacing between the two points pushed point--02's
-   last line past that fixed height and off the bottom edge on a real
-   desktop screen (reported with a screenshot). 03-05
-   (.manifiesto__col--right) have no preceding sibling content, so their
-   original floating top:% positions are unaffected and unchanged. */
-.manifiesto__col--left .point{ position:relative; top:auto; left:auto; }
-.point--01{ margin-top:1.6rem; }
-.point--02{ margin-top:1.4rem; }
-
-.point--03{ top:12%; }
-.point--04{ top:40%; }
-.point--05{ top:70%; }
+/* Layout (desktop): headline + intro on the left, the five principles as
+   one evenly spaced list on the right, the character in the middle.
+   The points used to be split 01-02 under the intro and 03-05 floating at
+   fixed top:% marks on the right — the left column ran out of height on
+   short screens while the right one had big uneven gaps. One flowing
+   flex list can't overlap itself at any height; its gap scales with the
+   viewport height so all five fit in the pinned 100vh. */
+.manifiesto__col .point{ position:relative; top:auto; left:auto; }
+.manifiesto__col--right{
+  display:flex; flex-direction:column; justify-content:flex-start;
+  /* starts level with "MI MANERA DE" on the left */
+  padding-top:.2rem;
+  gap:clamp(.7rem, 2.6vh, 2rem);
+}
+@media (min-width: 1101px){
+  .manifiesto__col--right{ width:28%; }
+  .manifiesto__col--right .point__num{ font-size:clamp(1.6rem, 3vw, 2.6rem); }
+  .manifiesto__col--right .point__body h3{ margin-bottom:.4rem; }
+  .manifiesto__col--right .point__body p{ max-width:290px; line-height:1.5; }
+}
 
 /* ============================================================ 03-07 CATEGORÍAS — scroll horizontal */
 /* Vertical scroll drives horizontal movement: .categorias holds the extra
@@ -1035,68 +1118,7 @@ body.rotonde-detail-open{ overflow:hidden; }
   margin-top:auto; padding-top:1rem; border-top:1px solid var(--line);
 }
 
-/* ============================================================ 05 ARCHIVO MACA */
-.archivo{ padding: 12vh var(--content-x) 4vh; }
-.archivo h2{
-  font-family:var(--serif);
-  font-weight:800;
-  font-size:clamp(2rem, 5vw, 3.6rem);
-  color:var(--cream);
-  margin:1.4rem 0 .8rem;
-}
-.archivo__subtitle{ font-size:.95rem; color:var(--muted); max-width:520px; }
-.archivo__grid{
-  margin-top:5vh;
-  display:grid;
-  grid-template-columns:repeat(4, 1fr);
-  grid-auto-rows:230px;
-  gap:1.2rem;
-}
-.archivo-item{
-  position:relative; display:block; overflow:hidden;
-  border-radius:2px; color:inherit;
-}
-.archivo-item img{
-  position:absolute; inset:0; width:100%; height:100%;
-  object-fit:cover; transition:transform .6s var(--ease);
-}
-.archivo-item:hover img{ transform:scale(1.05); }
-.archivo-item__overlay{
-  position:absolute; inset:0; z-index:1;
-  background:linear-gradient(to top, rgba(0,0,0,.88) 8%, rgba(0,0,0,.2) 55%, rgba(0,0,0,0) 80%);
-  display:flex; flex-direction:column; justify-content:flex-end;
-  padding:1.5rem;
-}
-.archivo-item__name,
-.archivo-item__discipline,
-.archivo-item__text,
-.archivo-item__cta{ text-shadow:0 1px 8px rgba(0,0,0,.5); }
-.archivo-item__name{
-  font-family:var(--serif-alt);
-  font-size:1.25rem;
-  color:var(--cream);
-  text-transform:uppercase;
-  margin-top:.5rem;
-}
-.archivo-item__discipline{
-  font-size:.62rem; letter-spacing:.14em; text-transform:uppercase;
-  color:var(--muted); margin:.4rem 0 .6rem;
-}
-.archivo-item__text{ font-size:.78rem; color:var(--cream-soft); max-width:30ch; line-height:1.5; margin-bottom:.8rem; }
-.archivo-item__cta{
-  font-size:.66rem; letter-spacing:.14em; font-weight:700; color:var(--cream);
-  display:inline-flex; align-items:center; gap:.5rem;
-}
-.archivo-item__cta span{ transition:transform .3s var(--ease); }
-.archivo-item:hover .archivo-item__cta span{ transform:translateX(4px); }
-
-.archivo-item--01{ grid-column:1/3; grid-row:1/3; }
-.archivo-item--02{ grid-column:3/5; grid-row:1/2; }
-.archivo-item--03{ grid-column:3/4; grid-row:2/3; }
-.archivo-item--04{ grid-column:4/5; grid-row:2/3; }
-.archivo-item--01 .archivo-item__name{ font-size:clamp(1.7rem, 2.6vw, 2.3rem); }
-
-/* ============================================================ 06 EXPERIMENT LAB */
+/* ============================================================ 05 EXPERIMENT LAB */
 .experiment-lab{ padding: 12vh var(--content-x) 12vh; }
 .experiment-lab h2{
   font-family:var(--serif);
@@ -1309,7 +1331,22 @@ body.rotonde-detail-open{ overflow:hidden; }
   position:relative;
   overflow:hidden;
 }
+/* Two columns on desktop: the invitation (title, text, closing) on the
+   left, the form on the right with room to breathe. It used to be one
+   640px column with the character illustration filling the right half;
+   without her, the form takes that space instead of leaving it empty. */
 .contacto__content{ position:relative; z-index:2; max-width:640px; }
+@media (min-width: 901px){
+  .contacto{ display:flex; align-items:center; padding:12vh var(--content-x) 10vh; }
+  .contacto__content{
+    max-width:1240px; width:100%; margin:0 auto;
+    display:grid; grid-template-columns:minmax(0, 5fr) minmax(0, 7fr);
+    column-gap:clamp(3rem, 7vw, 8rem); align-items:center;
+  }
+  .contacto__form .field textarea{ min-height:190px; }
+  .contacto__form{ max-width:none; }
+  .contacto__text{ margin-bottom:2rem; }
+}
 .contacto .eyebrow{ font-family:var(--sans-alt2); font-weight:600; }
 .contacto__content h2{
   font-family:var(--serif);
@@ -1449,19 +1486,8 @@ body.rotonde-detail-open{ overflow:hidden; }
 }
 .contacto__secondary-cta:hover .circle-arrow{ background:var(--cream); color:#000; transform:translateX(4px); }
 
-.contacto__figure{
-  position:absolute; right:4%; bottom:0;
-  height:100%; width:auto; max-width:46%;
-  object-fit:contain; object-position:bottom;
-  z-index:1;
-  opacity:0; transform:translateY(30px);
-  transition:opacity 1s var(--ease) .1s, transform 1s var(--ease) .1s;
-}
-.contacto__figure.is-visible{ opacity:1; transform:none; }
-.contacto__list{
-  position:absolute; right:4%; bottom:6%; z-index:2;
-  text-align:right; display:flex; flex-direction:column; gap:.35rem;
-}
+/* IDEAS · PROYECTOS · COLABORACIONES — a quiet row under the intro text */
+.contacto__list{ display:flex; flex-wrap:wrap; gap:.6rem 1.6rem; margin-bottom:.4rem; }
 .contacto__list span{ font-size:.72rem; letter-spacing:.12em; color:var(--muted); }
 
 /* ============================================================ FOOTER */
@@ -1491,21 +1517,6 @@ body.rotonde-detail-open{ overflow:hidden; }
   transition:color .25s ease;
 }
 .site-footer__links a:hover{ color:var(--cream); }
-.site-footer__tag{
-  width:100%; margin-top:1.6rem;
-  background:none; border:none; padding:0; cursor:pointer;
-  justify-content:flex-start;
-}
-.system-status{
-  margin-top:1rem;
-  border:1px dashed var(--line);
-  padding:1rem 1.2rem;
-  display:flex; flex-direction:column; gap:.35rem;
-}
-.system-status p{
-  font-family:var(--mono); font-size:.66rem; letter-spacing:.04em;
-  color:var(--muted);
-}
 
 /* nav-logo easter egg toast — fixed so it stays put regardless of scroll
    position, since clicking the logo also navigates to #inicio */
@@ -1590,17 +1601,15 @@ body.rotonde-detail-open{ overflow:hidden; }
   .sobre-mi{ grid-template-columns:1fr; gap:2.5rem; }
   .sobre-mi__frame{ max-width:360px; margin:0 auto; }
 
-  .contacto__figure{ display:none; }
-  .contacto__list{ position:static; text-align:left; margin-top:3rem; flex-direction:row; gap:1.6rem; }
+  /* phones/tablets: invitation → form → "ver proyectos" + sign-off, so
+     the first thing after the text is the form itself */
+  .contacto__content{ display:flex; flex-direction:column; }
+  .contacto__intro{ display:contents; }
+  .contacto__main{ order:1; }
+  .contacto__closing{ order:2; margin-top:3rem; }
 
   .personalidades__grid{ grid-template-columns:repeat(2, 1fr); }
   .personalidad--01{ grid-column:span 2; }
-
-  .archivo__grid{ grid-template-columns:repeat(2, 1fr); grid-auto-rows:260px; }
-  .archivo-item--01{ grid-column:1/3; grid-row:1/2; }
-  .archivo-item--02{ grid-column:1/3; grid-row:2/3; }
-  .archivo-item--03{ grid-column:1/2; grid-row:3/4; }
-  .archivo-item--04{ grid-column:2/3; grid-row:3/4; }
 
   .lab-grid{ grid-template-columns:repeat(3, 1fr); }
 }
@@ -1687,24 +1696,6 @@ body.rotonde-detail-open{ overflow:hidden; }
 
   .personalidades__grid{ grid-template-columns:1fr; }
   .personalidad--01{ grid-column:auto; }
-
-  .archivo__grid{ grid-template-columns:1fr; grid-auto-rows:60vw; }
-  .archivo-item--01,
-  .archivo-item--02,
-  .archivo-item--03,
-  .archivo-item--04{ grid-column:1/2; grid-row:auto; }
-  /* stacked single-column cards are short (60vw tall) relative to how much
-     overlay text items 01/02 carry (tag+title+discipline+description+cta) —
-     the original gradient only stayed fully dark up to ~55% of the card,
-     so the description sat over the faded zone and the project image's own
-     text/detail showed through underneath it, reading as garbled double
-     text. Dropping the description here (still on the project's own page)
-     and darkening the gradient further up keeps the remaining lines legible
-     against any image. */
-  .archivo-item__overlay{
-    background:linear-gradient(to top, rgba(0,0,0,.92) 45%, rgba(0,0,0,.55) 80%, rgba(0,0,0,.15) 100%);
-  }
-  .archivo-item__text{ display:none; }
 
   .lab-grid{ grid-template-columns:repeat(2, 1fr); }
   .lab-item--wide{ flex-direction:column; align-items:flex-start; }

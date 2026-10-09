@@ -14,10 +14,35 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=DM+Serif+Display:ital@0;1&family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600&family=Quicksand:wght@500;600&family=Alex+Brush&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=36">
+<script>
+  /* loader: shown from the very first paint (no flash of the page before
+     it). "is-arriving" = we came from another page of the site through the
+     curtain, so it opens with the destination's name instead of the full
+     loading counter. js/main.js (initLoader) takes it from here. */
+  (function () {
+    var h = document.documentElement;
+    h.classList.add('is-loading');
+    try { if (sessionStorage.getItem('maca:arrive')) h.classList.add('is-arriving'); } catch (e) {}
+  })();
+</script>
+<noscript><style>.loader{ display:none !important; }</style></noscript>
+<link rel="stylesheet" href="css/styles.css?v=45">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23000'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-weight='700' font-size='34' fill='%23f5e7d8' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
 </head>
 <body>
+
+<!-- ===================== PANTALLA DE CARGA / TRANSICIÓN ===================== -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__inner">
+    <p class="loader__brand">MACA</p>
+    <p class="loader__dest" data-loader-dest></p>
+    <div class="loader__meta">
+      <span class="loader__label"><span class="sys-tag__dot"></span><span data-loader-label>MACA.OS — CARGANDO</span></span>
+      <span class="loader__pct" data-loader-pct>000</span>
+    </div>
+    <div class="loader__bar"><span data-loader-bar></span></div>
+  </div>
+</div>
 
 <!-- ===================== NAV ===================== -->
 <header class="nav" id="nav">
@@ -28,7 +53,7 @@
     </div>
     <nav class="nav__links" id="navLinks">
       <a href="#inicio">Entrar</a>
-      <a href="#archivo">Archivo</a>
+      <a href="#proyectos">Proyectos</a>
       <a href="#experiment-lab">Experimentos</a>
       <a href="#sobre-mi">Sobre mí</a>
       <a href="#contacto">Contacto</a>
@@ -45,7 +70,7 @@
   <div class="hero-scroll">
    <div class="hero-pin">
     <section class="hero" id="inicio">
-      <p class="hero__tag sys-tag hero__fade"><span class="sys-tag__dot"></span>01 / 09 — ENTRAR</p>
+      <p class="hero__tag sys-tag hero__fade"><span class="sys-tag__dot"></span>01 / 08 — ENTRAR</p>
       <div class="hero__wordmark" aria-hidden="true">MACA</div>
       <!-- personaje animado: secuencia de fotogramas que avanza con el scroll
            y acompaña al visitante hasta Obsesiones (js/main.js · initPersonaje) -->
@@ -75,7 +100,7 @@
 
   <!-- ===================== 02 MANIFIESTO ===================== -->
   <section class="manifiesto" id="manifiesto">
-    <p class="sys-tag section-tag">02 / 09 — ASÍ FUNCIONA MI CABEZA</p>
+    <p class="sys-tag section-tag">02 / 08 — ASÍ FUNCIONA MI CABEZA</p>
     <p class="eyebrow eyebrow--line">ASÍ FUNCIONA MI CABEZA</p>
 
     <div class="manifiesto__grid">
@@ -96,6 +121,13 @@
 
         <p class="manifiesto__intro">No siempre sé dónde va a terminar una idea. A veces empieza en una imagen, a veces en una pregunta — y a veces, simplemente, en un ¿y si...?</p>
 
+      </div>
+
+      <div class="manifiesto__figure">
+        <img src="assets/personaje-hero.png" alt="María Camila Ortiz de pie">
+      </div>
+
+      <div class="manifiesto__col manifiesto__col--right">
         <div class="point point--01">
           <span class="point__num">01</span>
           <div class="point__body">
@@ -110,13 +142,6 @@
             <p>Cada decisión tiene un propósito. Diseño para comunicar, conectar y generar un impacto real.</p>
           </div>
         </div>
-      </div>
-
-      <div class="manifiesto__figure">
-        <img src="assets/personaje-hero.png" alt="María Camila Ortiz de pie">
-      </div>
-
-      <div class="manifiesto__col manifiesto__col--right">
         <div class="point point--03">
           <span class="point__num">03</span>
           <div class="point__body">
@@ -154,7 +179,7 @@
 
   <!-- ===================== 03 COSAS QUE ME OBSESIONAN ===================== -->
   <section class="obsesiones" id="obsesiones">
-    <p class="sys-tag section-tag">03 / 09 — OBSESIONES</p>
+    <p class="sys-tag section-tag">03 / 08 — OBSESIONES</p>
     <p class="eyebrow eyebrow--line">OBSESIONES</p>
     <h2>COSAS QUE ME<br>OBSESIONAN</h2>
     <ul class="obsesiones__list">
@@ -198,7 +223,7 @@
 
   <!-- ===================== 04 MIS MUCHAS PERSONALIDADES ===================== -->
   <section class="personalidades" id="personalidades">
-    <p class="sys-tag section-tag">04 / 09 — PERSONALIDADES</p>
+    <p class="sys-tag section-tag">04 / 08 — PERSONALIDADES</p>
     <p class="eyebrow eyebrow--line">MIS MUCHAS PERSONALIDADES</p>
     <h2>¿QUIÉN SOY HOY?</h2>
     <div class="personalidades__grid">
@@ -351,57 +376,9 @@
     </div>
   </section>
 
-  <!-- ===================== 05 ARCHIVO MACA ===================== -->
-  <section class="archivo" id="archivo">
-    <p class="sys-tag section-tag">05 / 09 — ARCHIVO</p>
-    <p class="eyebrow eyebrow--line">ARCHIVO</p>
-    <h2>ARCHIVO MACA</h2>
-    <p class="archivo__subtitle">Cosas que he creado, construido, diseñado, roto y vuelto a construir.</p>
-    <div class="archivo__grid">
-      <a class="archivo-item archivo-item--01" href="desarrollo-web.html" aria-label="Ver proyecto: Global Seguros">
-        <img src="proyectos/desarrollo-web/global-seguros-cover.jpg" alt="Global Seguros — experiencia digital para seguros educativos">
-        <div class="archivo-item__overlay">
-          <p class="archivo-item__tag sys-tag">ARCHIVE_001</p>
-          <p class="archivo-item__name">Global Seguros</p>
-          <p class="archivo-item__discipline">Web · UX · Development</p>
-          <p class="archivo-item__text">Transformar información compleja en una experiencia digital clara.</p>
-          <span class="archivo-item__cta">VER PROYECTO <span>→</span></span>
-        </div>
-      </a>
-      <a class="archivo-item archivo-item--02" href="editorial.html" aria-label="Ver proyecto: Editorial">
-        <img src="proyectos/editorial/maca-manual-marca.jpg" alt="Piezas editoriales y manual de marca">
-        <div class="archivo-item__overlay">
-          <p class="archivo-item__tag sys-tag">ARCHIVE_002</p>
-          <p class="archivo-item__name">Editorial</p>
-          <p class="archivo-item__discipline">Diseño editorial · Branding</p>
-          <p class="archivo-item__text">Catálogos y manual de marca: retícula, tipografía y jerarquía puestos a trabajar.</p>
-          <span class="archivo-item__cta">VER PROYECTO <span>→</span></span>
-        </div>
-      </a>
-      <a class="archivo-item archivo-item--03" href="3d.html" aria-label="Ver proyecto: 3D">
-        <img src="proyectos/3d/torso.png" alt="Escultura digital 3D — estudio anatómico">
-        <div class="archivo-item__overlay">
-          <p class="archivo-item__tag sys-tag">ARCHIVE_003</p>
-          <p class="archivo-item__name">3D</p>
-          <p class="archivo-item__discipline">Blender · Escultura digital</p>
-          <span class="archivo-item__cta">VER <span>→</span></span>
-        </div>
-      </a>
-      <a class="archivo-item archivo-item--04" href="ilustracion.html" aria-label="Ver proyecto: Ilustración">
-        <img src="proyectos/ilustracion/new-yorker-ilustracion.jpg" alt="Ilustración estilo New Yorker">
-        <div class="archivo-item__overlay">
-          <p class="archivo-item__tag sys-tag">ARCHIVE_004</p>
-          <p class="archivo-item__name">Ilustración</p>
-          <p class="archivo-item__discipline">Personajes · Narrativa</p>
-          <span class="archivo-item__cta">VER <span>→</span></span>
-        </div>
-      </a>
-    </div>
-  </section>
-
-  <!-- ===================== 06 EXPERIMENT LAB ===================== -->
+  <!-- ===================== 05 EXPERIMENT LAB ===================== -->
   <section class="experiment-lab" id="experiment-lab">
-    <p class="sys-tag section-tag">06 / 09 — LABORATORIO</p>
+    <p class="sys-tag section-tag">05 / 08 — LABORATORIO</p>
     <p class="eyebrow eyebrow--line">LABORATORIO</p>
     <h2>EXPERIMENT LAB</h2>
     <p class="experiment-lab__subtitle">No todo tiene que tener una finalidad. Algunas cosas las hice porque quería saber qué pasaba.</p>
@@ -445,7 +422,7 @@
   <!-- ===================== 07 PROCESO ===================== -->
   <section class="proceso" id="proceso">
     <div class="proceso__left">
-      <p class="sys-tag section-tag">07 / 09 — CÓMO TRABAJO</p>
+      <p class="sys-tag section-tag">06 / 08 — CÓMO TRABAJO</p>
       <h2>CÓMO PASO<br>DEL CAOS A ALGO<br>QUE FUNCIONA</h2>
       <p class="eyebrow">CÓMO TRABAJO</p>
       <p class="proceso__text">Cada proyecto es un recorrido de exploración, análisis y creación. Este es el proceso que me permite transformar ideas en piezas con propósito.</p>
@@ -528,7 +505,7 @@
       <img src="assets/foto-perfil.png" alt="Foto de María Camila Ortiz">
     </div>
     <div class="sobre-mi__content">
-      <p class="sys-tag section-tag">08 / 09 — OK. AHORA SÍ. YO.</p>
+      <p class="sys-tag section-tag">07 / 08 — OK. AHORA SÍ. YO.</p>
       <h2>OK.<br>AHORA SÍ.<br>YO.</h2>
       <p class="eyebrow">ESTUDIANTE DE CREACIÓN DIGITAL</p>
       <p>Soy María Camila, aunque dentro de este pequeño universo probablemente me encuentres como MACA.</p>
@@ -541,72 +518,73 @@
   <!-- ===================== 10 CONTACTO ===================== -->
   <section class="contacto" id="contacto">
     <div class="contacto__content">
-      <p class="sys-tag section-tag">09 / 09 — ¿QUÉ HACEMOS AHORA?</p>
-      <p class="eyebrow">BUENO...</p>
-      <h2>¿QUÉ HACEMOS<br>AHORA?</h2>
-      <p class="contacto__text">Ya viste un poco de lo que pasa dentro de MACA. Ahora quiero saber qué pasa dentro de tu proyecto.</p>
-
-      <div class="contacto__form-wrap" id="formWrap">
-      <form id="contactForm" class="contacto__form" action="https://formspree.io/f/mrpgppbr" method="POST" novalidate>
-        <input type="hidden" name="_subject" value="Nuevo mensaje — Portafolio MACA">
-        <div class="form-row">
-          <div class="field">
-            <input type="text" id="nombre" name="nombre" placeholder=" " required>
-            <label for="nombre">Nombre completo *</label>
-          </div>
-          <div class="field">
-            <input type="email" id="email" name="email" placeholder=" " required>
-            <label for="email">Correo electrónico *</label>
-          </div>
+      <div class="contacto__intro">
+        <p class="sys-tag section-tag">08 / 08 — ¿QUÉ HACEMOS AHORA?</p>
+        <p class="eyebrow">BUENO...</p>
+        <h2>¿QUÉ HACEMOS<br>AHORA?</h2>
+        <p class="contacto__text">Ya viste un poco de lo que pasa dentro de MACA. Ahora quiero saber qué pasa dentro de tu proyecto.</p>
+        <div class="contacto__list">
+          <span>IDEAS</span><span>PROYECTOS</span><span>COLABORACIONES</span>
         </div>
-        <div class="form-row">
-          <div class="field">
-            <select id="asunto" name="asunto" required>
-              <option value="" disabled selected hidden></option>
-              <option>Proyecto freelance</option>
-              <option>Colaboración</option>
-              <option>Oportunidad laboral</option>
-              <option>Solo quiero saludar</option>
-            </select>
-            <label for="asunto">Asunto *</label>
-          </div>
-          <div class="field">
-            <select id="tipo" name="tipo" required>
-              <option value="" disabled selected hidden></option>
-              <option>Ilustración</option>
-              <option>3D</option>
-              <option>Editorial</option>
-              <option>Desarrollo web</option>
-              <option>Inteligencia artificial</option>
-            </select>
-            <label for="tipo">Tipo de proyecto *</label>
-          </div>
+        <div class="contacto__closing">
+          <a href="#proyectos" class="contacto__secondary-cta"><span class="circle-arrow">→</span> VER PROYECTOS</a>
+          <p class="sys-tag">MACA.OS — END OF EXPERIENCE. OR MAYBE NOT.</p>
         </div>
-        <div class="field field--textarea">
-          <textarea id="mensaje" name="mensaje" rows="5" placeholder=" " required></textarea>
-          <label for="mensaje">Cuéntame sobre tu proyecto *</label>
-        </div>
-        <button type="submit" class="categoria__cta contacto__submit">
-          <span class="circle-arrow">→</span> ENVIAR MENSAJE
-        </button>
-        <p class="contacto__status" id="formStatus" role="status" aria-live="polite"></p>
-      </form>
-      <div class="contacto__success" id="formSuccess" role="status" aria-live="polite">
-        <span class="contacto__success-icon">✓</span>
-        <h3>Mensaje enviado</h3>
-        <p>Gracias por escribir. Te responderé lo antes posible a tu correo.</p>
-      </div>
       </div>
 
-      <div class="contacto__closing">
-        <a href="#archivo" class="contacto__secondary-cta"><span class="circle-arrow">→</span> VER PROYECTOS</a>
-        <p class="sys-tag">MACA.OS — END OF EXPERIENCE. OR MAYBE NOT.</p>
+      <div class="contacto__main">
+        <div class="contacto__form-wrap" id="formWrap">
+        <form id="contactForm" class="contacto__form" action="https://formspree.io/f/mrpgppbr" method="POST" novalidate>
+          <input type="hidden" name="_subject" value="Nuevo mensaje — Portafolio MACA">
+          <div class="form-row">
+            <div class="field">
+              <input type="text" id="nombre" name="nombre" placeholder=" " required>
+              <label for="nombre">Nombre completo *</label>
+            </div>
+            <div class="field">
+              <input type="email" id="email" name="email" placeholder=" " required>
+              <label for="email">Correo electrónico *</label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <select id="asunto" name="asunto" required>
+                <option value="" disabled selected hidden></option>
+                <option>Proyecto freelance</option>
+                <option>Colaboración</option>
+                <option>Oportunidad laboral</option>
+                <option>Solo quiero saludar</option>
+              </select>
+              <label for="asunto">Asunto *</label>
+            </div>
+            <div class="field">
+              <select id="tipo" name="tipo" required>
+                <option value="" disabled selected hidden></option>
+                <option>Ilustración</option>
+                <option>3D</option>
+                <option>Editorial</option>
+                <option>Desarrollo web</option>
+                <option>Inteligencia artificial</option>
+              </select>
+              <label for="tipo">Tipo de proyecto *</label>
+            </div>
+          </div>
+          <div class="field field--textarea">
+            <textarea id="mensaje" name="mensaje" rows="5" placeholder=" " required></textarea>
+            <label for="mensaje">Cuéntame sobre tu proyecto *</label>
+          </div>
+          <button type="submit" class="categoria__cta contacto__submit">
+            <span class="circle-arrow">→</span> ENVIAR MENSAJE
+          </button>
+          <p class="contacto__status" id="formStatus" role="status" aria-live="polite"></p>
+        </form>
+        <div class="contacto__success" id="formSuccess" role="status" aria-live="polite">
+          <span class="contacto__success-icon">✓</span>
+          <h3>Mensaje enviado</h3>
+          <p>Gracias por escribir. Te responderé lo antes posible a tu correo.</p>
+        </div>
+        </div>
       </div>
-    </div>
-
-    <img class="contacto__figure" src="assets/personaje-contacto.png" alt="María Camila Ortiz sonriendo">
-    <div class="contacto__list">
-      <span>IDEAS</span><span>PROYECTOS</span><span>COLABORACIONES</span>
     </div>
   </section>
 
@@ -622,21 +600,10 @@
     <a href="https://github.com/camilaortiz962" target="_blank" rel="noopener">GitHub</a>
     <a href="mailto:mariacamilaortizherrera@gmail.com">Correo</a>
   </div>
-  <button type="button" class="site-footer__tag sys-tag" id="systemStatusToggle" aria-expanded="false" aria-controls="systemStatusPanel">
-    <span class="sys-tag__dot"></span>MACA.OS — SYSTEM STANDBY
-  </button>
-  <div class="system-status" id="systemStatusPanel" hidden>
-    <p>CREATIVITY ........ ONLINE</p>
-    <p>IDEAS ............. TOO MANY</p>
-    <p>SLEEP ............. OFFLINE</p>
-    <p>COFFEE ............ REQUIRED</p>
-    <p>JAVASCRIPT ........ SOMETIMES</p>
-    <p>BLENDER ........... DANGEROUS</p>
-  </div>
 </footer>
 
 <p class="easter-toast" id="easterToast" role="status" aria-live="polite">404: PERSONALITY FOUND</p>
 
-<script src="js/main.js?v=29"></script>
+<script src="js/main.js?v=33"></script>
 </body>
 </html>

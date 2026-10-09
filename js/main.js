@@ -1,4 +1,140 @@
 // ============================================================
+// LOADER + TRANSICIONES ENTRE PÁGINAS
+// ============================================================
+// #loader está en el HTML de todas las páginas y un script en <head>
+// pone html.is-loading antes del primer pintado, así que la cortina ya
+// está cerrada cuando esto corre.
+//  · Carga normal: MACA + contador 000→100 real (fuentes, DOM, primer
+//    fotograma del personaje y load, con tope de tiempo) y la cortina sube.
+//  · Clic en un enlace a otra página del sitio: la cortina baja desde
+//    abajo con el nombre del destino y recién entonces se navega.
+//  · Al llegar por esa cortina (html.is-arriving): arranca cerrada con
+//    ese nombre y sube en cuanto la página está lista.
+// pageRevealed se resuelve cuando la cortina se levanta: la entrada del
+// hero y el personaje esperan a eso para no animarse escondidos.
+let resolveRevealed;
+const pageRevealed = new Promise((r) => { resolveRevealed = r; });
+
+(function initLoader() {
+  const html = document.documentElement;
+  const loader = document.getElementById('loader');
+  if (!loader) { html.classList.remove('is-loading', 'is-arriving'); resolveRevealed(); return; }
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const pctEl = loader.querySelector('[data-loader-pct]');
+  const barEl = loader.querySelector('[data-loader-bar]');
+  const labelEl = loader.querySelector('[data-loader-label]');
+  const destEl = loader.querySelector('[data-loader-dest]');
+  const store = {
+    get(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { sessionStorage.setItem(k, v); } catch (e) {} },
+    del(k) { try { sessionStorage.removeItem(k); } catch (e) {} },
+  };
+
+  const NAMES = {
+    'index.html': 'Inicio',
+    '3d.html': '3D',
+    'desarrollo-web.html': 'Desarrollo web',
+    'editorial.html': 'Editorial',
+    'ilustracion.html': 'Ilustración',
+    'inteligencia-artificial.html': 'Inteligencia artificial',
+  };
+  const fileOf = (url) => (url.pathname.split('/').pop() || 'index.html');
+
+  let lifted = false;
+  function lift() {
+    if (lifted) return;
+    lifted = true;
+    html.classList.remove('is-loading', 'is-arriving');
+    resolveRevealed();
+    // back to the counter look once it's off screen
+    setTimeout(() => loader.classList.remove('is-transition'), 1000);
+  }
+  setTimeout(lift, 7000);                    // failsafe: never trap the page
+
+  const arriving = html.classList.contains('is-arriving');
+  const dest = store.get('maca:arrive');
+  store.del('maca:arrive');
+
+  if (arriving) {
+    // ---- arrived through the curtain: show where we are, then open
+    loader.classList.add('is-transition');
+    destEl.textContent = dest || NAMES[fileOf(location)] || 'MACA';
+    labelEl.textContent = 'MACA.OS — ABRIENDO';
+    const fonts = document.fonts ? document.fonts.ready : Promise.resolve();
+    Promise.race([fonts, new Promise((r) => setTimeout(r, 600))])
+      .then(() => setTimeout(lift, reduce ? 0 : 280));
+  } else {
+    // ---- full load: real progress counter
+    const seen = !!store.get('maca:seen');
+    store.set('maca:seen', '1');
+    const MIN = reduce ? 300 : (seen ? 700 : 1300);
+    const start = performance.now();
+    const parts = { dom: 0, fonts: 0, frame: 0, load: 0 };
+    const W = { dom: 20, fonts: 30, frame: 30, load: 20 };
+    const done = (k) => { parts[k] = 1; };
+    done('dom');                               // this script runs at the end of <body>
+    (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => done('fonts'));
+    if (document.querySelector('.hero__canvas')) {
+      window.addEventListener('maca:firstframe', () => done('frame'), { once: true });
+    } else done('frame');
+    if (document.readyState === 'complete') done('load');
+    else window.addEventListener('load', () => done('load'), { once: true });
+    // the animation frames load in the background: don't wait forever on "load"
+    setTimeout(() => done('load'), 2500);
+
+    let shown = 0;
+    (function tick(t) {
+      if (lifted) return;
+      const target = Object.keys(W).reduce((s, k) => s + W[k] * parts[k], 0);
+      // time-based ceiling so the counter climbs smoothly instead of jumping
+      const cap = Math.min(100, ((t - start) / MIN) * 100);
+      shown += (Math.min(target, cap) - shown) * 0.12;
+      if (target >= 100 && cap >= 100 && shown > 99.4) shown = 100;
+      pctEl.textContent = String(Math.floor(shown)).padStart(3, '0');
+      barEl.style.transform = `scaleX(${(shown / 100).toFixed(4)})`;
+      if (shown >= 100) { setTimeout(lift, reduce ? 0 : 220); return; }
+      requestAnimationFrame(tick);
+    })(start);
+  }
+
+  // ---- leaving: cover the page, then navigate
+  let leaving = false;
+  document.addEventListener('click', (e) => {
+    if (leaving || e.defaultPrevented || e.button !== 0) return;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const a = e.target.closest('a[href]');
+    if (!a || a.target === '_blank' || a.hasAttribute('download')) return;
+    let url;
+    try { url = new URL(a.getAttribute('href'), location.href); } catch (err) { return; }
+    if (url.origin !== location.origin) return;
+    if (!/\.html$|\/$/.test(url.pathname)) return;           // pages only, not PDFs
+    if (fileOf(url) === fileOf(location)) return;            // same page: plain anchor scroll
+    e.preventDefault();
+    leaving = true;
+    const name = NAMES[fileOf(url)] || 'MACA';
+    store.set('maca:arrive', name);
+    loader.classList.add('is-transition');
+    destEl.textContent = name;
+    labelEl.textContent = 'MACA.OS — CARGANDO';
+    loader.classList.add('is-from-below');
+    void loader.offsetWidth;                                 // commit the start position
+    loader.classList.remove('is-from-below');
+    loader.classList.add('is-covering');
+    setTimeout(() => { location.href = url.href; }, reduce ? 300 : 820);
+  });
+
+  // back/forward cache: the page comes back with the curtain still down
+  window.addEventListener('pageshow', (e) => {
+    if (!e.persisted) return;
+    leaving = false;
+    store.del('maca:arrive');
+    loader.classList.remove('is-covering', 'is-transition');
+    html.classList.remove('is-loading', 'is-arriving');
+  });
+})();
+
+// ============================================================
 // NAV — scroll state + mobile toggle
 // ============================================================
 const nav = document.getElementById('nav');
@@ -38,7 +174,7 @@ navLinks.querySelectorAll('a').forEach(link => {
 // dimming already provides the entrance polish once it's in view.
 const revealTargets = document.querySelectorAll(
   '.manifiesto, .proceso, .sobre-mi, .contacto__content, ' +
-  '.spark, .obsesiones, .personalidades, .archivo, .experiment-lab'
+  '.spark, .obsesiones, .personalidades, .experiment-lab'
 );
 revealTargets.forEach(el => el.classList.add('reveal'));
 
@@ -52,18 +188,6 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.15 });
 
 revealTargets.forEach(el => io.observe(el));
-
-// elements that animate themselves directly (no shared .reveal base state)
-const directRevealTargets = document.querySelectorAll('.contacto__figure');
-const directIo = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('is-visible');
-      directIo.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.15 });
-directRevealTargets.forEach(el => directIo.observe(el));
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -127,7 +251,8 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
     // the scroll-driven fade below tries to set, exactly like wordmark/figure
     heroFadeEls.forEach((el) => { el.style.animation = 'none'; });
   }
-  setTimeout(clearEntranceAnimations, 1700);
+  // entrance keyframes only start once the loader curtain has lifted
+  pageRevealed.then(() => setTimeout(clearEntranceAnimations, 1700));
 
   function lerp(a, b, t) { return a + (b - a) * t; }
   function clamp01(v) { return Math.max(0, Math.min(1, v)); }
@@ -339,7 +464,7 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
     <div class="rotonde__ui">
       <p class="rotonde__mono rotonde__index"><span data-cur>01</span> / ${pad(n)}</p>
       <p class="rotonde__mono rotonde__title">Proyectos seleccionados</p>
-      <p class="rotonde__mono rotonde__tag">MACA.OS — Archivo</p>
+      <p class="rotonde__mono rotonde__tag">MACA.OS — Proyectos</p>
       <div class="rotonde__caption">
         <p class="rotonde__mono rotonde__caption-meta"></p>
         <p class="rotonde__caption-name"></p>
@@ -845,6 +970,7 @@ document.querySelectorAll('.carrusel[data-carrusel]').forEach((carrusel) => {
     let im = imgs[i];
     for (let d = 1; !im && d < FRAMES; d++) im = imgs[i - d] || imgs[i + d];
     if (!im || im === drawnImg) return;
+    if (!drawnImg) window.dispatchEvent(new Event('maca:firstframe'));   // loader progress
     drawnImg = im;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.imageSmoothingQuality = 'high';
@@ -990,7 +1116,7 @@ document.querySelectorAll('.carrusel[data-carrusel]').forEach((carrusel) => {
       // start exactly on the current pose (the CSS entrance already places
       // her there) so taking over never slides her in from the centre
       Object.assign(cur, poseAt(window.scrollY));
-      setTimeout(goLive, 1750);
+      pageRevealed.then(() => setTimeout(goLive, 1750));
       window.addEventListener('scroll', goLive, { passive: true, once: true });
       if (canHover) window.addEventListener('mousemove', onMouse, { passive: true });
       requestAnimationFrame(frame);
@@ -1025,17 +1151,6 @@ document.querySelectorAll('.carrusel[data-carrusel]').forEach((carrusel) => {
 // EASTER EGGS — discretos, sólo en la página principal
 // ============================================================
 (function initEasterEggs() {
-  const statusToggle = document.getElementById('systemStatusToggle');
-  const statusPanel = document.getElementById('systemStatusPanel');
-  if (statusToggle && statusPanel) {
-    statusToggle.addEventListener('click', () => {
-      const open = statusPanel.hasAttribute('hidden');
-      if (open) statusPanel.removeAttribute('hidden');
-      else statusPanel.setAttribute('hidden', '');
-      statusToggle.setAttribute('aria-expanded', String(open));
-    });
-  }
-
   const logo = document.querySelector('.nav__logo');
   const toast = document.getElementById('easterToast');
   if (logo && toast) {

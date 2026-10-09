@@ -7,12 +7,37 @@
 <meta name="description" content="Modelado 3D — proyectos de María Camila Ortiz.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=DM+Serif+Display:ital@0;1&family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600&family=Quicksand:wght@500;600&family=Alex+Brush&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=32">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=DM+Serif+Display:ital@0;1&family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600&family=Quicksand:wght@500;600&family=Alex+Brush&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script>
+  /* loader: shown from the very first paint (no flash of the page before
+     it). "is-arriving" = we came from another page of the site through the
+     curtain, so it opens with the destination's name instead of the full
+     loading counter. js/main.js (initLoader) takes it from here. */
+  (function () {
+    var h = document.documentElement;
+    h.classList.add('is-loading');
+    try { if (sessionStorage.getItem('maca:arrive')) h.classList.add('is-arriving'); } catch (e) {}
+  })();
+</script>
+<noscript><style>.loader{ display:none !important; }</style></noscript>
+<link rel="stylesheet" href="css/styles.css?v=45">
 <link rel="stylesheet" href="css/proyecto.css?v=8">
 <link rel="icon" href="data:,">
 </head>
 <body class="proyecto-page">
+
+<!-- ===================== PANTALLA DE CARGA / TRANSICIÓN ===================== -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__inner">
+    <p class="loader__brand">MACA</p>
+    <p class="loader__dest" data-loader-dest></p>
+    <div class="loader__meta">
+      <span class="loader__label"><span class="sys-tag__dot"></span><span data-loader-label>MACA.OS — CARGANDO</span></span>
+      <span class="loader__pct" data-loader-pct>000</span>
+    </div>
+    <div class="loader__bar"><span data-loader-bar></span></div>
+  </div>
+</div>
 
 <!-- ===================== NAV ===================== -->
 <header class="nav" id="nav">
@@ -20,7 +45,7 @@
     <a href="index.html#inicio" class="nav__logo">MACA</a>
     <nav class="nav__links" id="navLinks">
       <a href="index.html#inicio">Entrar</a>
-      <a href="index.html#archivo">Archivo</a>
+      <a href="index.html#proyectos">Proyectos</a>
       <a href="index.html#experiment-lab">Experimentos</a>
       <a href="index.html#sobre-mi">Sobre mí</a>
       <a href="index.html#contacto">Contacto</a>
@@ -113,6 +138,6 @@
   <a href="index.html#contacto" class="btn-dark"><span class="circle-arrow">→</span> HABLEMOS</a>
 </footer>
 
-<script src="js/main.js?v=22"></script>
+<script src="js/main.js?v=33"></script>
 </body>
 </html>
