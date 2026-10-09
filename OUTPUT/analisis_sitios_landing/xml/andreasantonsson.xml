@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitio nombre="Andreas Antonsson - Interaction Designer &amp; Creative Developer" url="https://www.andreasantonsson.dev/">
+  <header>
+    <logo>Texto "Andreas Antonsson" con subtítulo "Interaction Designer &amp; Creative Developer" (enlace a inicio)</logo>
+    <nav tipo="fija">
+      <enlace>Index</enlace>
+      <enlace>About</enlace>
+    </nav>
+  </header>
+  <main>
+    <section tipo="hero">Secret Level — AI-Native Entertainment Studio: primer proyecto a pantalla completa con imagen WebGL y enlace al caso</section>
+    <section tipo="proyecto">Synthetic Theatre — Generative AI Experiment</section>
+    <section tipo="proyecto">Design is Funny — Designer Portfolio</section>
+    <section tipo="proyecto">Field Unit — Film Production Company</section>
+    <section tipo="proyecto">Kolmården — Interactive Wildlife Park Map</section>
+    <section tipo="proyecto">Gamily — App Landing Page</section>
+    <section tipo="proyecto">Scavolini sthlm — Kitchen showroom</section>
+  </main>
+  <footer>
+    <redes>LinkedIn, Dribbble (solo en la página About; la home no tiene footer)</redes>
+    <contacto>Mail andreas@unna.studio; Estocolmo, Suecia; estudio unna.studio (solo en la página About)</contacto>
+  </footer>
+</sitio>

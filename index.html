@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=DM+Serif+Display:ital@0;1&family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600&family=Quicksand:wght@500;600&family=Alex+Brush&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css?v=32">
+<link rel="stylesheet" href="css/styles.css?v=36">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23000'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-weight='700' font-size='34' fill='%23f5e7d8' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
 </head>
 <body>
@@ -47,8 +47,13 @@
     <section class="hero" id="inicio">
       <p class="hero__tag sys-tag hero__fade"><span class="sys-tag__dot"></span>01 / 09 — ENTRAR</p>
       <div class="hero__wordmark" aria-hidden="true">MACA</div>
-      <img class="hero__figure" src="assets/personaje-hero.png" alt="María Camila Ortiz — ilustración de personaje">
-      <div class="hero__scrim" aria-hidden="true"></div>
+      <!-- personaje animado: secuencia de fotogramas que avanza con el scroll
+           y acompaña al visitante hasta Obsesiones (js/main.js · initPersonaje) -->
+      <div class="hero__figure" role="img" aria-label="María Camila Ortiz — personaje animado">
+        <canvas class="hero__canvas" width="1440" height="1080"></canvas>
+        <noscript><img src="assets/personaje-hero.png" alt=""></noscript>
+      </div>
+      <div class="hero__scrim hero__fade" aria-hidden="true"></div>
       <div class="hero__info hero__fade">
         <div class="hero__headline-wrap">
           <p class="hero__headline">Estás dentro de mi cabeza.</p>
@@ -235,7 +240,7 @@
     <div class="categorias__pin">
       <div class="categorias__track" id="categoriasTrack">
 
-    <article class="categoria" id="cat-ilustracion">
+    <article class="categoria" id="cat-ilustracion" data-panel="assets/seccion-ilustracion.jpg">
       <div class="categoria__img-wrap categoria__img-wrap--a">
         <picture>
           <source media="(min-width:901px)" srcset="assets/01_Ilustracion.png">
@@ -255,7 +260,7 @@
       </div>
     </article>
 
-    <article class="categoria" id="cat-3d">
+    <article class="categoria" id="cat-3d" data-panel="assets/seccion-3d.jpg">
       <div class="categoria__img-wrap categoria__img-wrap--a">
         <picture>
           <source media="(min-width:901px)" srcset="assets/02_3D.png">
@@ -275,7 +280,7 @@
       </div>
     </article>
 
-    <article class="categoria" id="cat-editorial">
+    <article class="categoria" id="cat-editorial" data-panel="assets/seccion-editorial.jpg">
       <div class="categoria__img-wrap categoria__img-wrap--a">
         <picture>
           <source media="(min-width:901px)" srcset="assets/03_Editorial.png">
@@ -295,7 +300,7 @@
       </div>
     </article>
 
-    <article class="categoria" id="cat-web">
+    <article class="categoria" id="cat-web" data-panel="assets/seccion-web.jpg" data-panel-pos="38% 50%">
       <div class="categoria__img-wrap categoria__img-wrap--a">
         <picture>
           <source media="(min-width:901px)" srcset="assets/04_Desarrollo_Web.png">
@@ -315,7 +320,7 @@
       </div>
     </article>
 
-    <article class="categoria" id="cat-ia">
+    <article class="categoria" id="cat-ia" data-panel="assets/seccion-ia.jpg">
       <div class="categoria__img-wrap categoria__img-wrap--a">
         <picture>
           <source media="(min-width:901px)" srcset="assets/05_Inteligencia_Artificial.png">
@@ -632,6 +637,6 @@
 
 <p class="easter-toast" id="easterToast" role="status" aria-live="polite">404: PERSONALITY FOUND</p>
 
-<script src="js/main.js?v=22"></script>
+<script src="js/main.js?v=29"></script>
 </body>
 </html>

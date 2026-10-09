@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitio nombre="Moncy Yohannan - Creative Developer | Designer" url="https://www.moncy.dev/">
+  <header>
+    <logo>Texto "moncy.dev" (enlace a inicio)</logo>
+    <nav tipo="fija">
+      <enlace>About</enlace>
+      <enlace>Work</enlace>
+      <enlace>Contact</enlace>
+      <enlace>connect@moncy.dev</enlace>
+    </nav>
+  </header>
+  <main>
+    <section tipo="hero">"Hello! I'm Moncy Yohannan" con titular rotativo "A Creative Developer / Designer" y personaje 3D interactivo</section>
+    <section tipo="sobre-mi">About Me: párrafo de presentación como creative developer y designer</section>
+    <section tipo="servicios">What I Do: dos tarjetas desplegables, Develop y Design, con descripción y etiquetas de skills</section>
+    <section tipo="trayectoria">Career: línea de tiempo con tres etapas (2017 Blue Cube Digital, 2020 Brane Enterprises, NOW Freelance)</section>
+    <section tipo="proyectos">Work: carrusel de seis proyectos numerados 01–06 con categoría, herramientas e imagen</section>
+    <section tipo="tecnologias">My Techstack: esferas 3D con física que representan las tecnologías</section>
+  </main>
+  <footer>
+    <redes>GitHub, LinkedIn, Twitter, Instagram</redes>
+    <contacto>Email connect@moncy.dev; ubicación Mumbai, India; crédito "Designed and Developed by Moncy Yohannan © 2024"</contacto>
+  </footer>
+</sitio>

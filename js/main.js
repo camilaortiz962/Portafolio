@@ -134,13 +134,18 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 
   // hero rest geometry → the Manifiesto avatar's own rest geometry,
   // both expressed in vh against the same 100vh pinned viewport
-  const HERO_TOP = 22, HERO_HEIGHT = 150;
+  // (the figure is now the 4:3 animated canvas — see initPersonaje — so
+  // these match the desktop .hero__figure top:14% / height:100% in the CSS)
+  const HERO_TOP = 14, HERO_HEIGHT = 100;
   // top:11vh (not 4) so the avatar's top edge clears the fixed nav, which
   // has an opaque background by the time this section is ever visible —
   // matches the manifiesto padding-top bump below for the same reason
   const TARGET_TOP = 11, TARGET_HEIGHT = 89;
 
   const eyebrow = manifiesto.querySelector(':scope > .eyebrow--line');
+  // its "02 / 09" system tag used to sit visible over the hero from the
+  // start (nothing faded it in) — it now arrives together with the eyebrow
+  const sectionTag = manifiesto.querySelector(':scope > .section-tag');
   const intro = manifiesto.querySelector('.manifiesto__intro');
   const masks = [
     manifiesto.querySelector('.manifiesto__pre .mask__inner'),
@@ -160,6 +165,7 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
   // [inicio, fin] de cada elemento dentro del progreso de revelado (0→1),
   // escalonados como en el sistema original (columnas izq/der en paralelo)
   const windows = [
+    [sectionTag, 0.00, 0.22],
     [eyebrow, 0.00, 0.22],
     [masks[0], 0.04, 0.26],
     [masks[1], 0.08, 0.30],
@@ -192,15 +198,14 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 
   function renderShrink(p) {
     const wordmarkScale = lerp(1, 0.22, p);
-    wordmark.style.transform = `translateX(-50%) scale(${wordmarkScale.toFixed(4)})`;
+    // --wm-x: centred (-50%) by default, 0 on the desktop two-column hero
+    wordmark.style.transform = `translateX(var(--wm-x, -50%)) scale(${wordmarkScale.toFixed(4)})`;
     wordmark.style.opacity = (1 - p).toFixed(3);
 
     figure.style.top = lerp(HERO_TOP, TARGET_TOP, p).toFixed(3) + 'vh';
     figure.style.height = lerp(HERO_HEIGHT, TARGET_HEIGHT, p).toFixed(3) + 'vh';
-    // the base rule's opacity:0 only exists to support the entrance fade-in;
-    // once that animation is cleared there's nothing left to hold opacity
-    // at 1, so pin it here for the whole scroll-driven phase
-    figure.style.opacity = '1';
+    // opacity (and transform) are owned by initPersonaje from here on —
+    // it keeps her visible after the pin releases and fades her out later
 
     const fadeOpacity = Math.max(0, 1 - p * 4).toFixed(3);
     heroFadeEls.forEach((el) => { el.style.opacity = fadeOpacity; });
@@ -286,70 +291,357 @@ const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)
 })();
 
 // ============================================================
-// CATEGORÍAS — scroll vertical → desplazamiento horizontal
+// CATEGORÍAS — ROTONDA 3D (inspirada en lucas-aufrere.com/projets)
 // ============================================================
-// PRIORIDAD 1. A tall wrapper (.categorias, 500vh) provides the scroll
-// distance; .categorias__pin stays pinned via CSS position:sticky; this
-// script reads how far the wrapper has scrolled past the viewport top
-// and maps that progress (0→1) onto a translateX of the flex track, so
-// scrolling down visually reads as moving right through the categories.
-(function initCategoriasScroll() {
-  const wrap = document.querySelector('.categorias');
-  const track = document.getElementById('categoriasTrack');
-  if (!wrap || !track) return;
+// Desktop (≥901px, sin reduced-motion): las 5 categorías cuelgan de la
+// pared interior de una rotonda 3D (CSS 3D, sin librerías). Hay 10
+// paneles (cada categoría dos veces, para que el anillo se vea lleno).
+// Una sola fuente de verdad: el scroll de la página. La sección mide
+// 450vh y .rotonde queda fija (sticky); el progreso del scroll decide el
+// ángulo. Arrastrar o usar ← → no gira el anillo directamente: mueve el
+// scroll la distancia equivalente, así nunca se desincronizan. Al soltar
+// el arrastre encaja en la categoría más cercana. Clic (o Enter) en el
+// panel del frente abre la vista detallada; en otro panel, gira hasta él.
+// Debajo de 901px los <article> conservan su layout apilado de siempre.
+(function initCategoriasRotonde() {
+  const section = document.querySelector('.categorias');
+  if (!section) return;
+  const articles = Array.from(section.querySelectorAll('.categoria[data-panel]'));
+  const n = articles.length;
+  if (!n) return;
 
-  const panels = Array.from(track.children);
-  const dots = document.querySelectorAll('.categorias__dot');
-  const n = panels.length;
-  let active = -1;
+  const text = (el, sel) => {
+    const t = el.querySelector(sel);
+    return t ? t.innerText.replace(/\s+/g, ' ').trim() : '';
+  };
+  const cats = articles.map((a, i) => ({
+    num: String(i + 1).padStart(2, '0'),
+    name: text(a, 'h2'),
+    subtitle: text(a, '.categoria__subtitle'),
+    body: text(a, '.categoria__text'),
+    tags: text(a, '.categoria__tags').split('|').map(s => s.trim()).filter(Boolean).join(' · '),
+    words: Array.from(a.querySelectorAll('.categoria__list span')).map(s => s.textContent.trim()).join(' · '),
+    href: a.querySelector('.categoria__cta')?.getAttribute('href') || '#',
+    img: a.dataset.panel,
+    pos: a.dataset.panelPos || '50% 50%',
+    alt: (a.querySelector('img') || {}).alt || '',
+  }));
+
+  const SLOTS = n * 2;
+  const STEP = 360 / SLOTS;              // degrees between neighbouring panels
+  const pad = (k) => String(k).padStart(2, '0');
+
+  // ---------- build the DOM
+  const rot = document.createElement('div');
+  rot.className = 'rotonde';
+  rot.innerHTML = `
+    <div class="rotonde__stage"><div class="rotonde__ring"></div></div>
+    <div class="rotonde__ui">
+      <p class="rotonde__mono rotonde__index"><span data-cur>01</span> / ${pad(n)}</p>
+      <p class="rotonde__mono rotonde__title">Proyectos seleccionados</p>
+      <p class="rotonde__mono rotonde__tag">MACA.OS — Archivo</p>
+      <div class="rotonde__caption">
+        <p class="rotonde__mono rotonde__caption-meta"></p>
+        <p class="rotonde__caption-name"></p>
+      </div>
+      <div class="rotonde__hint"><span class="rotonde__hint-dot"></span><span class="rotonde__mono rotonde__hint-text">Arrastra · Rueda · Flechas ← →</span></div>
+      <ol class="rotonde__progress" aria-hidden="true">${cats.map(() => '<li class="rotonde__segment"></li>').join('')}</ol>
+    </div>`;
+  const ring = rot.querySelector('.rotonde__ring');
+  const curEl = rot.querySelector('[data-cur]');
+  const caption = rot.querySelector('.rotonde__caption');
+  const capMeta = rot.querySelector('.rotonde__caption-meta');
+  const capName = rot.querySelector('.rotonde__caption-name');
+  const hint = rot.querySelector('.rotonde__hint');
+  const segs = Array.from(rot.querySelectorAll('.rotonde__segment'));
+
+  const panels = [];
+  for (let s = 0; s < SLOTS; s++) {
+    const c = cats[s % n];
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'rotonde__panel';
+    b.setAttribute('aria-label', `${c.name} — ver detalle`);
+    b.innerHTML = `<img src="${c.img}" alt="" loading="lazy" decoding="async" style="object-position:${c.pos}"><span class="rotonde__shade"></span>`;
+    ring.appendChild(b);
+    panels.push({ el: b, shade: b.lastElementChild, slot: s, cat: s % n, front: null, hidden: null });
+  }
+
+  // ---------- detail view
+  const detail = document.createElement('div');
+  detail.className = 'rotonde-detail';
+  detail.setAttribute('role', 'dialog');
+  detail.setAttribute('aria-modal', 'true');
+  detail.setAttribute('aria-hidden', 'true');
+  detail.innerHTML = `
+    <div class="rotonde-detail__content">
+      <p class="rotonde__mono rotonde-detail__meta"><span data-d="num"></span><span data-d="sub"></span></p>
+      <h3 class="rotonde-detail__title" data-d="name"></h3>
+      <p class="rotonde-detail__role" data-d="role"></p>
+      <p class="rotonde-detail__text" data-d="body"></p>
+      <dl class="rotonde-detail__specs">
+        <div class="rotonde-detail__row"><dt class="rotonde__mono">Técnicas</dt><dd data-d="tags"></dd></div>
+        <div class="rotonde-detail__row"><dt class="rotonde__mono">Palabras</dt><dd data-d="words"></dd></div>
+      </dl>
+      <a class="categoria__cta" data-d="cta"><span class="circle-arrow">→</span> VER PROYECTOS</a>
+    </div>
+    <div class="rotonde-detail__media"><img alt="" data-d="img"></div>
+    <button type="button" class="rotonde-detail__close" aria-label="Cerrar">✕</button>`;
+  const d = (k) => detail.querySelector(`[data-d="${k}"]`);
+  const closeBtn = detail.querySelector('.rotonde-detail__close');
+  let lastFocus = null;
+
+  function openDetail(ci) {
+    const c = cats[ci];
+    d('num').textContent = `${c.num} / ${pad(n)}`;
+    d('sub').textContent = c.name;
+    d('name').textContent = c.name;
+    d('role').textContent = c.subtitle.charAt(0) + c.subtitle.slice(1).toLowerCase();
+    d('body').textContent = c.body;
+    d('tags').textContent = c.tags;
+    d('words').textContent = c.words;
+    d('cta').setAttribute('href', c.href);
+    d('img').src = c.img;
+    d('img').alt = c.alt;
+    d('img').style.objectPosition = c.pos;
+    lastFocus = document.activeElement;
+    detail.classList.add('is-open');
+    detail.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('rotonde-detail-open');
+    closeBtn.focus({ preventScroll: true });
+  }
+  function closeDetail() {
+    if (!detail.classList.contains('is-open')) return;
+    detail.classList.remove('is-open');
+    detail.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('rotonde-detail-open');
+    if (lastFocus) lastFocus.focus({ preventScroll: true });
+  }
+  closeBtn.addEventListener('click', closeDetail);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDetail(); });
+
+  // ---------- geometry + scroll mapping
   let enabled = false;
+  let R = 600, PW = 340, ZC = 360;
+  let target = 0, shown = 0;            // ring angle in degrees
+  let active = -1, interacted = false;
+  const MAX = (n - 1) * STEP;
+
+  function sizes() {
+    PW = Math.max(240, Math.min(440, window.innerWidth * 0.22, window.innerHeight * 0.42));
+    // radius 2.2× the panel width: each slot's chord (2R·sin18°) is ~1.36×
+    // the panel, i.e. about a third of a panel of black between photos
+    R = PW * 2.2;
+    ZC = R * 0.66;
+    measureRange();
+    rot.style.setProperty('--pw', PW + 'px');
+    ring.style.transform = `translateZ(${ZC}px)`;
+  }
+
+  // cached: reading layout every animation frame forces style recalcs
+  let rangeCache = { top: 0, len: 1 };
+  function measureRange() {
+    rangeCache = {
+      top: section.getBoundingClientRect().top + window.scrollY,
+      len: section.offsetHeight - window.innerHeight,
+    };
+  }
+  function range() { return rangeCache; }
+  function angleFromScroll() {
+    const { top, len } = range();
+    const p = len > 0 ? (window.scrollY - top) / len : 0;
+    return Math.max(0, Math.min(1, p)) * MAX;
+  }
+  function scrollForAngle(a) {
+    const { top, len } = range();
+    return top + (Math.max(0, Math.min(MAX, a)) / MAX) * len;
+  }
+  function goTo(ci, smooth = true) {
+    window.scrollTo({ top: scrollForAngle(ci * STEP), behavior: smooth ? 'smooth' : 'instant' });
+  }
+
+  function markInteracted() {
+    if (interacted) return;
+    interacted = true;
+    hint.classList.add('is-hidden');
+  }
+
+  function setActive(ci) {
+    if (ci === active) return;
+    active = ci;
+    curEl.textContent = cats[ci].num;
+    segs.forEach((s, i) => s.classList.toggle('is-active', i === ci));
+    caption.classList.add('is-swapping');
+    setTimeout(() => {
+      capMeta.textContent = `${cats[ci].num} — ${cats[ci].subtitle}`;
+      capName.textContent = cats[ci].name;
+      caption.classList.remove('is-swapping');
+    }, 180);
+  }
+
+  // per frame only transform + opacity are written (both compositor-only,
+  // no repaint); the side panels are darkened by their own shade layer's
+  // opacity instead of a CSS filter, which forced a full repaint of every
+  // image each frame. Visibility / tabindex are touched only on change.
+  function render() {
+    for (const p of panels) {
+      let ang = p.slot * STEP - shown;
+      ang = ((ang + 540) % 360) - 180;          // wrap to [-180, 180)
+      const abs = Math.abs(ang);
+      const op = abs < 62 ? 1 : Math.max(0, 1 - (abs - 62) / 38);
+      const dim = Math.min(1, abs / STEP);      // 0 at the front, 1 a slot away
+      p.el.style.transform = `rotateY(${(-ang).toFixed(3)}deg) translateZ(${-R}px)`;
+      p.el.style.opacity = op.toFixed(3);
+      p.shade.style.opacity = (dim * 0.6).toFixed(3);
+      const hidden = op < 0.01;
+      if (hidden !== p.hidden) { p.hidden = hidden; p.el.style.visibility = hidden ? 'hidden' : ''; }
+      const front = abs < STEP / 2;
+      if (front !== p.front) { p.front = front; p.el.tabIndex = front ? 0 : -1; }
+    }
+  }
+
+  // frame-rate independent critically-damped follow: the ring glides to
+  // the scroll position with inertia instead of jumping wheel-step by
+  // wheel-step, and behaves the same on 60 Hz and 144 Hz screens
+  let raf = null, lastT = 0, vel = 0;
+  function loop(t) {
+    raf = null;
+    if (!enabled) return;
+    const dt = Math.min(0.05, lastT ? (t - lastT) / 1000 : 1 / 60);
+    lastT = t;
+    target = angleFromScroll();
+    const k = 70, c = 2 * Math.sqrt(k);         // stiffness / critical damping
+    vel += (k * (target - shown) - c * vel) * dt;
+    shown += vel * dt;
+    if (Math.abs(target - shown) < 0.005 && Math.abs(vel) < 0.01) { shown = target; vel = 0; }
+    render();
+    setActive(((Math.round(shown / STEP) % n) + n) % n);
+    if (shown !== target || vel !== 0) raf = requestAnimationFrame(loop);
+    else lastT = 0;
+  }
+  function kick() { if (!raf) raf = requestAnimationFrame(loop); }
+
+  // ---------- drag → scroll
+  let drag = null;
+  let justDragged = false;
+  rot.addEventListener('pointerdown', (e) => {
+    if (!enabled || e.button !== 0) return;
+    drag = { x: e.clientX, y: window.scrollY, moved: 0, id: e.pointerId };
+  });
+  window.addEventListener('pointermove', (e) => {
+    if (!drag || e.pointerId !== drag.id) return;
+    const dx = e.clientX - drag.x;
+    drag.moved = Math.max(drag.moved, Math.abs(dx));
+    if (drag.moved > 4) {
+      rot.classList.add('is-dragging');
+      markInteracted();
+      const { len } = range();
+      // one panel width of drag ≈ one category
+      const dAng = (-dx / PW) * STEP;
+      window.scrollTo({ top: drag.y + (dAng / MAX) * len, behavior: 'instant' });
+    }
+  });
+  window.addEventListener('pointerup', (e) => {
+    if (!drag || e.pointerId !== drag.id) return;
+    const wasDrag = drag.moved > 4;
+    drag = null;
+    rot.classList.remove('is-dragging');
+    if (wasDrag) {
+      justDragged = true;               // swallow the click that follows
+      setTimeout(() => { justDragged = false; }, 0);
+      goTo(Math.round(angleFromScroll() / STEP));
+    }
+  });
+  // a real drag must not also count as a click on the panel underneath
+  rot.addEventListener('click', (e) => {
+    const btn = e.target.closest('.rotonde__panel');
+    if (!btn || justDragged) return;
+    const p = panels.find(q => q.el === btn);
+    if (!p) return;
+    markInteracted();
+    if (p.front) openDetail(p.cat);
+    else {
+      // turn the short way round to that panel
+      let ang = p.slot * STEP - shown;
+      ang = ((ang + 540) % 360) - 180;
+      goTo(Math.round((shown + ang) / STEP));
+    }
+  }, true);
+
+  // ---------- keyboard: arrows while the rotunda fills the screen
+  window.addEventListener('keydown', (e) => {
+    if (!enabled || detail.classList.contains('is-open')) return;
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    const r = rot.getBoundingClientRect();
+    if (r.top > 2 || r.bottom < window.innerHeight - 2) return;
+    e.preventDefault();
+    markInteracted();
+    const cur = Math.round(angleFromScroll() / STEP);
+    goTo(Math.max(0, Math.min(n - 1, cur + (e.key === 'ArrowRight' ? 1 : -1))));
+  });
+
+  // when the wheel/trackpad stops halfway between two categories, glide
+  // to the nearest one (like a snap) — only while the rotunda is pinned,
+  // so it never pulls the page when entering or leaving the section
+  let snapTimer = null, snapping = false;
+  function snapSoon() {
+    clearTimeout(snapTimer);
+    snapTimer = setTimeout(() => {
+      if (!enabled || drag || detail.classList.contains('is-open')) return;
+      const { top, len } = range();
+      const y = window.scrollY;
+      if (y <= top + 2 || y >= top + len - 2) return;
+      const a = angleFromScroll();
+      const near = Math.round(a / STEP);
+      if (Math.abs(a - near * STEP) < 0.5) return;
+      snapping = true;
+      goTo(near);
+      setTimeout(() => { snapping = false; }, 700);
+    }, 160);
+  }
+
+  function onScroll() {
+    if (!enabled) return;
+    if (!interacted && window.scrollY - range().top > 40 && window.scrollY < range().top + range().len) markInteracted();
+    if (!snapping && !drag) snapSoon();
+    kick();
+  }
 
   function isDesktop() {
     return window.innerWidth >= 901 && !prefersReducedMotion;
   }
 
-  function setActive(index) {
-    if (index === active) return;
-    active = index;
-    panels.forEach((p, i) => p.classList.toggle('is-active', i === index));
-    dots.forEach((d, i) => d.classList.toggle('is-active', i === index));
-  }
-
-  function update() {
-    if (!enabled) return;
-    const rect = wrap.getBoundingClientRect();
-    const total = rect.height - window.innerHeight;
-    let progress = total > 0 ? -rect.top / total : 0;
-    progress = Math.max(0, Math.min(1, progress));
-    const shiftVw = progress * (n - 1) * 100;
-    track.style.transform = `translate3d(-${shiftVw}vw,0,0)`;
-    setActive(Math.round(progress * (n - 1)));
-  }
-
-  function onScroll() {
-    requestAnimationFrame(update);
-  }
-
   function sync() {
-    const desktop = isDesktop();
-    if (desktop && !enabled) {
+    const want = isDesktop();
+    if (want && !enabled) {
       enabled = true;
+      section.classList.add('is-rotonde');
+      section.prepend(rot);
+      if (!detail.isConnected) document.body.appendChild(detail);
+      sizes();
+      shown = target = angleFromScroll();
+      render();
+      setActive(Math.round(shown / STEP) % n);
       window.addEventListener('scroll', onScroll, { passive: true });
-      update();
-    } else if (!desktop && enabled) {
+    } else if (!want && enabled) {
       enabled = false;
+      closeDetail();
+      section.classList.remove('is-rotonde');
+      rot.remove();
       window.removeEventListener('scroll', onScroll);
-      track.style.transform = 'none';
-      panels.forEach(p => p.classList.remove('is-active'));
-      dots.forEach(d => d.classList.remove('is-active'));
-      active = -1;
+    } else if (enabled) {
+      sizes();
+      kick();
     }
   }
 
   sync();
-  update();
-  if (isDesktop()) setActive(0);
   window.addEventListener('resize', sync);
+  // images / fonts above shift where the section starts after load
+  window.addEventListener('load', () => { if (enabled) { measureRange(); kick(); } });
+  if ('ResizeObserver' in window) {
+    new ResizeObserver(() => { if (enabled) { measureRange(); kick(); } }).observe(document.body);
+  }
 })();
 
 // ============================================================
@@ -511,31 +803,222 @@ document.querySelectorAll('.carrusel[data-carrusel]').forEach((carrusel) => {
 });
 
 // ============================================================
-// HERO AVATAR — parallax sutil al cursor (desktop, puntero fino,
-// respeta prefers-reduced-motion). .hero__figure nunca recibe un
-// transform inline desde initHeroManifiesto (solo top/height/opacity),
-// así que esto no compite con el scroll-jack — sólo compone sobre el
-// translateX(-50%) fijo que ya trae por CSS.
+// PERSONAJE — el avatar es una secuencia de 145 fotogramas (video sobre fondo negro, con el
+// fondo recortado, assets/personaje/{hd,sd}/f000-f144.webp) dibujada en un canvas.
+// El scroll decide qué fotograma se ve y, en desktop, dónde está ella:
+//
+//   Hero ............ derecha, brazos cruzados (MACA a la izquierda) (f 0)
+//   Manifiesto ...... centro, baja los brazos y mira      (f 22)
+//   ¿Y si...? ....... izquierda, se gira hacia las preguntas, mueve el pelo (f 42)
+//   Obsesiones ...... derecha, primer plano: cierra los ojos y guiña (f 68)
+//                     … y sonríe                          (f 84)
+//   Personalidades .. se aleja y desaparece               (f 104)
+//
+// Las secciones "¿Y si...?" y Obsesiones se reacomodan (CSS,
+// .personaje-travel) para dejarle libre el lado por el que pasa.
+// initHeroManifiesto sigue controlando top/height durante el pin; esto
+// controla fotograma, transform y opacidad. Debajo de 1101px no hay
+// recorrido: se queda en el hero y solo avanza la animación con el scroll.
 // ============================================================
-(function initHeroParallax() {
+(function initPersonaje() {
   const figure = document.querySelector('.hero__figure');
-  if (!figure) return;
+  const canvas = document.querySelector('.hero__canvas');
+  if (!figure || !canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  // desktop shows her up to ~100vh tall (often >1000 device px), so it gets
+  // the full-resolution 1440x1080 set; tablets/phones only see her inside
+  // the hero and get the lighter 960x720 set (less download, less memory).
+  // The canvas matches the set so the browser never has to blow it up.
+  const HD = window.innerWidth > 1100;
+  const SET = HD ? 'hd' : 'sd';
+  canvas.width = HD ? 1440 : 960;
+  canvas.height = HD ? 1080 : 720;
+
+  const FRAMES = 145;
+  const imgs = new Array(FRAMES);
+  let drawnImg = null;
+
+  function draw(index) {
+    const i = Math.max(0, Math.min(FRAMES - 1, Math.round(index)));
+    // until the exact frame arrives, show the nearest one already loaded
+    let im = imgs[i];
+    for (let d = 1; !im && d < FRAMES; d++) im = imgs[i - d] || imgs[i + d];
+    if (!im || im === drawnImg) return;
+    drawnImg = im;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(im, 0, 0, canvas.width, canvas.height);
+  }
+
+  // first frame right away, then coarse-to-fine so scrubbing works early
+  const order = [0];
+  if (!prefersReducedMotion) {
+    for (const step of [8, 4, 2, 1]) {
+      for (let i = 0; i < FRAMES; i += step) if (!order.includes(i)) order.push(i);
+    }
+  }
+  let target = { f: 0 };
+  order.forEach((i) => {
+    const im = new Image();
+    im.decoding = 'async';
+    im.onload = () => { imgs[i] = im; draw(target.f); };
+    // ?v= busts the browser cache whenever the frame set is re-exported
+    im.src = `assets/personaje/${SET}/f${String(i).padStart(3, '0')}.webp?v=4`;
+  });
+
+  if (prefersReducedMotion) return;   // static first frame, nothing moves
+
+  const wrap = document.querySelector('.hero-scroll');
+  const spark = document.querySelector('.spark');
+  const obsesiones = document.querySelector('.obsesiones');
   const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  if (!canHover || prefersReducedMotion) return;
 
-  const MAX = 12;
-  let raf = null;
+  function isTravel() {
+    return window.innerWidth > 1100 && wrap && spark && obsesiones;
+  }
 
-  window.addEventListener('mousemove', (e) => {
-    if (raf) return;
-    raf = requestAnimationFrame(() => {
-      raf = null;
-      if (window.innerWidth <= 1100) { figure.style.transform = ''; return; }
-      const dx = (e.clientX / window.innerWidth - 0.5) * MAX * 2;
-      const dy = (e.clientY / window.innerHeight - 0.5) * MAX * 2;
-      figure.style.transform = `translateX(-50%) translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px)`;
-    });
-  }, { passive: true });
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function clamp01(v) { return Math.max(0, Math.min(1, v)); }
+  function smooth(t) { return t * t * (3 - 2 * t); }
+  function docTop(el) { return el.getBoundingClientRect().top + window.scrollY; }
+
+  // key poses along the page scroll (s in px). x/y are fractions of the
+  // viewport, sc a scale, f the frame, o the opacity
+  let keys = [];
+  function measure() {
+    const vh = window.innerHeight;
+    const pinEnd = docTop(wrap) + wrap.offsetHeight - vh;
+    const sparkMid = docTop(spark) + spark.offsetHeight / 2 - vh / 2;
+    const obsTop = docTop(obsesiones);
+    const obsH = obsesiones.offsetHeight;
+    keys = [
+      { s: 0,                           x: 0.2,   y: 0,    sc: 1,    f: 0,   o: 1 },
+      { s: pinEnd * 0.5,                x: 0.1,   y: 0,    sc: 1,    f: 8,   o: 1 },
+      // Manifiesto: a bit smaller so her hair clears "VER." and point 04
+      { s: pinEnd,                      x: 0,     y: 0,    sc: 0.86, f: 22,  o: 1 },
+      { s: Math.max(sparkMid, pinEnd + 1), x: -0.27, y: 0, sc: 1,    f: 42,  o: 1 },
+      { s: obsTop + obsH * 0.35 - vh / 2, x: 0.26, y: 0,   sc: 0.82, f: 68,  o: 1 },
+      { s: obsTop + obsH - vh,          x: 0.26,  y: 0,    sc: 0.82, f: 84,  o: 1 },
+      // gone before the Personalidades cards (opaque boxes) scroll in
+      { s: obsTop + obsH - vh * 0.5,    x: 0.3,   y: 0.25, sc: 0.78, f: 104, o: 0 },
+    ];
+    // keep the keys strictly increasing even on unusual layouts
+    for (let k = 1; k < keys.length; k++) keys[k].s = Math.max(keys[k].s, keys[k - 1].s + 1);
+  }
+
+  function poseAt(s) {
+    if (s <= keys[0].s) return keys[0];
+    const last = keys[keys.length - 1];
+    if (s >= last.s) return last;
+    let k = 1;
+    while (s > keys[k].s) k++;
+    const a = keys[k - 1], b = keys[k];
+    const t = (s - a.s) / (b.s - a.s);
+    const e = smooth(t);
+    return {
+      x: lerp(a.x, b.x, e), y: lerp(a.y, b.y, e), sc: lerp(a.sc, b.sc, e),
+      o: lerp(a.o, b.o, e), f: lerp(a.f, b.f, t),
+    };
+  }
+
+  // mobile/tablet: no travel, the hero just plays the first gestures as
+  // it scrolls away (the CSS entrance + idle float keep running)
+  function updateStatic() {
+    const hero = document.querySelector('.hero');
+    const p = clamp01(window.scrollY / (hero ? hero.offsetHeight : window.innerHeight));
+    target.f = p * 40;
+    draw(target.f);
+  }
+
+  let travel = false;
+  let live = false;          // false until the CSS entrance animation is done
+  const cur = { x: 0, y: 0, sc: 1, o: 1, f: 0 };
+  const mouse = { x: 0, y: 0, cx: 0, cy: 0 };
+
+  function goLive() {
+    if (live || !travel) return;
+    live = true;
+    figure.style.animation = 'none';
+  }
+
+  function frame(time) {
+    if (!travel) return;
+    const pose = poseAt(window.scrollY);
+    target = pose;
+    // ease toward the scroll pose so fast wheel jumps still glide
+    const k = 0.14;
+    cur.x += (pose.x - cur.x) * k;
+    cur.y += (pose.y - cur.y) * k;
+    cur.sc += (pose.sc - cur.sc) * k;
+    cur.o += (pose.o - cur.o) * k;
+    cur.f += (pose.f - cur.f) * 0.25;
+    mouse.cx += (mouse.x - mouse.cx) * 0.08;
+    mouse.cy += (mouse.y - mouse.cy) * 0.08;
+    draw(cur.f);
+
+    // initHeroManifiesto may cancel the entrance animation first (on the
+    // first scroll) — take over that same frame so she never blinks out
+    if (!live && figure.style.animation === 'none') live = true;
+    if (live) {
+      const vw = window.innerWidth, vh = window.innerHeight;
+      const float = Math.sin(time / 1100) * 6;   // replaces the CSS idle float
+      const tx = cur.x * vw + mouse.cx;
+      const ty = cur.y * vh + mouse.cy + float;
+      figure.style.transform =
+        `translateX(-50%) translate(${tx.toFixed(1)}px, ${ty.toFixed(1)}px) scale(${cur.sc.toFixed(4)})`;
+      figure.style.opacity = cur.o.toFixed(3);
+      figure.style.visibility = cur.o < 0.01 ? 'hidden' : '';
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function onMouse(e) {
+    mouse.x = (e.clientX / window.innerWidth - 0.5) * 24;
+    mouse.y = (e.clientY / window.innerHeight - 0.5) * 24;
+  }
+
+  function onStaticScroll() { requestAnimationFrame(updateStatic); }
+
+  function sync() {
+    const want = isTravel();
+    if (want && !travel) {
+      travel = true;
+      document.body.classList.add('personaje-travel');
+      window.removeEventListener('scroll', onStaticScroll);
+      measure();
+      // start exactly on the current pose (the CSS entrance already places
+      // her there) so taking over never slides her in from the centre
+      Object.assign(cur, poseAt(window.scrollY));
+      setTimeout(goLive, 1750);
+      window.addEventListener('scroll', goLive, { passive: true, once: true });
+      if (canHover) window.addEventListener('mousemove', onMouse, { passive: true });
+      requestAnimationFrame(frame);
+    } else if (!want && travel) {
+      travel = false;
+      live = false;
+      document.body.classList.remove('personaje-travel');
+      window.removeEventListener('mousemove', onMouse);
+      figure.style.transform = '';
+      figure.style.opacity = '';
+      figure.style.visibility = '';
+      figure.style.animation = '';
+    }
+    if (!travel) {
+      window.addEventListener('scroll', onStaticScroll, { passive: true });
+      updateStatic();
+    } else {
+      measure();
+    }
+  }
+
+  sync();
+  window.addEventListener('resize', sync);
+  // fonts and images further down shift the section positions after load
+  window.addEventListener('load', () => { if (travel) measure(); });
+  if ('ResizeObserver' in window) {
+    new ResizeObserver(() => { if (travel) measure(); }).observe(document.body);
+  }
 })();
 
 // ============================================================
