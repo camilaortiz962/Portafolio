@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitio nombre="Projets — Développeur front-end créatif · Lucas Aufrère" url="https://www.lucas-aufrere.com/projets">
+  <header>
+    <logo>Texto "Lucas Aufrère" (enlace a inicio)</logo>
+    <nav tipo="fija">
+      <enlace>Home</enlace>
+      <enlace>Projets</enlace>
+      <enlace>Services</enlace>
+      <enlace>À propos</enlace>
+      <enlace>Contact</enlace>
+    </nav>
+  </header>
+  <main>
+    <section tipo="hero">Projets sélectionnés: carrusel inmersivo a pantalla completa con los seis proyectos, contador "01 / 06", indicación "Glissez · Molette · Flèches ← →" y etiqueta "Vue détaillée"</section>
+    <section tipo="proyectos">Tous les projets: lista ordenada de seis proyectos (Dexnill Productions, Kengo Kuma, Jacquemus, Fyconic, Poivre Blanc, BonBon Sauvage) con imagen, número, categoría, año, rol, descripción, tecnologías y enlace en vivo cuando existe</section>
+  </main>
+  <footer>
+    <redes>LinkedIn, GitHub</redes>
+    <contacto>lucas@fyconic.fr; Clermont-Ferrand; navegación repetida, Mentions légales y crédito "Designed &amp; built in-house © 2026"</contacto>
+  </footer>
+</sitio>
